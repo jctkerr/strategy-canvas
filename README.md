@@ -1,4 +1,4 @@
-# Strategy Canvas
+# ![Strategy Canvas](docs/images/strategy-canvas-cover.png)
 
 **Turn a question into a tree you can edit.**
 
