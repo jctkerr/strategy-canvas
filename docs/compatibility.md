@@ -72,3 +72,9 @@ A separate agent used the updated skill to generate these fictional cases and va
 - [An event with new inputs](test-evidence/method-guidance/event-new-inputs.json): £24.50 tickets, £6.20 variable cost and £146.50 avoidable fixed cost. [Decimal arithmetic](test-evidence/method-guidance/checked-arithmetic.json) gives £18.30 contribution, a minimum of nine paying attendees, a 10p loss at eight and £18.20 surplus at nine. Demand probabilities and capacity remain unknown; no expected value was invented.
 
 These are bounded local checks, not evidence of unattended strategic correctness. The new method guidance has not been rerun in Grok Bot; its earlier compatibility evidence above remains specific to those tested versions and workflows. The canvas stores equations and probability assumptions in notes; it does not solve or validate them automatically.
+
+## Onboarding checks
+
+On 10 September 2026, [five rendered check groups](test-evidence/onboarding/browser-results.json) exercised first visits, stepping back and forward, skip/replay, remembered dismissal, help during an unsaved draft, standalone export/reopen and disabled browser storage. Canonical state and revision stayed unchanged throughout. At a 390-pixel viewport, the checks exercised long scrollable context, tutorial controls, tree refitting, help and adding a thought. This was Chromium browser emulation, not a physical-phone test.
+
+The repeatable check is `tests/onboarding-smoke.cjs`, using Playwright and a disposable local session. The 30 runtime tests and 14 existing method/editing browser checks also passed with this update. This UI check does not extend the earlier Grok compatibility claims.

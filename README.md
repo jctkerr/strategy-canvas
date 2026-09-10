@@ -35,6 +35,8 @@ For installation, agent-specific commands or troubleshooting, see the **[agent g
 
 ## Think it through together
 
+The canvas opens with a short introduction. Skip it at any time, or return to **How to use** for controls, examples and saving instructions.
+
 1. **Start with your question.** Give your agent the situation, constraints and what you do not yet know. Check that the canvas reflects your case.
 2. **Explore and challenge.** Ask about one branch, or select a thought and use **Details → Save** to edit it yourself. The agent should build on your latest edits.
 3. **Keep what you learn.** Ask for a complete HTML export, or use **Export** in the canvas. You can pause with open alternatives or compare them when ready.

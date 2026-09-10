@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "checks": [
+    "Fresh visits show three optional steps; back, finish and remembered dismissal leave canonical state unchanged.",
+    "Add identifies its parent. Help, replay, skip and Escape preserve the selected card and unsaved draft.",
+    "HTML export starts fresh for its recipient, closes help, preserves exact state and explains standalone saving and agent handoff.",
+    "Disabled browser storage does not break the canvas, help, dismissal or drafting.",
+    "At 390px, long context scrolls separately, tutorial controls remain reachable, tree refits, and help and Add work."
+  ]
+}

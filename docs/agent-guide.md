@@ -106,6 +106,8 @@ For an ordinary web chat without file execution, use the method conversationally
 
 ## Your first session
 
+The canvas has a short introduction you can skip, and **How to use** is always available. Keep discussing the problem with your agent; it can choose a suitable structure and update the same tree. You do not need to learn or select a framework first.
+
 1. Give the agent a question, your relevant constraints and what remains unknown.
 2. Check that the canvas contains your situation, rather than the fictional sales demo.
 3. Ask it to explore one branch. Keep alternatives visible and ask what would change the choice.
