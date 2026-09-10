@@ -1,4 +1,4 @@
-# ![Strategy Canvas](docs/images/strategy-canvas-cover.png)
+<h1 id="strategy-canvas"><img src="docs/images/strategy-canvas-cover.png" alt="Strategy Canvas"></h1>
 
 **Turn a question into a tree you can edit.**
 
