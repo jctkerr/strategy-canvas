@@ -12,6 +12,8 @@ Installation instructions below follow the linked vendor documentation. Our [tes
 
 Ask your agent: **“Show Strategy Canvas in this app's built-in preview, keep it open, and update the same canvas as we talk.”** The skill should handle this through the app's available tools. You should see your question and an editable tree before it says the preview is ready.
 
+The agent should also help sharpen the question as you go. It should use your answers to revise the main question, relevant branches and next steps, preserving your edits. You can say **“That is not quite the problem”**, **“This constraint has changed”** or **“Let's explore this branch”**; there is no fixed sequence of questions to complete.
+
 | Where you are working | In-app route |
 | --- | --- |
 | Codex desktop | Built-in **Browser**; the agent should open and reveal the local session there. |
