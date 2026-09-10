@@ -9,6 +9,15 @@ const [url, output] = process.argv.slice(2);
 if (!url || !output || !/^http:\/\/127\.0\.0\.1:\d+\/?$/.test(url)) throw Error('Provide a disposable loopback session URL and output directory.');
 const origin = url.replace(/\/$/, '');
 const results = [];
+const copy = value => JSON.parse(JSON.stringify(value));
+async function chooseMethod(page, method) {
+  await page.locator('#method-tasks button[data-method="' + method + '"]').click();
+  assert.equal(await page.locator('#method-tasks button[aria-pressed="true"]').getAttribute('data-method'), method);
+}
+async function showMethodHelp(page) {
+  const details = page.locator('#method-help');
+  if (!await details.evaluate(element => element.open)) await details.locator('summary').first().click();
+}
 const fixture = (method = 'exploration', kind = 'question') => ({
   schemaVersion: 1, revision: 1, title: 'Fictional browser test',
   question: 'How should the fictional bookshop use its spare room?',
@@ -34,7 +43,8 @@ async function download(page, format, name) {
     const errors=[]; page.on('pageerror', e=>errors.push(e.message));
     const load = async state => { await put(state); await page.goto(origin); await page.locator('#question').waitFor(); await page.locator('.tree-node[data-id="root"]').click(); };
     await load(fixture());
-    assert.equal(await page.locator('#main').evaluate(el=>el.classList.contains('inspect-open')), false);
+    assert.equal(await page.locator('#main').evaluate(el=>el.classList.contains('inspect-open')), true, 'Clicking a card must open its editor');
+    assert.equal(await page.locator('#thought-details').evaluate(element=>element.open), false, 'Metadata stays collapsed until requested');
     const original = await read();
     await page.locator('#add-primary').click();
     assert.equal((await read()).nodes.length, original.nodes.length, 'Opening Add must not save a placeholder');
@@ -45,8 +55,11 @@ async function download(page, format, name) {
 
     for (const [method,kind] of [['issue','question'],['hypothesis','hypothesis'],['driver','metric'],['solution','objective'],['objectives','objective'],['decision','question'],['opportunity','outcome'],['argument','assumption']]) {
       await load(fixture(method,kind));
-      await page.locator('#approach-open').click();
-      assert.equal(await page.locator('#method-choice').inputValue(),method);
+      const beforeAdd=await read();
+      await page.locator('.tree-node[data-id="root"] .node-type').click();
+      assert.equal(await page.locator('#method-tasks button[aria-pressed="true"]').getAttribute('data-method'),method);
+      assert.equal(await page.locator('#method-tasks button[data-method]:visible').count(),9);
+      await showMethodHelp(page);
       assert.ok((await page.locator('#approach-panel').innerText()).length > 150);
       assert.ok(await page.locator('#approach-panel a[href^="https://"]').count());
       await page.keyboard.press('Escape');
@@ -55,13 +68,15 @@ async function download(page, format, name) {
       const response=page.waitForResponse(r=>r.url().endsWith('/api/state') && r.request().method()==='PUT');
       await page.locator('#save').click(); assert.equal((await response).status(),200);
       const state=await read(), added=state.nodes.find(n=>n.label==='A '+method+' addition');
-      assert.ok(added?.relation?.type, method+' must save a meaningful connection');
-      assert.equal(added.parentId,'root'); assert.notEqual(added.status,'supported');
-      assert.equal(state.nodes.find(n=>n.id==='existing').notes,'Preserve this alternative.');
-      assert.equal(state.decision.recommendation,'');
+      const expectedComponents={issue:['question','part-of'],hypothesis:['question','tests'],driver:['metric','calculated-from'],solution:['solution','could-achieve'],objectives:['objective','refines'],decision:['option','choice'],opportunity:['question','could-achieve'],argument:['claim','supports']};
+      const [childKind,relation]=expectedComponents[method];
+      assert.ok(added?.id, method+' must create one identifiable component');
+      const expected=copy(beforeAdd);expected.revision+=1;
+      expected.nodes.push({id:added.id,parentId:'root',label:'A '+method+' addition',kind:childKind,status:'open',notes:'',relation:{type:relation}});
+      assert.deepEqual(state,expected,'Adding a component must preserve every unrelated canonical field');
       await page.locator('#undo').click();
       await page.waitForFunction(()=>document.querySelectorAll('.tree-node').length===2);
-      assert.equal((await read()).nodes.length,2);
+      assert.deepEqual(await read(),{...beforeAdd,revision:beforeAdd.revision+2},'Undo must restore the complete prior state at a new revision');
       results.push(method+': guide/source visible, typed addition saved, original alternative preserved, undo works.');
     }
 
@@ -87,14 +102,13 @@ async function download(page, format, name) {
 
     await load(fixture('issue'));
     const beforeMethod=await read();
-    await page.locator('#approach-open').click();
-    await page.locator('#method-choice').selectOption('driver');
+    await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
+    await chooseMethod(page, 'driver');
     await page.locator('#method-apply').click();
     await page.locator('#approach-panel').waitFor({state:'hidden'});
     const changedMethod=await read();
-    assert.equal(changedMethod.nodes[0].method,'driver');
-    assert.deepEqual(changedMethod.nodes.slice(1),beforeMethod.nodes.slice(1));
-    assert.equal(changedMethod.nodes[0].label,beforeMethod.nodes[0].label);
+    const expectedMethod=copy(beforeMethod);expectedMethod.nodes[0].method='driver';expectedMethod.revision+=1;
+    assert.deepEqual(changedMethod,expectedMethod);
     assert.equal(await page.locator('#add-primary').isEnabled(),true,'Add remains available after changing the approach');
     results.push('Changing an approach preserves all existing content and child metadata.');
 
@@ -116,25 +130,26 @@ async function download(page, format, name) {
     const standalone=await browser.newPage(); await standalone.goto('file://'+htmlPath);
     assert.equal(await standalone.locator('dialog[open]').count(),0);
     await standalone.locator('.tree-node[data-id="root"]').click();
-    await standalone.locator('#approach-open').click();
-    assert.equal(await standalone.locator('#method-choice').inputValue(),'driver');
-    assert.equal(await standalone.locator('#method-choice option').count(),9,'Standalone export must not duplicate method choices');
+    await standalone.locator('.tree-node[aria-pressed="true"] .node-type').click();
+    assert.equal(await standalone.locator('#method-tasks button[aria-pressed="true"]').getAttribute('data-method'),'driver');
+    assert.equal(await standalone.locator('#method-tasks button[data-method]:visible').count(),9,'Standalone export must show nine distinct tree choices');
     await standalone.close();
     results.push('Problem brief saves; JSON round-trip is exact; HTML, SVG and Markdown carry the semantics.');
 
     await load(fixture('issue'));
-    await page.locator('#inspect-toggle').click();
+    await page.locator('#thought-details > summary').click();
     await page.locator('#notes').fill('A draft that must survive a concurrent edit.');
     const external=await read(); external.nodes[0].notes='New notes from another editor.'; await put(external);
     await page.locator('#conflict').waitFor({state:'visible'});
     assert.equal(await page.locator('#notes').inputValue(),'A draft that must survive a concurrent edit.');
+    assert.ok(await page.locator('#save').isDisabled(),'A conflicting draft must not silently overwrite the other editor');
     await page.locator('#discard').click();
     assert.equal(await page.locator('#notes').inputValue(),'New notes from another editor.');
     await page.waitForFunction(()=>document.querySelector('#sync').textContent==='Saved locally');
     results.push('Concurrent external edits keep a local draft and expose the conflict.');
     await page.locator('#close-details').click();
     await page.setViewportSize({width:390,height:844});
-    await page.locator('#approach-open').click();
+    await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
     const rect=await page.locator('#approach-panel').boundingBox();
     assert.ok(rect.x>=0 && rect.x+rect.width<=391 && rect.y>=0 && rect.y+rect.height<=845,'Approach must fit mobile viewport');
     await page.screenshot({path:path.join(output,'mobile-approach.png')});

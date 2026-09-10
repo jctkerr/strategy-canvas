@@ -138,12 +138,12 @@ For an ordinary web chat without file execution, use the method conversationally
 
 ## Your first session
 
-The canvas has a short introduction you can skip or collapse, and **How to use** is always available. Collapse guidance whenever you want the space back for your tree. Keep discussing the problem with your agent; it can choose a suitable structure and update the same tree. You do not need to learn or select a framework first.
+The canvas starts with guidance collapsed. **Quick start** and **How to use** are available when needed. Keep discussing the problem with your agent; it can choose a suitable structure and update the same tree. You do not need to learn or select a framework first.
 
 1. Give the agent a question, your relevant constraints and what remains unknown.
 2. Check that the canvas contains your situation, rather than the fictional sales demo.
 3. Ask it to explore one branch. Keep alternatives visible and ask what would change the choice.
-4. Select a thought and use **Add** to extend it, or **Details → Save** to edit it. Add offers a question, idea, reason or another suitable next component for that branch. Nothing is added until you save. Ask the agent to continue from your edits; it should read the latest saved revision first.
+4. Click a thought to edit it, or click its **+** to add beneath it. Type the thought and save; notes, sources and other fields stay in **Details**. A separate chevron expands or collapses children. Nothing is added until you save. Ask the agent to continue from your edits; it should read the latest saved revision first.
 5. Ask it to export the complete tree as HTML, SVG and JSON. Open the HTML before sharing it.
 
 **Live session:** edits are saved on the machine running the server. **Standalone HTML:** edits last until reload unless you export them again. **GitHub demo:** a fictional standalone example, not an AI conversation.
@@ -152,9 +152,9 @@ The canvas has a short introduction you can skip or collapse, and **How to use**
 
 Start by telling your agent what is happening and what you want to change. **Problem** keeps that brief and your constraints together. These fields are optional; you can start with an unfinished question.
 
-**Approach** explains the method used for the selected branch, with an illustrative example, source and limitation. Start with the task: understand causes, work out a number, explore solutions or compare a choice. Your agent can suggest a suitable method without requiring you to know its name. An approach change guides future additions and leaves existing thoughts in place; it does not reorganise or validate them.
+The selected card’s **Tree type** opens nine short choices. Pick one and apply it to that branch. **Example & help** contains the selected type’s example, source and limitation. Your agent can suggest a suitable method without requiring you to know its name. An approach change guides future additions and leaves existing thoughts in place; it does not reorganise or validate them.
 
-Different branches may use different approaches. For example, an issue tree about workshop viability can contain a calculation branch for break-even attendance. Select the root to set the broad approach, or a thought to change just that branch. Children follow their nearest parent approach unless they have their own; deeper overrides stay in place. Ask the agent to check the existing thoughts and connections when changing methods. **Connection** in Details explains how a thought relates to its parent. Expand its controls to change that relationship. A connection label records your reasoning; it does not prove the relationship or run a calculation.
+Different branches may use different approaches. For example, an issue tree about workshop viability can contain a calculation branch for break-even attendance. Select the root to set the broad approach, or a thought to change just that branch. Children follow their nearest parent approach unless they have their own; deeper overrides stay in place. Ask the agent to check the existing thoughts and connections when changing methods. **Connection to parent** inside **Details** explains how a thought relates to its parent. Expand its controls to change that relationship. A connection label records your reasoning; it does not prove the relationship or run a calculation.
 
 Agents should read the relevant recipe in [the tree-method guide](../references/tree-methods.md) before using a method. Each recipe covers its scope, steps, worked example and checks. Keep the person's problem in view instead of requiring them to learn the method names first.
 

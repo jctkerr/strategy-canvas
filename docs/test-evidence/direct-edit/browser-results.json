@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "checks": [
+    "Click edits directly; label changes preserve hidden notes, source, status and relationship.",
+    "Plus adds beneath its own card; the separate chevron only collapses or expands.",
+    "Keyboard Add works, and another card cannot steal an unsaved draft or change its parent.",
+    "A compact nine-choice picker targets the selected branch and preserves deeper overrides.",
+    "A same-node conflict blocks stale hidden fields; unrelated remote edits still merge safely.",
+    "Standalone export keeps direct editing and the complete state without changing the live session.",
+    "The direct controls and short chooser work at 390px without script errors."
+  ]
+}

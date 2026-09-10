@@ -36,13 +36,13 @@ For installation, agent-specific commands or troubleshooting, see the **[agent g
 
 ## Think it through together
 
-The canvas opens with a short introduction. Collapse or reopen it with **Quick start**, or use **How to use** for controls, examples and saving instructions.
+Start on the tree. **Quick start** and **How to use** are available when you want guidance.
 
 1. **Start with your question.** Give your agent the situation, constraints and what you do not yet know. Check that the canvas reflects your case.
-2. **Explore and challenge.** Ask about one branch, or select a thought and use **Details → Save** to edit it yourself. The agent should build on your latest edits.
+2. **Explore and challenge.** Ask about one branch, click a thought to edit it, or use its **+** to add beneath it. The agent should build on your latest edits.
 3. **Keep what you learn.** Ask for a complete HTML export, or use **Export** in the canvas. You can pause with open alternatives or compare them when ready.
 
-**Approach → Help me choose a tree** starts with what you need to do. One map can use different methods on different subtrees; each includes guidance and an example.
+Select a card and choose **Tree type** to change how that branch develops. Pick a type, then apply it. **Example & help** holds the explanation and source; different branches can use different types.
 
 **Analysis** keeps the next steps alongside the tree:
 

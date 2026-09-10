@@ -47,6 +47,8 @@ async function visibleWithin(page, selector, container) {
     const context = await browser.newContext({viewport: {width: 1280, height: 850}, reducedMotion: 'reduce'});
     const page = await context.newPage(); page.on('pageerror', e => errors.push(e.message));
     await page.goto(origin);
+    assert.ok(await page.locator('#quick-start').isHidden(), 'Guidance starts collapsed so the tree gets the space');
+    await page.locator('#tour-toggle').click();
     assert.ok(await page.locator('#quick-start').isVisible());
     assert.match(await page.locator('#tour-count').innerText(), /1 of 3/i);
     assert.ok(await page.locator('#tour-back').isHidden());
@@ -69,12 +71,13 @@ async function visibleWithin(page, selector, container) {
     assert.ok(await page.locator('#quick-start').isHidden());
     await page.reload(); assert.ok(await page.locator('#quick-start').isHidden());
     assert.deepEqual(await read(), original);
-    results.push('Quick start collapses and restores the current step, returns space to the tree and remembers dismissal without changing canonical state.');
+    results.push('Guidance starts collapsed, opens on request, restores its step and returns space to the tree without changing canonical state.');
 
     await page.locator('.tree-node[data-id="workshops"]').click();
     await page.locator('#add-primary').click();
     assert.match(await page.locator('#new-child-hint').innerText(), /Paid workshops/);
     await page.locator('#label').fill('Would people book in advance?');
+    await page.locator('#thought-details > summary').click();
     await page.locator('#notes').fill('Unfinished reasoning to keep.');
     const draft = await page.locator('#kind').inputValue();
     await page.locator('#help-open').click();
@@ -101,6 +104,8 @@ async function visibleWithin(page, selector, container) {
     const standalone = await fileContext.newPage(); standalone.on('pageerror', e => errors.push(e.message));
     await standalone.goto(pathToFileURL(html).href);
     assert.equal(await standalone.locator('dialog[open]').count(), 0);
+    assert.ok(await standalone.locator('#quick-start').isHidden());
+    await standalone.locator('#tour-toggle').click();
     assert.ok(await standalone.locator('#quick-start').isVisible());
     assert.match(await standalone.locator('#tour-count').innerText(), /1 of 3/i);
     assert.match(await standalone.locator('#tour-save-hint').innerText(), /Export before closing/);
@@ -115,7 +120,8 @@ async function visibleWithin(page, selector, container) {
     const denied = await browser.newContext({reducedMotion: 'reduce'});
     await denied.addInitScript(() => Object.defineProperty(window, 'localStorage', {get() { throw new DOMException('Storage disabled', 'SecurityError'); }}));
     const blocked = await denied.newPage(); blocked.on('pageerror', e => errors.push(e.message));
-    await blocked.goto(origin); await blocked.locator('#tour-skip').click();
+    await blocked.goto(origin); assert.ok(await blocked.locator('#quick-start').isHidden());
+    await blocked.locator('#tour-toggle').click(); await blocked.locator('#tour-skip').click();
     await blocked.locator('#help-open').click(); await blocked.locator('#help-done').click();
     await blocked.locator('#add-primary').click(); await blocked.locator('#label').fill('Still works without storage');
     assert.ok(await blocked.locator('#save').isEnabled()); await blocked.locator('#discard').click();
@@ -124,7 +130,8 @@ async function visibleWithin(page, selector, container) {
 
     const mobileContext = await browser.newContext({viewport: {width: 390, height: 844}, reducedMotion: 'reduce'});
     const mobile = await mobileContext.newPage(); mobile.on('pageerror', e => errors.push(e.message));
-    await mobile.goto(origin); await mobile.locator('.context-disclosure summary').click();
+    await mobile.goto(origin); assert.ok(await mobile.locator('#quick-start').isHidden());
+    await mobile.locator('#tour-toggle').click(); await mobile.locator('.context-disclosure summary').click();
     await frames(mobile);
     assert.ok((await mobile.locator('#canvas').boundingBox()).height >= 240, 'Long context and tutorial must leave working canvas space');
     assert.ok((await mobile.locator('.context-body').boundingBox()).height <= 131);

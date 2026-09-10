@@ -104,3 +104,12 @@ Review still identified two reasoning corrections: exclusive room use across the
 
 
 For a second file-only turn, a reviewer appended an 18:00 finish constraint to the latest proposal, then asked Cursor to raise the fictional fixed cost to £204 and address the reasoning findings. The [follow-up](test-evidence/cursor/follow-up.json) preserved the complete workshop notes and all prior node/model/variable/workplan/section IDs. Separate [runtime verification](test-evidence/cursor/verified-results.json) returned **−£72/£0/£72** and **19/12/9**. The means/outcome direction was repaired; exclusive use became a provisional scope assumption and combinations remained open. The constraint was preserved but not carried through to the staffing investigation. No canonical session, UI or exports were executed by Cursor in either file-only turn.
+
+
+## Direct editing and shorter chooser — 10 September 2026
+
+The current interface opens editing by clicking a thought. Each card has a child **+** and a separate collapse chevron; the selected card offers **Tree type**. The chooser has nine short choices with examples behind **Example & help**. Notes, sources and metadata remain behind **Details**, and Quick start begins collapsed. On small screens, the editor opens at the bottom so the selected card remains reachable.
+
+[Seven direct-edit browser groups](test-evidence/direct-edit/browser-results.json) passed, including clicked-parent additions, keyboard access, unchanged hidden metadata, draft protection, subtree scope and offline editing. A same-node external change now blocks stale saves as well as preserving the draft. The current [14 method/editing](test-evidence/direct-edit/method-results.json), [eight mixed-method](test-evidence/direct-edit/mixed-results.json), [five onboarding](test-evidence/direct-edit/onboarding-results.json) and [nine analysis](test-evidence/direct-edit/analysis-results.json) groups also passed, alongside 62 Python tests. The default chooser rendered at 65 words and 526 pixels tall in the inspected desktop fixture. The 390-pixel checks use browser emulation.
+
+The updated interface was also inspected in Codex's existing in-app bookshop tab. Opening a child draft and the shorter chooser left the complete saved session unchanged at revision 3 with 15 thoughts. This UI update does not add an independent Claude or Cursor execution claim.

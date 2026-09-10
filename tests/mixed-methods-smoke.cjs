@@ -58,17 +58,30 @@ function withMethod(before, id, method) {
   else node.method = method;
   return expected;
 }
+async function chosenMethod(page) {
+  return page.locator('#method-tasks button[aria-pressed="true"]').getAttribute('data-method');
+}
+async function chooseMethod(page, method) {
+  await page.locator('#method-tasks button[data-method="' + method + '"]').click();
+  assert.equal(await chosenMethod(page), method);
+}
+async function showMethodHelp(page) {
+  const details = page.locator('#method-help');
+  if (!await details.evaluate(element => element.open)) await details.locator('summary').first().click();
+}
 async function select(page, id) {
   await page.locator('.tree-node[data-id="' + id + '"]').click();
   assert.equal(await page.locator('.tree-node[aria-pressed="true"]').getAttribute('data-id'), id);
+  assert.ok(await page.locator('#main').evaluate(element => element.classList.contains('inspect-open')), 'Card selection opens the editor');
+  assert.equal(await page.locator('.tree-node .node-type').count(), 1, 'Only the selected card exposes its tree-type control');
 }
 async function assertDisplay(page, id, method, explicit) {
   await select(page, id);
-  assert.equal(await page.locator('#approach-name').innerText(), names[method], id + ' must display its effective approach');
+  assert.equal(await page.locator('#approach-name').textContent(), names[method], id + ' must display its effective approach');
   const label = page.locator('.tree-node[data-id="' + id + '"] .node-method');
   assert.equal(await label.count(), explicit ? 1 : 0, id + ' must distinguish an explicit starting point from inheritance');
   if (explicit) assert.equal(await label.textContent(), names[method]);
-  assert.ok((await page.locator('.tree-node[data-id="' + id + '"] title').textContent()).includes('Approach: ' + names[method]));
+  assert.ok((await page.locator('.tree-node[data-id="' + id + '"] > title').textContent()).includes('Approach: ' + names[method]));
 }
 async function submitMethod(page, before, id, method, reset = false) {
   const pending = page.waitForResponse(response => response.url().endsWith('/api/state') && response.request().method() === 'PUT');
@@ -113,20 +126,21 @@ async function exportFile(page, format, name) {
     results.push('One map displays inherited methods and explicit subtree starting points without changing canonical state.');
 
     await select(page, 'economics');
-    await page.locator('#approach-open').click();
+    await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
+    await showMethodHelp(page);
     assert.match(await page.locator('#method-current').innerText(), /Driver tree.*starts here/);
-    assert.match(await page.locator('#method-effect').innerText(), /Starts at this card/);
-    assert.match(await page.locator('#method-effect').innerText(), /rest of the tree keeps its approach/);
-    assert.match(await page.locator('#method-effect').innerText(), /2 existing subtrees keep their own approaches/);
+    await showMethodHelp(page);
+    assert.equal(await page.locator('#approach-scope').textContent(), 'Understand event economics');
+    assert.match(await page.locator('#method-effect').innerText(), /this branch/);
+    assert.match(await page.locator('#method-effect').innerText(), /subtree types stay/);
     const tasks = await page.locator('#method-tasks button[data-method]').evaluateAll(buttons => buttons.map(button => button.dataset.method));
     assert.equal(tasks.length, 9);
     assert.equal(new Set(tasks).size, 9);
     for (const method of tasks) {
-      await page.locator('#method-finder summary').click();
       await page.locator('#method-tasks button[data-method="' + method + '"]').click();
-      assert.equal(await page.locator('#method-choice').inputValue(), method);
+      assert.equal(await chosenMethod(page), method);
       assert.equal(await page.locator('#method-tasks button[aria-pressed="true"]').getAttribute('data-method'), method);
-      assert.equal(await page.locator('#method-finder').evaluate(element => element.open), false);
+      assert.equal(await page.locator('#method-tasks button[data-method]:visible').count(), 9, 'All tree choices remain directly available');
       assert.ok((await page.locator('#method-purpose').innerText()).length > 20);
     }
     assert.deepEqual(await read(), original, 'Task choices must preview, not write');
@@ -134,8 +148,8 @@ async function exportFile(page, format, name) {
     assert.deepEqual(await read(), original);
     results.push('All nine task choices preview a method without saving; scope explains descendants and preserved overrides.');
 
-    await page.locator('#approach-open').click();
-    await page.locator('#method-choice').selectOption('objectives');
+    await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
+    await chooseMethod(page, 'objectives');
     const objectives = await submitMethod(page, original, 'economics', 'objectives');
     await assertDisplay(page, 'gross', 'objectives', false);
     await assertDisplay(page, 'check', 'hypothesis', false);
@@ -144,12 +158,13 @@ async function exportFile(page, format, name) {
     await assertDisplay(page, 'economics', 'objectives', true);
     results.push('Changing one subtree changes untyped descendants while preserving nested, same-value and sibling overrides and every existing relation.');
 
-    await page.locator('#approach-open').click();
+    await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
     assert.ok(await page.locator('#method-inherit').isVisible());
     const inherited = await submitMethod(page, objectives, 'economics', undefined, true);
     assert.equal(Object.hasOwn(inherited.nodes.find(node => node.id === 'economics'), 'method'), false);
     await assertDisplay(page, 'economics', 'issue', false);
-    await page.locator('#approach-open').click();
+    await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
+    await showMethodHelp(page);
     assert.match(await page.locator('#method-current').innerText(), /inherited from.*Investigate the event/);
     assert.ok(await page.locator('#method-inherit').isHidden());
     await page.locator('#approach-close').click();
@@ -158,45 +173,48 @@ async function exportFile(page, format, name) {
     await assertDisplay(page, 'fixed', 'driver', false);
     await assertDisplay(page, 'delivery', 'solution', true);
     await select(page, 'suspicion');
-    await page.locator('#approach-open').click();
+    await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
     const deepInherited = await submitMethod(page, inherited, 'suspicion', undefined, true);
     await assertDisplay(page, 'check', 'issue', false);
-    await page.locator('#approach-open').click();
+    await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
+    await showMethodHelp(page);
     assert.match(await page.locator('#method-current').innerText(), /inherited from.*Investigate the event/);
     await page.locator('#approach-close').click();
     await assertDisplay(page, 'costs', 'driver', true);
     await assertDisplay(page, 'fixed', 'driver', false);
     await select(page, 'root');
-    await page.locator('#approach-open').click();
+    await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
     assert.ok(await page.locator('#method-inherit').isHidden());
+    await showMethodHelp(page);
     assert.match(await page.locator('#method-effect').innerText(), /main question/);
     await page.locator('#approach-close').click();
     assert.deepEqual(await read(), deepInherited);
     results.push('Reset removes only the chosen override; nearest-ancestor inheritance skips untyped parents, and explicit same-value descendants remain pinned.');
 
     await select(page, 'gross');
-    await page.locator('#approach-open').click();
-    await page.locator('#method-choice').selectOption('argument');
+    await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
+    await chooseMethod(page, 'argument');
     const externalAncestor = await read();
     externalAncestor.nodes.find(node => node.id === 'root').method = 'decision';
     const ancestorSaved = await put(externalAncestor);
     await page.locator('#approach-conflict').waitFor({state: 'visible'});
     assert.ok(await page.locator('#method-apply').isDisabled());
     assert.ok(await page.locator('#method-refresh').isVisible());
-    assert.equal(await page.locator('#method-choice').inputValue(), 'argument', 'Keep the unsaved preview visible until the person refreshes');
+    assert.equal(await chosenMethod(page), 'argument', 'Keep the unsaved preview visible until the person refreshes');
     assert.deepEqual(await read(), ancestorSaved, 'Detecting an ancestor conflict must not write');
     await page.locator('#method-refresh').click();
     assert.ok(await page.locator('#approach-conflict').isHidden());
     assert.ok(await page.locator('#method-apply').isEnabled());
-    assert.equal(await page.locator('#method-choice').inputValue(), 'decision');
+    assert.equal(await chosenMethod(page), 'decision');
+    await showMethodHelp(page);
     assert.match(await page.locator('#method-current').innerText(), /Decision tree.*inherited from.*Investigate the event/);
-    await page.locator('#method-choice').selectOption('driver');
+    await chooseMethod(page, 'driver');
     const grossOverride = await submitMethod(page, ancestorSaved, 'gross', 'driver');
     results.push('An external ancestor-method change blocks a stale selection; Review latest restores the actual inheritance before saving.');
 
     await select(page, 'costs');
-    await page.locator('#approach-open').click();
-    await page.locator('#method-choice').selectOption('objectives');
+    await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
+    await chooseMethod(page, 'objectives');
     const externalSelected = copy(grossOverride);
     externalSelected.nodes.find(node => node.id === 'costs').method = 'hypothesis';
     const selectedSaved = await put(externalSelected);
@@ -205,7 +223,8 @@ async function exportFile(page, format, name) {
     assert.ok(await page.locator('#method-inherit').isDisabled());
     assert.deepEqual(await read(), selectedSaved);
     await page.locator('#method-refresh').click();
-    assert.equal(await page.locator('#method-choice').inputValue(), 'hypothesis');
+    assert.equal(await chosenMethod(page), 'hypothesis');
+    await showMethodHelp(page);
     assert.match(await page.locator('#method-current').innerText(), /Hypothesis tree.*starts here/);
     assert.ok(await page.locator('#method-apply').isEnabled());
     await page.locator('#approach-close').click();
@@ -214,16 +233,16 @@ async function exportFile(page, format, name) {
     results.push('An external change to the selected override blocks both apply and inherit until refreshed; closing preserves it.');
 
     await select(page, 'economics');
-    await page.locator('#approach-open').click();
-    await page.locator('#method-choice').selectOption('solution');
+    await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
+    await chooseMethod(page, 'solution');
     const externalNotes = await read();
     const note = 'An unrelated sibling note changed while the picker stayed open.';
     externalNotes.nodes.find(node => node.id === 'delivery').notes = note;
     const notesSaved = await put(externalNotes);
-    await page.waitForFunction(text => document.querySelector('.tree-node[data-id="delivery"] title')?.textContent.includes(text), note);
+    await page.waitForFunction(text => document.querySelector('.tree-node[data-id="delivery"] > title')?.textContent.includes(text), note);
     assert.ok(await page.locator('#approach-conflict').isHidden());
     assert.ok(await page.locator('#method-apply').isEnabled());
-    assert.equal(await page.locator('#method-choice').inputValue(), 'solution');
+    assert.equal(await chosenMethod(page), 'solution');
     const finalState = await submitMethod(page, notesSaved, 'economics', 'solution');
     assert.equal(finalState.nodes.find(node => node.id === 'delivery').notes, note);
     results.push('An unrelated external note edit does not block the picker and survives the selected method save.');
@@ -236,7 +255,7 @@ async function exportFile(page, format, name) {
     standalone.on('pageerror', error => errors.push(error.message));
     await standalone.goto(pathToFileURL(htmlFile).href);
     assert.equal(await standalone.locator('dialog[open]').count(), 0);
-    assert.equal(await standalone.locator('#method-finder').evaluate(element => element.open), false);
+    assert.equal(await standalone.locator('#method-help').evaluate(element => element.open), false);
     assert.deepEqual(await standalone.locator('#boot-data').evaluate(element => JSON.parse(element.textContent).state), finalState);
     if (await standalone.locator('#quick-start').isVisible()) await standalone.locator('#tour-skip').click();
     await assertDisplay(standalone, 'root', 'decision', true);
@@ -247,23 +266,21 @@ async function exportFile(page, format, name) {
     await assertDisplay(standalone, 'costs', 'hypothesis', true);
     await assertDisplay(standalone, 'fixed', 'hypothesis', false);
     await assertDisplay(standalone, 'delivery', 'solution', true);
-    await standalone.locator('#approach-open').click();
-    assert.equal(await standalone.locator('#method-choice option').count(), 9);
+    await standalone.locator('.tree-node[aria-pressed="true"] .node-type').click();
     assert.equal(await standalone.locator('#method-tasks button[data-method]').count(), 9);
     assert.equal(new Set(await standalone.locator('#method-tasks button[data-method]').evaluateAll(buttons => buttons.map(button => button.dataset.method))).size, 9);
-    await standalone.locator('#method-finder summary').click();
     await standalone.locator('#method-tasks button[data-method="argument"]').click();
     await standalone.locator('#approach-close').click();
     const reexported = await exportFile(standalone, 'html', 'mixed-methods-reexported.html');
     await standalone.goto(pathToFileURL(reexported).href);
     assert.deepEqual(await standalone.locator('#boot-data').evaluate(element => JSON.parse(element.textContent).state), finalState);
-    assert.equal(await standalone.locator('#method-choice option').count(), 9);
     assert.equal(await standalone.locator('#method-tasks button[data-method]').count(), 9);
     assert.deepEqual(await read(), finalState, 'Standalone review and export must not update the live session');
     results.push('HTML and JSON retain exact explicit overrides and relations; reopening and re-exporting restore inheritance with nine unique task and method choices.');
 
     await select(page, 'economics');
-    await page.locator('#approach-open').click();
+    await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
+    await showMethodHelp(page);
     await page.locator('#mixed-methods summary').click();
     await page.screenshot({path: path.join(output, 'mixed-methods-guide.png')});
     await page.locator('#approach-close').click();
