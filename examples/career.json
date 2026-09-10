@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "title": "A fictional career decision",
+  "question": "What should I find out before choosing between two job offers and staying?",
+  "context": "Fictional example. Both offers cover essential spending. Offer A pays more and requires three office days with an estimated 70-minute journey each way. Offer B pays less and requires one office day with an estimated 25-minute journey. An evening class, family commitments, team quality and growth all matter. The current job remains an option. The offers expire next Friday; the exact deadline and several important details still need confirming.",
+  "nextQuestion": "Which evening and travel window does the class require, and what regular family-help windows need room?",
+  "nodes": [
+    {
+      "id": "career-choice",
+      "parentId": null,
+      "label": "What must we learn before choosing?",
+      "kind": "question",
+      "status": "uncertain",
+      "notes": "Mode: explore the consequential gaps, not recommend an offer.\n\nKnown fictional context: A offers more pay, three office days and an estimated 70-minute journey each way. B offers less pay, one office day and an estimated 25-minute journey each way. Both offers cover essential spending. The person wants room for a weekly evening class and helping family; team and growth prospects also matter. Both offers expire next Friday. Keeping the current job is an available alternative.\n\nUnknown: exact pay and benefits, current-job baseline, normal and peak working hours, class day/time/location, family commitments, employer flexibility, actual team experience, role content and progression, and the exact deadline date/time. Wants have not been ranked or declared non-negotiable. No personal answer is inferred.\n\nRoot decomposition: Which of the three stated job choices should remain open at the offer deadline? Universe: A, B, or declining both and retaining the current job. Basis: the job held after this choice. Boundaries: A excludes B/current; B excludes A/current; current excludes both offers. These exhaust the stated choice, not every possible career move. Negotiating terms and requesting an extension are possible information/actions within the choice, not fourth competing jobs. Accepting both or resigning without a new job is outside the requested scope; neither is assumed impossible.\n\nUnder each option, the same five decision questions organise information: time available, financial position, team experience, development prospects, and commitment terms. These are comparison dimensions, not independent causal factors or mutually exclusive job choices. Primary placement: hours/flexibility/travel time under time; pay/benefits/travel expense under money; manager/colleague behaviour under team; work content/learning/progression under growth; written terms/deadlines/notice under terms. Cross-effects are referenced in notes. Coverage includes the supplied priorities and practical acceptance conditions; the person's full values and other deal-breakers remain unknown. Criterion weights and a complete universal taxonomy are not claimed.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "offer-a",
+      "parentId": "career-choice",
+      "label": "Offer A · higher pay",
+      "kind": "option",
+      "status": "open",
+      "notes": "A remains open. Known only from the fictional brief: higher pay, essentials covered, three office days, estimated 70 minutes each way. Higher pay could fund flexibility or future options, but the amount available after travel and other work costs is unknown. Office time could help or hinder relationships and learning; neither outcome is established. A could fit the class and family commitments if actual hours, office-day placement and flexibility leave enough room. See a-time, a-money, a-team, a-growth and a-terms before deciding. No score or preference is assigned.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "a-time",
+      "parentId": "offer-a",
+      "label": "Travel estimate: 7h / week",
+      "kind": "criterion",
+      "status": "uncertain",
+      "notes": "Decision question: will A leave usable time for the class, family help and recovery?\nKnown fictional inputs: three office days; estimated 70 minutes each way. Derived travel estimate: 3 × 2 × 70 = 420 minutes = 7 hours per week. This assumes two journeys on each stated office day; it excludes delays, office working hours, extra visits and class/family travel. It is not measured commute time or confirmed free-time loss.\nFind out: which office days are required; normal start/finish and peak hours; evening contact expectations; whether fixed class hours can be protected; how family needs could be accommodated; door-to-door journey variability. Obtain the actual class and family time windows from the fictional person before testing fit.\nMechanism: predictable availability matters more than a raw weekly-hour total. A smaller total commute would not help a class that clashes with a required late meeting. Do not assume the person's priorities are absolute vetoes.\nBoundary: commute expense belongs to a-money; manager reliability belongs to a-team. Flexible arrangements count only if genuinely available, not merely proposed.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "a-money",
+      "parentId": "offer-a",
+      "label": "Higher pay; net difference unknown",
+      "kind": "criterion",
+      "status": "uncertain",
+      "notes": "Decision question: what financial difference would A actually make after work-related costs?\nKnown fictional fact: A pays more than B and covers essential spending. No amount, currency, tax rate or surplus is supplied.\nFind out: take-home pay basis, guaranteed versus variable pay, pension and benefits, fares/fuel/parking, meals and any other changed costs. Compare the same periods and assumptions for A, B and the current job. The class fee and family-help costs, if any, are unknown; do not invent them.\nMechanism: the extra net resources might serve valued goals or buy flexibility. That case weakens if extra costs consume the difference or the person values predictable time more. Both offers covering essentials removes neither future commitments nor the need to compare security.\nBoundary: a-time owns available hours; a-terms owns probation and contractual commitments. Do not turn estimated travel hours into a cash value without the person's judgement.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "a-team",
+      "parentId": "offer-a",
+      "label": "How does the team actually work?",
+      "kind": "criterion",
+      "status": "uncertain",
+      "notes": "Decision question: what would working with A's manager and colleagues be like?\nNo team evidence is supplied. Three office days does not establish better culture, support, mentoring or teamwork.\nFind out: who manages the role, how priorities and feedback are handled, whether colleagues can disagree, why the role is open, and how a recent difficult week was handled. Ask for concrete examples from the manager and, if available, a future teammate; a hiring promise is reported evidence, not independent verification.\nMechanism: clear expectations and supportive collaboration could make both learning and flexibility workable; unpredictable demands could undermine them. Compare against the person's own preferences, not a generic ideal culture.\nCross-reference: place actual hours and recurring evening expectations in a-time; learning opportunities in a-growth. One interview answer used in several questions remains one piece of evidence.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "a-growth",
+      "parentId": "offer-a",
+      "label": "What would I learn and do?",
+      "kind": "criterion",
+      "status": "uncertain",
+      "notes": "Decision question: does A offer work and development that the person actually wants?\nNo role content, skill goals or progression evidence is supplied; higher pay is not evidence of better growth.\nFind out: the first six months of work, autonomy, who can teach the relevant skills, concrete recent development examples, what progression requires, and what future options those skills create. Ask which skills or career direction the person values before judging these opportunities.\nMechanism: meaningful work plus real practice and feedback can develop capability. A promised title or course budget alone does not show that mechanism. Team support is a dependency, referenced at a-team; protected learning time belongs to a-time.\nA new role could strengthen or narrow future options. Preserve both possibilities until the work is clearer.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "a-terms",
+      "parentId": "offer-a",
+      "label": "Confirm terms and deadline",
+      "kind": "criterion",
+      "status": "uncertain",
+      "notes": "Decision question: what exactly must be accepted, and by when?\nThe only deadline supplied is next Friday, with no exact date, time or time zone. Do not silently convert that relative phrase into a calendar date.\nFind out: the written offer, precise response deadline, start date, expected location/office pattern, probation and notice terms, restrictions relevant to the person's plans, and whether important promises are documented. Check how starting A interacts with obligations in the current job.\nIf material questions cannot be answered in time, requesting clarification or an extension is an option, not an assumed grant. Any revised terms would update A, not create evidence that negotiations succeeded.\nBoundary: this node records information to establish; it offers no legal interpretation or invented contractual right.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "offer-b",
+      "parentId": "career-choice",
+      "label": "Offer B · less pay, less travel",
+      "kind": "option",
+      "status": "open",
+      "notes": "B remains open. Known only from the fictional brief: lower pay, essentials covered, one office day, estimated 25 minutes each way. Less estimated travel could leave more room for a class and family help if the working-hours pattern permits it. That does not establish better work-life fit, team quality, remote collaboration or growth. See b-time, b-money, b-team, b-growth and b-terms. No preference is assigned.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "b-time",
+      "parentId": "offer-b",
+      "label": "Travel estimate: 50m / week",
+      "kind": "criterion",
+      "status": "uncertain",
+      "notes": "Decision question: will B leave usable time for the class, family help and recovery?\nKnown fictional inputs: one office day; estimated 25 minutes each way. Derived estimate: 1 × 2 × 25 = 50 minutes per week. Under the same narrow assumptions, B involves 370 minutes (6 hours 10 minutes) less weekly travel than A. This is a comparison of stated estimates, not measured time or guaranteed free time. Refer to a-time rather than counting the comparison as independent evidence.\nFind out: required office day, normal and peak hours, evening calls, availability expectations when away from the office, flexibility around the actual class and family windows, and journey variability. One office day does not confirm where or how the remaining days are worked.\nMechanism: shorter travel helps only if the released time is usable and not absorbed by other demands. Confirm the schedule before assuming the class fits.\nBoundary: costs belong to b-money, manager behaviour to b-team.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "b-money",
+      "parentId": "offer-b",
+      "label": "Essentials covered; surplus unknown",
+      "kind": "criterion",
+      "status": "uncertain",
+      "notes": "Decision question: what would B leave for goals beyond essential spending?\nKnown fictional facts: B pays less than A, and essential spending is covered. That does not establish the size or reliability of any surplus.\nFind out the same financial inputs as a-money: comparable take-home pay, variable pay, benefits, commuting and other changed costs. Compare with the current job as well as A. Clarify the importance of savings, the class fee and any family-help spending without inventing amounts or saying money no longer matters.\nMechanism: lower work-related costs may offset part of the lower pay; how much is unknown. Predictable time and adequate finances could support the stated commitments, but their trade-off belongs to the person.\nCross-reference b-time for time, b-terms for commitment and security questions.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "b-team",
+      "parentId": "offer-b",
+      "label": "How is support provided?",
+      "kind": "criterion",
+      "status": "uncertain",
+      "notes": "Decision question: how would B's manager and team provide useful collaboration and feedback?\nNo team evidence is supplied. A lower office requirement does not prove isolation or flexibility.\nFind out: how work is coordinated, how feedback and help are available, what happens when priorities conflict, how decisions are documented, and concrete examples from recent team experience. Ask what collaboration arrangement suits the person before judging the answer.\nMechanism: deliberate access to colleagues and clear expectations can support progress across locations; poor access or unpredictable communication can undermine it. Neither result is confirmed.\nUse the same evidence standards as a-team. Record actual work-hour implications in b-time and skill development implications in b-growth; do not treat one shared answer as several independent sources.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "b-growth",
+      "parentId": "offer-b",
+      "label": "What development is available?",
+      "kind": "criterion",
+      "status": "uncertain",
+      "notes": "Decision question: would B's actual work move the person's capabilities and future options in a valued direction?\nNo growth or role evidence is supplied. Lower pay and fewer office days do not establish less ambition or weaker progression.\nFind out: first-six-month work, learning by doing, supervision and feedback, autonomy, recent progression examples and realistic future paths. Compare against the same skill goals as a-growth once the person names them.\nMechanism: relevant practice and feedback can create development regardless of location. A promised progression path without opportunities or time may not.\nCross-reference b-team for who supports development and b-time for when it can happen. Keep a distinction between the role's opportunities and the person's preferences.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "b-terms",
+      "parentId": "offer-b",
+      "label": "Confirm terms and deadline",
+      "kind": "criterion",
+      "status": "uncertain",
+      "notes": "Decision question: what does B's offer commit the person to, and by when?\nOnly next Friday is given. Establish the exact response date/time, written offer, start date, location requirements, probation and notice terms, and any relevant restrictions. Clarify whether the one-day office arrangement and material flexibility promises are in writing.\nA deadline extension or changed terms may be requested if appropriate, but nothing is assumed negotiable or granted. An informal flexibility claim is a question to resolve before relying on it.\nUse the same acceptance-condition scope as a-terms. This is a factual checklist, not legal advice or an assertion about rights.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "stay-current",
+      "parentId": "career-choice",
+      "label": "Decline both · keep current job",
+      "kind": "option",
+      "status": "open",
+      "notes": "The prompt explicitly retains the current job as an alternative. Do not treat accepting a new offer as mandatory or the current job as automatically safe or satisfying.\nIts pay, hours, commute, team, growth and contract terms have not been supplied. Keeping it may preserve something valuable or prolong a reason to leave; neither account is known. Establish the same five criteria before comparing. Declining offers and starting a fresh job search are separate decisions; continued search is a possible later action, not presumed.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "current-time",
+      "parentId": "stay-current",
+      "label": "Does the current pattern fit?",
+      "kind": "criterion",
+      "status": "uncertain",
+      "notes": "Decision question: how does the current work pattern fit the same class and family windows?\nUnknown: current office pattern, commute, normal/peak hours, flexibility and recovery needs. Ask for a typical week and a difficult week. Do not infer the baseline from either offer.\nMechanism: retaining an already workable pattern could protect commitments; an existing clash may persist. Use actual knowledge of the present job when supplied instead of imagining advantages of familiarity.\nPrimary home for current-job time and scheduling; financial costs belong to current-money.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "current-money",
+      "parentId": "stay-current",
+      "label": "What is the financial baseline?",
+      "kind": "criterion",
+      "status": "uncertain",
+      "notes": "Decision question: what finances would staying preserve?\nThe brief says both offers cover essentials, not that the current job does. Current take-home pay, benefits, essential-spending fit, costs and surplus are all unknown in this demo.\nFind out comparable amounts and reliability using the same periods as A and B. Avoid describing either offer as a pay rise relative to the current job; only A versus B is known.\nMechanism: a clear baseline shows what each change buys or gives up. It is not a reason by itself to accept or decline an offer.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "current-team",
+      "parentId": "stay-current",
+      "label": "What is worth keeping or changing?",
+      "kind": "criterion",
+      "status": "uncertain",
+      "notes": "Decision question: what does the person already know about their current manager and team?\nAsk for concrete recent experiences of support, decision-making, conflict and expectations. The current team's quality is unknown to this exercise, even if it is well known to the person.\nMechanism: known strengths may be valuable and known frustrations may explain the search. Compare actual baseline experience with the limited, possibly selective evidence available about new employers. Familiarity is not proof of quality.\nCross-reference current-time for demands on hours and current-growth for development opportunities.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "current-growth",
+      "parentId": "stay-current",
+      "label": "Could staying support the next step?",
+      "kind": "criterion",
+      "status": "uncertain",
+      "notes": "Decision question: what learning and future options remain in the current role?\nFind out current work content, desired skills, available projects or support, and what has already been tried. An internal move or revised responsibilities can be explored if relevant; their availability is not assumed.\nMechanism: staying may preserve a useful learning path or delay a wanted change. Compare it against the same role and skill goals used for both offers. Do not create a failure story to make the new offers attractive.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    },
+    {
+      "id": "current-terms",
+      "parentId": "stay-current",
+      "label": "What happens if both offers lapse?",
+      "kind": "criterion",
+      "status": "uncertain",
+      "notes": "Decision question: what commitments and options remain if the person declines both?\nThe prompt states the current job can be kept. Establish any existing notice already given, real decision dependencies and whether there is a separate current-job issue or deadline. Do not invent a risk that the stated option disappears, but do not claim its contract terms are known.\nAn offer expiry removes an available offer under its current terms; it does not demonstrate that accepting it is better. Clarify exact expiry details under a-terms and b-terms. A request for more time is a possible action, not a guaranteed solution.\nThis branch preserves no change as a live alternative without assuming that the wider career decision ends here.",
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+    }
+  ],
+  "decision": {
+    "recommendation": "",
+    "rationale": "Decision deliberately deferred. Commute arithmetic favours B on estimated travel time only; it cannot settle working-hours fit, net finances, team quality or growth. Keep A, B and the current job open until comparable facts and the person’s priorities are clearer.",
+    "uncertainties": [
+      "Exact response date and time for each offer; next Friday is left relative rather than guessed.",
+      "Class timing/travel and family-help needs; whether these are firm constraints or preferences.",
+      "Actual working hours, required office days, peak demands and usable flexibility for all three options.",
+      "Comparable take-home pay, benefits and work costs; current-job essential-spending fit and all surplus amounts.",
+      "Manager/team behaviour, work content and growth opportunities; what matters most to the person.",
+      "Written terms, starting/notice arrangements and whether any requested change or extension is actually available."
+    ],
+    "nextSteps": [
+      "First clarify both exact expiry dates/times; preserve enough response time for the decision.",
+      "Name the class and family-help windows, and any true non-negotiables. Do not invent weights or a numeric score.",
+      "Ask both employers the same consequential questions about hours, office-day placement, manager support, first-six-month work and documented terms; seek concrete examples and written details where relevant.",
+      "Write down the current-job baseline using the same five criteria, so staying receives a fair comparison.",
+      "Calculate comparable net finances and travel using actual figures when available; keep assumptions visible.",
+      "If a decisive gap remains near the deadline, consider requesting clarification or an extension. Treat any reply as new evidence, not an assumed concession.",
+      "Return to comparison only when the person wants to decide; retain A, B and staying if no option is yet ruled out."
+    ]
+  }
+}
