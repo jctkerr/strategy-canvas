@@ -1,42 +1,55 @@
 # Strategy Canvas
 
-**Think through a question with a tree you can edit.**
+**Turn a question into a tree you can edit.**
 
-See your options, assumptions and evidence together. Work on your own, or let your AI agent help you think it through.
+See your options, assumptions and evidence together. Work with your AI tool or on your own.
 
-**[Open a blank canvas](https://jctkerr.github.io/strategy-canvas/new.html)** · [See a fictional example](https://jctkerr.github.io/strategy-canvas/)
+## With your AI tool
 
-Enter a question. Click a card to edit; use **+** to add a branch. **?** explains the tree types. Different branches can use different types.
+### 1. Open a new conversation
 
-![A fictional sales decision shown in Strategy Canvas](docs/images/canvas-preview.png)
+Use your existing account. These desktop steps are for Mac:
 
-## With your agent
+| App | Where to start |
+| --- | --- |
+| **Codex desktop** | New chat. Choose **Local** if asked. |
+| **Claude desktop** | **Code** tab → **Local** → choose a folder. |
+| **Cursor desktop** | Open a folder, then an **Agent** chat. |
 
-The **canvas** is your visual workspace. The **skill** teaches your existing agent how to guide the conversation and update the tree. There is no AI built into the canvas.
+Prefer another tool? It needs to open files and run code. [Other setups & help](docs/agent-guide.md). Your usual agent costs apply.
 
-Use an agent that can work with files and run code, such as Codex, Claude Code or Cursor. Paste this and replace the last line:
+### 2. Paste this message
+
+Replace the last line with your question, then press **Send**.
 
 ```text
-Use Strategy Canvas:
+Install and use Strategy Canvas:
 https://github.com/jctkerr/strategy-canvas
 
-Install the complete skill and open the canvas beside our conversation.
-Help me sharpen my question, choose useful tree types and develop
-branches as we talk. Preserve my manual edits.
-
-My question: [What would you like to think through?]
+Read the skill and open the canvas beside our chat.
+My question: [type your question]
 ```
 
-Your agent handles setup. You do not need to learn the tree types first. Your usual agent access and costs apply; [see which setups we have tested](docs/compatibility.md).
+Your agent handles setup. The **skill** teaches it how to help; the **canvas** shows your tree.
 
-## Keep your work
+### 3. Think it through
 
-Live sessions save on the computer running them. Ask your agent for a downloadable copy.
+Your tree should appear beside the chat. Keep talking: **“Let's explore this branch.”** Your agent can suggest tree types and update the tree as you go.
 
-Using the browser link or a downloaded canvas? Choose **Export → Interactive canvas** before closing or reloading. Check that the file downloaded.
+Click a card to edit, then **Save**. Use **+** to add a branch. **?** explains tree types; different branches can use different types.
 
-To continue a manual tree with your agent, attach the file from **Export → Editable state (JSON)**.
+Live sessions save on the computer running them. For a copy, ask: **“Give me a downloadable copy of this canvas.”**
 
-[Setup & troubleshooting](docs/agent-guide.md) · [Tree types, examples & sources](references/tree-methods.md)
+[What we've tested](docs/compatibility.md) · [Picture guide](docs/images/strategy-canvas-setup-guide.png)
+
+## Without an agent
+
+1. [Open a blank canvas](https://jctkerr.github.io/strategy-canvas/new.html) and type your question.
+2. Click a card to edit; use **+** to add a branch.
+3. Before closing or reloading, choose **Export → Interactive canvas**. Check that the file downloaded.
+
+To continue with an agent, choose **Export → Editable state (JSON)** and attach the downloaded file.
+
+[See a fictional example](https://jctkerr.github.io/strategy-canvas/) · [Tree types, examples & sources](references/tree-methods.md)
 
 **[James Kerr](https://jameskerr.me)** · Free and open source · [MIT licence](LICENSE)

@@ -1,6 +1,6 @@
 # Use Strategy Canvas with your agent
 
-Start with the [copy-and-paste prompt in the README](../README.md#with-your-agent). Your agent can handle setup. Use the instructions below if you prefer a reusable installation or need to troubleshoot.
+Start with the [three steps in the README](../README.md#with-your-ai-tool). Use the same message in Codex, Claude Code, Cursor or another agent that can open files and run code. Use the instructions below for a reusable installation, another app mode or troubleshooting.
 
 Keep the complete folder: `SKILL.md` alone cannot run the canvas.
 
@@ -47,14 +47,16 @@ To run the development checks, use `python3 -m unittest discover -s tests -v` an
 
 ## Codex
 
-In a terminal on the machine where Codex runs:
+In the desktop app, start a **New chat**, choose **Local** if asked, and paste the [README message](../README.md#2-paste-this-message). Let Codex handle installation and open the canvas beside the chat.
+
+For a manual installation, use a terminal on the machine where Codex runs:
 
 ```sh
 mkdir -p ~/.agents/skills
 git clone https://github.com/jctkerr/strategy-canvas.git ~/.agents/skills/strategy-canvas
 ```
 
-Start a new task. In Codex CLI or the IDE extension, type `$strategy-canvas` or select it through `/skills`. In the ChatGPT desktop skill selector, use `@` and choose the skill. You can always give the agent the absolute path to `SKILL.md` explicitly. Restart if a newly installed skill does not appear.
+In Codex CLI or the IDE extension, start a new task and type `$strategy-canvas` or select it through `/skills`. You can always give the agent the absolute path to `SKILL.md` explicitly. Restart if a newly installed skill does not appear.
 
 An existing installation under `~/.codex/skills` may already be available through your installer. Use that copy if it appears; avoid installing two copies with the same name. [Official skill locations and invocation](https://learn.chatgpt.com/docs/build-skills).
 
