@@ -27,6 +27,21 @@ Choose a structure suited to the current question. These are examples, not manda
 
 Keep prior decisions distinct from hypotheses. In notes, identify the basis as a recorded decision, observation, inference, assumption or proposed possibility; use the existing schema rather than inventing node kinds. A proposed option can be `open`; an untested causal hypothesis should be `uncertain`. A status alone never establishes evidence.
 
+### Check the first split of a choice tree
+
+When the root asks which option to pursue, its direct children must answer that question. Shared criteria, constraints, evidence boundaries and parking groups belong in session context or root notes; option-specific analysis belongs beneath the option. Check the saved root children themselves before showing the canvas. Explaining a mixed level in its notes does not fix what the diagram shows.
+
+For example, a bookshop choosing a use for its spare room could start with:
+
+```text
+Use of the spare room
+├─ Paid workshops
+├─ Quiet reading room
+└─ Keep as storage
+```
+
+The shared five-hour staffing limit and unknown budget go in context, with their implications beneath each option. Do not add sibling cards called `Shared criteria`, `Evidence boundary` or `Proposed extensions`. A shared timetable can be another clearly proposed option if useful; adding it does not establish exhaustive coverage. This rule concerns a choice tree, not every diagnostic or brainstorming structure.
+
 Populate beyond the first split where context supports it. During exploration, add distinct methods and concrete possibilities; during deepening, add mechanisms, evidence, counterpoints and relevant checks. Follow the user's focus; during comparison, prioritise uncertainty that could reverse the choice. Keep a small visible map while retaining useful deeper content and notes. Preserve discarded options as `ruled-out` with their reason and reconsideration condition; do not delete history merely to tidy the view.
 
 ## Use existing evidence before new trials
