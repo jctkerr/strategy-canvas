@@ -106,7 +106,7 @@ For an ordinary web chat without file execution, use the method conversationally
 
 ## Your first session
 
-The canvas has a short introduction you can skip, and **How to use** is always available. Keep discussing the problem with your agent; it can choose a suitable structure and update the same tree. You do not need to learn or select a framework first.
+The canvas has a short introduction you can skip or collapse, and **How to use** is always available. Collapse guidance whenever you want the space back for your tree. Keep discussing the problem with your agent; it can choose a suitable structure and update the same tree. You do not need to learn or select a framework first.
 
 1. Give the agent a question, your relevant constraints and what remains unknown.
 2. Check that the canvas contains your situation, rather than the fictional sales demo.
@@ -120,9 +120,9 @@ The canvas has a short introduction you can skip, and **How to use** is always a
 
 Start by telling your agent what is happening and what you want to change. **Problem** keeps that brief and your constraints together. These fields are optional; you can start with an unfinished question.
 
-**Approach** explains the method used for the selected branch, with an illustrative example, source and limitation. It includes open exploration, issue and hypothesis trees, quantitative drivers, solutions, objectives, decisions under uncertainty, opportunity solution trees and argument hierarchies. Your agent can choose a suitable approach; you can change it yourself. An approach change guides future additions and leaves existing thoughts in place.
+**Approach** explains the method used for the selected branch, with an illustrative example, source and limitation. Start with the task: understand causes, work out a number, explore solutions or compare a choice. Your agent can suggest a suitable method without requiring you to know its name. An approach change guides future additions and leaves existing thoughts in place; it does not reorganise or validate them.
 
-Different branches may use different approaches. **Connection** in Details explains how a thought relates to its parent. Expand its controls to change that relationship. A connection label records your reasoning; it does not prove the relationship or run a calculation.
+Different branches may use different approaches. For example, an issue tree about workshop viability can contain a calculation branch for break-even attendance. Select the root to set the broad approach, or a thought to change just that branch. Children follow their nearest parent approach unless they have their own; deeper overrides stay in place. Ask the agent to check the existing thoughts and connections when changing methods. **Connection** in Details explains how a thought relates to its parent. Expand its controls to change that relationship. A connection label records your reasoning; it does not prove the relationship or run a calculation.
 
 Agents should read the relevant recipe in [the tree-method guide](../references/tree-methods.md) before using a method. Each recipe covers its scope, steps, worked example and checks. Keep the person's problem in view instead of requiring them to learn the method names first.
 

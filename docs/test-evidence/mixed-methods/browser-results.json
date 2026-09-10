@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checks": [
+    "One map displays inherited methods and explicit subtree starting points without changing canonical state.",
+    "All nine task choices preview a method without saving; scope explains descendants and preserved overrides.",
+    "Changing one subtree changes untyped descendants while preserving nested, same-value and sibling overrides and every existing relation.",
+    "Reset removes only the chosen override; nearest-ancestor inheritance skips untyped parents, and explicit same-value descendants remain pinned.",
+    "An external ancestor-method change blocks a stale selection; Review latest restores the actual inheritance before saving.",
+    "An external change to the selected override blocks both apply and inherit until refreshed; closing preserves it.",
+    "An unrelated external note edit does not block the picker and survives the selected method save.",
+    "HTML and JSON retain exact explicit overrides and relations; reopening and re-exporting restore inheritance with nine unique task and method choices."
+  ]
+}

@@ -228,6 +228,23 @@ These are hypothetical premises and checks, not facts about the user's bookshop.
 
 One problem may need several methods. Preserve the governing question and mark where a branch changes purpose. For example, a launch inquiry may contain a driver tree for break-even, a hypothesis investigation of demand and a solution branch for distribution. Later, an argument hierarchy can explain a recommendation. This is not a mandatory sequence.
 
+**Fictional mixed tree:** a bookshop checks workshop viability. The root uses `issue`; only the break-even branch explicitly switches to `driver`.
+
+```text
+Could paid workshops be viable next quarter? [issue]
+├─ part-of → What attendance breaks even? [driver override]
+│  ├─ calculated-from → Fixed cost: £120
+│  └─ calculated-from → Contribution per attendee: £15
+│     ├─ calculated-from → Ticket price: £20
+│     └─ calculated-from → Variable cost: £5
+└─ part-of → Can we attract that attendance? [inherits issue]
+   └─ part-of → What do comparable paid bookings tell us?
+```
+
+The break-even node's notes hold `£120 ÷ (£20 − £5) = 8 attendees`; contribution notes explain subtraction. Its incoming relation remains `part-of`: economics is one part of the viability inquiry, not an input used to calculate the governing question. Only its own inputs use `calculated-from`. The demand branch remains unresolved; eight attendees is a cost hurdle, not a sales forecast. Delivery constraints still need examining before this inquiry could be called complete.
+
+Set the method on the root for a broad starting approach, or on the selected branch for a local change. Descendants inherit the nearest explicit method; deeper overrides and sibling branches retain theirs. Removing an override restores ancestor inheritance; with no explicit ancestor, the method remains unspecified. Relations never inherit. After a method change, inspect existing node kinds, claims, equations and incoming/outgoing links: selecting a method does not convert those meanings or certify the reasoning. Keep existing content until it has been deliberately reconciled.
+
 Use a scoped segmentation split when asking where a result is concentrated: regions at one level, customer segments at another, with clear counting rules. Segmentation and market sizing are useful applications of issue and driver structures, not reasons to create a separate top-level mode for every case topic.
 
 When real relationships have shared causes, feedback or many-to-many dependencies, say that a tree is a limited view. Reference canonical node IDs in notes and retain one source identity. Do not fabricate multiple parents or pretend that adding relation labels turns the canvas into a causal graph. A faithful map may require a different visual artifact.

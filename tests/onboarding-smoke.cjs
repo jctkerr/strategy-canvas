@@ -52,6 +52,15 @@ async function visibleWithin(page, selector, container) {
     assert.ok(await page.locator('#tour-back').isHidden());
     await page.locator('#tour-next').click();
     assert.match(await page.locator('#tour-title').innerText(), /Develop/);
+    await frames(page); const expandedHeight = (await page.locator('#canvas').boundingBox()).height;
+    await page.locator('#tour-toggle').click(); await frames(page);
+    assert.ok(await page.locator('#quick-start').isHidden());
+    assert.equal(await page.locator('#tour-toggle').getAttribute('aria-expanded'), 'false');
+    assert.ok((await page.locator('#canvas').boundingBox()).height > expandedHeight + 100, 'Collapsing must return space to the tree');
+    await page.locator('#tour-toggle').click();
+    assert.equal(await page.locator('#tour-toggle').getAttribute('aria-expanded'), 'true');
+    assert.match(await page.locator('#tour-count').innerText(), /2 of 3/i, 'Reopening should retain the current step');
+    assert.deepEqual(await read(), original);
     await page.locator('#tour-back').click();
     assert.match(await page.locator('#tour-count').innerText(), /1 of 3/i);
     await page.locator('#tour-next').click(); await page.locator('#tour-next').click();
@@ -60,7 +69,7 @@ async function visibleWithin(page, selector, container) {
     assert.ok(await page.locator('#quick-start').isHidden());
     await page.reload(); assert.ok(await page.locator('#quick-start').isHidden());
     assert.deepEqual(await read(), original);
-    results.push('Fresh visits show three optional steps; back, finish and remembered dismissal leave canonical state unchanged.');
+    results.push('Quick start collapses and restores the current step, returns space to the tree and remembers dismissal without changing canonical state.');
 
     await page.locator('.tree-node[data-id="workshops"]').click();
     await page.locator('#add-primary').click();

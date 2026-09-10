@@ -78,3 +78,9 @@ These are bounded local checks, not evidence of unattended strategic correctness
 On 10 September 2026, [five rendered check groups](test-evidence/onboarding/browser-results.json) exercised first visits, stepping back and forward, skip/replay, remembered dismissal, help during an unsaved draft, standalone export/reopen and disabled browser storage. Canonical state and revision stayed unchanged throughout. At a 390-pixel viewport, the checks exercised long scrollable context, tutorial controls, tree refitting, help and adding a thought. This was Chromium browser emulation, not a physical-phone test.
 
 The repeatable check is `tests/onboarding-smoke.cjs`, using Playwright and a disposable local session. The 30 runtime tests and 14 existing method/editing browser checks also passed with this update. This UI check does not extend the earlier Grok compatibility claims.
+
+## Mixed approaches and collapsible guidance
+
+The follow-up update on 10 September 2026 passed [eight rendered check groups](test-evidence/mixed-methods/browser-results.json) for task-based previews, nested method changes, inheritance resets, explicit same-value overrides, preservation of sibling branches and connections, concurrent method updates, unrelated edits and standalone re-export. Each save was checked against the complete expected state. These editing fixtures test method handling, not the validity of combining arbitrary analytical content.
+
+The [onboarding checks](test-evidence/onboarding/browser-results.json) also verify that **Quick start** collapses, returns space to the tree and reopens at the same step without changing saved content. The existing 30 runtime tests and 14 rendered method/editing checks passed. Local desktop and 390-pixel browser layouts were inspected; no new external-agent compatibility is claimed.
