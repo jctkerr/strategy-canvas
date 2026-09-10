@@ -22,14 +22,15 @@ Copy this into your agent and replace the final question with your own:
 Use Strategy Canvas to help me think this through:
 https://github.com/jctkerr/strategy-canvas
 
-Set up the skill, follow its instructions and show me the editable
-canvas. Keep assumptions visible and leave the choice open.
+Set up the skill, follow its instructions and open the editable
+canvas inside this app, beside our conversation. Reuse that view
+as we work. Keep assumptions visible and leave the choice open.
 
 My question: Where should I focus extra sales effort over the next
 three months?
 ```
 
-Use an agent with file access and code execution, such as Codex or Grok Bot. Your agent handles the setup; its usual access and costs apply.
+Use an agent with file access and code execution, such as Codex, Claude Code or Cursor. Your agent handles the setup; its usual access and costs apply. Check the compatibility record below for the exact workflows tested.
 
 For installation, agent-specific commands or troubleshooting, see the **[agent guide](docs/agent-guide.md)**. Our **[compatibility record](docs/compatibility.md)** separates tested workflows from documented but untested setups.
 
@@ -42,6 +43,16 @@ The canvas opens with a short introduction. Collapse or reopen it with **Quick s
 3. **Keep what you learn.** Ask for a complete HTML export, or use **Export** in the canvas. You can pause with open alternatives or compare them when ready.
 
 **Approach → Help me choose a tree** starts with what you need to do. One map can use different methods on different subtrees; each includes guidance and an example.
+
+**Analysis** keeps the next steps alongside the tree:
+
+- **Numbers:** change assumptions and see formulas recalculate across three scenarios. Missing inputs and broken formulas stay visible.
+- **Workplan:** connect an investigation to the question it could resolve, including the evidence needed and what you found.
+- **Brief:** write your answer and supporting claims, link their sources and model results, then export an editable PowerPoint. A changed session flags an older brief for checking.
+
+These are optional. Start with the tree and use them when they help. The [fictional workshop example](https://jctkerr.github.io/strategy-canvas/workshop.html) shows the complete workflow; its figures are illustrative assumptions, not evidence of demand.
+
+For broader strategy work, your agent can use the [sourced business-framework recipes](references/business-frameworks.md). They explain Five Forces, SWOT/TOWS, the strategy kernel, the strategy choice cascade and the growth-share matrix in their intended scopes, with examples and limits. They are agent guidance, not five dedicated editors.
 
 The tree makes reasoning visible. It does not establish that every option has been found or that its claims are true.
 

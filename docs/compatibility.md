@@ -4,11 +4,11 @@
 
 | Environment | Evidence |
 | --- | --- |
-| Codex desktop, local macOS | Local runtime, populated canvas, direct browser edits, agent updates and standalone exports exercised during release preparation. |
+| Codex desktop, local macOS | Local runtime, populated canvas, direct browser edits, agent updates and standalone exports exercised. Current in-app tab rendered the updated canvas; a separate pane-opening request returned queued and is not treated as visible confirmation. |
 | Grok Bot desktop | Public v0.1.1 loaded in a fresh Bot. Canvas creation, browser editing through an exported copy, JSON handoff, follow-up updates and final exports exercised. Two reviewer corrections were needed to fix the option hierarchy. Details below. |
 | Grok Build / CLI | Installation and invocation checked against official documentation; execution not tested. |
 | Claude Code | Installation instructions checked. An execution test stopped before a model call because the test environment was signed out. |
-| Cursor | Installation and invocation checked against official documentation; execution not tested. |
+| Cursor desktop / CLI | Desktop Browser pane rendered the live bookshop canvas and its Analysis dialog. Separately, CLI Auto prepared a schema-valid fictional proposal using file tools; command permissions blocked full automatic setup. See the bounded test below. |
 | Gemini CLI | Installation and activation checked against official documentation; execution not tested. |
 | Claude chat / other web chat | No Strategy Canvas execution test. File execution and export capabilities depend on the host. |
 
@@ -71,7 +71,7 @@ A separate agent used the updated skill to generate these fictional cases and va
 - [An event with uncertain demand](test-evidence/method-guidance/event.json): choices, unknown attendance and cost drivers. The £20/£5/£120 inputs also appear in the method recipe, so this checks following instructions rather than unseen arithmetic.
 - [An event with new inputs](test-evidence/method-guidance/event-new-inputs.json): £24.50 tickets, £6.20 variable cost and £146.50 avoidable fixed cost. [Decimal arithmetic](test-evidence/method-guidance/checked-arithmetic.json) gives £18.30 contribution, a minimum of nine paying attendees, a 10p loss at eight and £18.20 surplus at nine. Demand probabilities and capacity remain unknown; no expected value was invented.
 
-These are bounded local checks, not evidence of unattended strategic correctness. The new method guidance has not been rerun in Grok Bot; its earlier compatibility evidence above remains specific to those tested versions and workflows. The canvas stores equations and probability assumptions in notes; it does not solve or validate them automatically.
+These are bounded local checks, not evidence of unattended strategic correctness. The new method guidance has not been rerun in Grok Bot; its earlier compatibility evidence above remains specific to those tested versions and workflows. This earlier method test used equations recorded in notes. The subsequent optional Numbers workspace evaluates explicit models; it does not automatically extract or validate equations or probabilities from tree notes.
 
 ## Onboarding checks
 
@@ -84,3 +84,23 @@ The repeatable check is `tests/onboarding-smoke.cjs`, using Playwright and a dis
 The follow-up update on 10 September 2026 passed [eight rendered check groups](test-evidence/mixed-methods/browser-results.json) for task-based previews, nested method changes, inheritance resets, explicit same-value overrides, preservation of sibling branches and connections, concurrent method updates, unrelated edits and standalone re-export. Each save was checked against the complete expected state. These editing fixtures test method handling, not the validity of combining arbitrary analytical content.
 
 The [onboarding checks](test-evidence/onboarding/browser-results.json) also verify that **Quick start** collapses, returns space to the tree and reopens at the same step without changing saved content. The existing 30 runtime tests and 14 rendered method/editing checks passed. Local desktop and 390-pixel browser layouts were inspected; no new external-agent compatibility is claimed.
+
+
+## In-app preview and current analysis checks
+
+On 10 September 2026, the updated 15-node fictional bookshop session rendered inside Codex's existing browser tab and Cursor desktop's native Browser pane. In Cursor, the tester used **Command Palette → Open Browser Tab**, entered the exact session URL and opened and closed **Analysis**. The saved state remained exactly revision 3 with all 15 nodes unchanged. These were observed host interactions, not proof that an independent agent automatically chose the right preview tool. Codex's separate pane-opening request returned queued. Claude's routes are documented from official guidance, but were not executed in this test. See [host preview instructions](../references/host-preview.md).
+
+The current local suite passed **62 Python tests**. Nine [rendered analysis check groups](test-evidence/analysis/browser-results.json) cover explicit example drafts, low/base/high recalculation, missing values and arithmetic errors, parser agreement, linked work, brief freshness, reference protection, portable export and a 390-pixel viewport. The previous 14 method/editing, five onboarding and eight mixed-method groups also passed with this interface. Mobile checks use emulation.
+
+A nine-slide fictional brief opened without a repair prompt in Microsoft PowerPoint on macOS. Its conditional scenario figures were inspected, and selecting a word in the body confirmed native editable text. Export tests cover stale briefs, complete embedded state, namespaces, source tracing and resource limits. The live PowerPoint download button was not separately exercised; the native check used the exporter command. This is a basic editable brief, not a slide-design product.
+
+## Cursor file-tool handoff check
+
+Cursor CLI, using its **Auto** selection and existing account, read the skill and an unseen fictional case. The first run could read and edit files, but every requested shell command was rejected by the host. No permissions were bypassed, credits purchased or alternative agent used. It therefore did not create or serve a canonical session, or execute exports.
+
+A follow-up explicitly retained that restriction and requested a complete JSON proposal using available file tools. The [original proposal](test-evidence/cursor/proposal.json) passed separate validation in the current runtime. Its invented 12 attendees, £170 fixed cost and £7 variable cost, with ticket prices £18/£24/£30, yielded conditional surpluses **−£38/£34/£106** and whole-attendee break-even thresholds **16/10/8**. Those figures matched independent arithmetic.
+
+Review still identified two reasoning corrections: exclusive room use across the full three months was an added assumption, and a solution subtree reversed the means-to-outcome relationship. These findings are retained rather than treating schema or arithmetic success as strategic correctness. This is evidence of a bounded Cursor file-tool handoff, not a passed automatic setup workflow or a native-preview action by that independent agent. The desktop preview check above is separate.
+
+
+For a second file-only turn, a reviewer appended an 18:00 finish constraint to the latest proposal, then asked Cursor to raise the fictional fixed cost to £204 and address the reasoning findings. The [follow-up](test-evidence/cursor/follow-up.json) preserved the complete workshop notes and all prior node/model/variable/workplan/section IDs. Separate [runtime verification](test-evidence/cursor/verified-results.json) returned **−£72/£0/£72** and **19/12/9**. The means/outcome direction was repaired; exclusive use became a provisional scope assumption and combinations remained open. The constraint was preserved but not carried through to the staffing investigation. No canonical session, UI or exports were executed by Cursor in either file-only turn.

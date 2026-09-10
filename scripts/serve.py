@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 
 from loopback_server import LoopbackHTTPServer
 from render_state import html_document
+from export_brief import pptx_document
 from state_store import Conflict, InvalidState, MAX_BYTES, initialise, read_state, update
 
 SKILL = Path(__file__).resolve().parent.parent
@@ -58,6 +59,20 @@ def main():
             try:
                 if path == "/api/state":
                     self.json_reply(200, read_state(args.session))
+                elif path == "/api/export/pptx":
+                    try:
+                        data = pptx_document(read_state(args.session))
+                    except InvalidState as error:
+                        self.json_reply(400, {"error": str(error)})
+                        return
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/vnd.openxmlformats-officedocument.presentationml.presentation")
+                    self.send_header("Content-Disposition", 'attachment; filename="strategy-brief.pptx"')
+                    self.send_header("Content-Length", str(len(data)))
+                    self.send_header("Cache-Control", "no-store")
+                    self.send_header("X-Content-Type-Options", "nosniff")
+                    self.end_headers()
+                    self.wfile.write(data)
                 elif path in {"/", "/index.html"}:
                     template = html_document(read_state(args.session), offline=False)
                     self.reply(200, template, "text/html; charset=utf-8")

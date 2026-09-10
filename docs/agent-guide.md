@@ -8,6 +8,22 @@ You need an existing agent account, Python 3.9+ on macOS, Linux or WSL, and perm
 
 Installation instructions below follow the linked vendor documentation. Our [test record](compatibility.md) states which workflows we actually exercised.
 
+## Keep the canvas beside the conversation
+
+Ask your agent: **“Show Strategy Canvas in this app's built-in preview, keep it open, and update the same canvas as we talk.”** The skill should handle this through the app's available tools. You should see your question and an editable tree before it says the preview is ready.
+
+| Where you are working | In-app route |
+| --- | --- |
+| Codex desktop | Built-in **Browser**; the agent should open and reveal the local session there. |
+| Claude desktop, Code | Embedded **Preview** in a local Code session. |
+| Claude desktop, Cowork | **Built-in browser** when available and able to reach the server; otherwise a native HTML artifact preview. |
+| Claude Chat | Native HTML artifact/file preview when execution is available; this is a snapshot unless a live server is separately connected. |
+| Cursor desktop | Native **Browser** in the IDE Agent panel or Agents Window; request the inline pane. |
+
+The app, execution location and available tools matter. A terminal/CLI test does not prove that a desktop pane opened, and a cloud machine's local URL does not open on your laptop. Agents should follow the [host preview instructions](../references/host-preview.md), which include the official sources and rendered checks. An external browser is not the default fallback.
+
+On **10 September 2026**, the fictional 15-node bookshop rendered in Codex's existing in-app tab and Cursor's native Browser pane; Cursor's Analysis dialog also rendered without changing saved strategy content. Claude routes remain documentation-checked only. See the [test record](compatibility.md) for the evidence boundary.
+
 ## Run the canvas yourself
 
 If you want to open it before connecting an agent:
@@ -18,7 +34,7 @@ cd strategy-canvas
 python3 scripts/serve.py --session ../strategy-canvas-session --port 0
 ```
 
-Open the printed URL on the same computer and keep the terminal running. A new session starts with the fictional sales example. To run the development checks, use `python3 -m unittest discover -s tests -v` and `python3 scripts/build_demo.py --check` from the repository folder.
+Keep the terminal running and give the exact printed URL to your desktop agent to open in its built-in preview. You can also paste it into that pane yourself. A new session starts with the fictional sales example. To run the development checks, use `python3 -m unittest discover -s tests -v` and `python3 scripts/build_demo.py --check` from the repository folder.
 
 ## Codex
 
@@ -32,6 +48,8 @@ git clone https://github.com/jctkerr/strategy-canvas.git ~/.agents/skills/strate
 Start a new task. In Codex CLI or the IDE extension, type `$strategy-canvas` or select it through `/skills`. In the ChatGPT desktop skill selector, use `@` and choose the skill. You can always give the agent the absolute path to `SKILL.md` explicitly. Restart if a newly installed skill does not appear.
 
 An existing installation under `~/.codex/skills` may already be available through your installer. Use that copy if it appears; avoid installing two copies with the same name. [Official skill locations and invocation](https://learn.chatgpt.com/docs/build-skills).
+
+In the desktop app, ask for **Browser** beside the conversation. If the pane is hidden, use the toolbar or **Cmd/Ctrl+Shift+B**. The built-in browser is not supplied by Codex CLI or the IDE extension. [Official browser guide](https://learn.chatgpt.com/docs/browser).
 
 ## Grok Bot
 
@@ -66,7 +84,7 @@ git clone https://github.com/jctkerr/strategy-canvas.git ~/.grok/skills/strategy
 
 Open Grok in your working folder, select the skill with `/strategy-canvas`, then describe your decision. `/skills` lists available skills. The agent must be able to run Python and keep the local server alive. This is a separate setup from Grok Bot. [Official Grok Build skill documentation](https://docs.x.ai/build/features/skills-plugins-marketplaces).
 
-## Claude Code
+## Claude desktop Code and Claude Code CLI
 
 ```sh
 mkdir -p ~/.claude/skills
@@ -75,6 +93,16 @@ git clone https://github.com/jctkerr/strategy-canvas.git ~/.claude/skills/strate
 
 Start Claude Code in a working folder and enter `/strategy-canvas`, followed by your question. Allow the requested file and Python operations for this session. If the skills directory is newly created, restart Claude Code if needed. You can instead install into `.claude/skills/strategy-canvas` inside one project. [Official Claude Code skill documentation](https://code.claude.com/docs/en/skills).
 
+For an in-app canvas, use Claude desktop's **Code** tab with a **local** session and ask for its embedded preview. The agent can attach preview to the running canvas; it should preserve the exact numeric URL. A standalone HTML file can also open in the preview pane. The terminal-only CLI does not itself reveal this pane. [Desktop preview](https://code.claude.com/docs/en/desktop#preview-your-app), [agent setup details](../references/host-preview.md#claude-desktop-code).
+
+## Claude desktop Cowork and Chat
+
+Use the complete skill ZIP through Claude's skill upload flow with code execution enabled; this is separate from the local `~/.claude/skills` installation. This upload route has not been tested with Strategy Canvas. [Official upload instructions](https://support.claude.com/en/articles/12512180-use-skills-in-claude).
+
+In Cowork, ask for the **built-in browser**. If available, choose it under **Settings → Cowork → Preferred browser**. A cloud-run canvas needs a reachable host preview or a native HTML artifact: its local address will not reach the desktop browser. [Cowork browser](https://support.claude.com/en/articles/16607400-use-the-built-in-browser-in-claude-cowork).
+
+In Chat, ask for the exported canvas in the native HTML artifact/file preview, with the complete JSON attached. This is a snapshot; changes in it do not automatically update another live session. [HTML artifacts and file creation](https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude).
+
 ## Cursor
 
 ```sh
@@ -82,9 +110,11 @@ mkdir -p ~/.cursor/skills
 git clone https://github.com/jctkerr/strategy-canvas.git ~/.cursor/skills/strategy-canvas
 ```
 
-Open a working folder in Cursor. In Agent chat, type `/`, select `strategy-canvas`, and add your question. Let the agent run the bundled server and open the URL in your browser. A project-only installation can live at `.cursor/skills/strategy-canvas`.
+Open a working folder in Cursor. In Agent chat, type `/`, select `strategy-canvas`, and add your question. Ask it to run the bundled server and open the canvas in Cursor's built-in **Browser**, using the inline pane. A project-only installation can live at `.cursor/skills/strategy-canvas`. [Browser tools](https://cursor.com/docs/agent/tools/browser).
 
-Installing on your computer does not automatically make the folder available to a Cursor Cloud Agent. Give a cloud agent the repository link and use its supported preview or downloadable export. [Official Cursor skill documentation](https://cursor.com/docs/skills).
+If the pane does not appear, use **Command Palette → Open Browser Tab**, enter the exact printed `http://127.0.0.1:…` URL, and press **Return**. This desktop fallback was verified with the bookshop canvas and Analysis dialog. The agent should inspect the rendered pane before saying it is open.
+
+Installing on your computer does not automatically make the folder available to a Cursor Cloud Agent. Give a cloud agent the repository link and use its supported remote preview or native artifact/file delivery. A `cursor-agent` CLI test establishes only the tested command-line workflow, not the desktop's embedded browser. [Official Cursor skill documentation](https://cursor.com/docs/skills).
 
 ## Gemini CLI
 
@@ -100,7 +130,7 @@ The default scope is your user account. Add `--scope workspace` for the current 
 
 A model name alone does not establish compatibility. Ask whether the particular app can read the full folder, execute Python, preserve files, and show or deliver HTML. A repository attachment or pasted `SKILL.md` supplies context; it does not grant those tools.
 
-Claude chat supports uploading custom skill ZIPs with code execution enabled: **Customize → Skills → + → Create skill → Upload a skill**. Use the release ZIP containing the `strategy-canvas/` folder. This upload route has not been tested with Strategy Canvas. If the host cannot keep a server running, ask for downloadable HTML and JSON snapshots instead of claiming a live canvas. [Claude's upload instructions](https://support.claude.com/en/articles/12512180-use-skills-in-claude).
+If the host cannot keep a reachable server running, ask it to render the standalone HTML in its native artifact preview and attach the JSON. If it cannot render the export, it should deliver the files and say what remains unavailable. A file attachment alone does not establish an interactive in-app canvas.
 
 For an ordinary web chat without file execution, use the method conversationally or move to a compatible agent environment. This also applies to a Grok web session without the required computer tools; the Grok Bot and Grok Build instructions above do not establish web-chat support.
 
@@ -133,7 +163,10 @@ Agents should read the relevant recipe in [the tree-method guide](../references/
 | Skill is missing | Check the folder contains `SKILL.md` directly, refresh the agent's skills list or give it the absolute path. |
 | Destination already exists when cloning | Use the existing copy; do not delete it just to retry. To update a clean Git clone, run `git pull --ff-only` inside it. Preserve any local changes first. |
 | Python or `fcntl` error | Install Python 3.9+ from its official source; on Windows use WSL. |
-| Local URL will not open | Keep the server process running and open the exact printed URL on the same computer, or use the host's preview. |
+| The agent says “opened”, but no canvas appears | Ask it to reveal and inspect the built-in preview. A queued request, attachment or separate browser screenshot is not proof. |
+| Cursor has a running server but no visible canvas | Use Command Palette → **Open Browser Tab**, enter the exact numeric session URL, and press Return. |
+| Local URL will not open | Keep the server running; use the exact printed numeric URL in the app's preview on the same computer. For cloud execution use a verified host preview or a native HTML artifact. |
+| Claude Code preview fails despite a running server | Ask the agent to attach a URL-only preview entry to the exact printed `127.0.0.1` URL; preserve existing launch configurations. |
 | Remote Bot returns an inaccessible local URL | Open its computer view or ask it to attach the standalone HTML export. |
 | Agent returns only prose | Ask it to run the bundled runtime and show a populated canvas; if it lacks execution, use another environment. |
 | Your direct edit disappeared | Confirm you edited the live session, not a standalone copy. Ask the agent to read the current state and reconcile before saving. |

@@ -13,7 +13,8 @@ def main():
     parser.add_argument("--check", action="store_true", help="Check without writing")
     args = parser.parse_args()
     root = Path(__file__).resolve().parent.parent
-    for source, output in (("demo.json", "index.html"), ("career.json", "career.html")):
+    for source, output in (("demo.json", "index.html"), ("career.json", "career.html"),
+                           ("workshop-analysis.json", "workshop.html")):
         state = validate(json.loads((root / "examples" / source).read_text(encoding="utf-8")))
         expected = html_document(state, offline=True)
         destination = root / "docs" / output
@@ -23,7 +24,7 @@ def main():
         else:
             destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_text(expected, encoding="utf-8")
-    print("Fictional demos are current." if args.check else "Built both fictional demos in docs/.")
+    print("Fictional demos are current." if args.check else "Built fictional demos in docs/.")
 
 
 if __name__ == "__main__":

@@ -99,7 +99,7 @@ Break-even attendance = fixed cost ÷ contribution per attendee
 £120 ÷ £15 = 8 attendees
 ```
 
-This assumes the stated costs are relevant, prices remain constant and no capacity threshold changes them. It establishes a hurdle, not evidence that eight people will buy. Store the equation and assumptions in notes; calculate and check it separately from the canvas.
+This assumes the stated costs are relevant, prices remain constant and no capacity threshold changes them. It establishes a hurdle, not evidence that eight people will buy. Store the equation and assumptions in notes. For calculations that update with inputs, link an explicit [Numbers model](analysis-schema.md) to this branch; check units and business meaning independently of the arithmetic engine.
 
 **Avoid:** Treating multiplicative drivers as additive shares; double-counting customers across segments; mixing weekly and annual inputs; inventing inputs; declaring commercial viability from break-even alone.
 

@@ -1,0 +1,445 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "title": "Spare room use · fictional bookshop",
+  "question": "How should the spare room be used for the next three months?",
+  "context": "Fictional neighbourhood bookshop case for a compatibility handoff. Stated room-use possibilities: paid repair workshops, a quiet reading room, or keep as storage. One employee has five spare hours per week. The owner has not decided whether income or community benefit matters more. There is no observed demand data, confirmed budget, or customer research. Shared staffing limit, undecided priorities, and evidence boundaries sit in this context and the problem brief—not as sibling choices against the room uses. Treating any single use as exclusive for the whole three months is a provisional scope assumption only; the original prompt did not establish exclusivity, so combinations and sequenced uses within the window remain open. A Numbers model under workshops uses explicitly labelled fictional arithmetic (12 attendees; £204 fixed; £7 variable; ticket prices £18 / £24 / £30) for a worked conditional surplus and break-even illustration only; it is not evidence of demand and is not an expected value. No demand probabilities are assigned.",
+  "nextQuestion": "Which priority should govern the three-month choice—near-term income, community benefit, or an explicit mix—and what evidence would settle it?",
+  "problem": {
+    "situation": "A fictional neighbourhood bookshop has a spare room available for the next three months. Stated possibilities include paid repair workshops, a quiet reading room, or continuing to use the room as storage. One employee has five spare hours per week. Income versus community benefit has not been ranked. Observed demand, confirmed budget, and customer research are absent. Exclusive single use for the full period was not established by the prompt.",
+    "desiredChange": "Reach a clear room-use decision for the three-month window once priorities and material evidence gaps are resolved—or keep the choice deliberately open until they are.",
+    "constraints": "At most five spare staff-hours per week from one employee. Three-month horizon. No confirmed budget. No observed demand, willingness-to-pay, or customer research. Recommendation remains deferred. Fictional workshop arithmetic in the linked model must not be treated as shop evidence. Combinations or sequenced uses within the three months remain open unless a later scope decision closes them."
+  },
+  "nodes": [
+    {
+      "id": "room_use",
+      "parentId": null,
+      "label": "Use of the spare room",
+      "kind": "question",
+      "method": "exploration",
+      "status": "open",
+      "notes": "Structure choice: start from the stated room-use possibilities and keep combinations open. The prompt listed workshops, a quiet reading room, and storage; it did not establish that exactly one use must occupy the room for the entire three months. Any exclusive full-period framing is therefore a provisional scope assumption (see sibling assumption), not a settled partition. Shared criteria—five spare hours/week, undecided income vs community priority, missing budget and demand evidence—live in session context and problem fields, with option-specific implications under each branch rather than as competing root siblings. Probabilities were not supplied, so no expected-value calculation is performed; workshop figures are conditional arithmetic under stated inputs only. Subtrees use different methods where useful: driver arithmetic under workshops; hypothesis investigation of willingness to pay; solution means hung under the community outcome they might achieve; option-value assumptions under storage."
+    },
+    {
+      "id": "scope_exclusive",
+      "parentId": "room_use",
+      "label": "Exclusive full-period use (provisional)",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Provisional scope assumption only: analyse each stated use as if it were the sole room use for the whole three months. The original prompt did not establish that exclusivity. Combinations, split schedules, or sequenced uses within the window remain open alternatives. If this assumption is dropped, compare packages that combine or sequence uses rather than forcing a single winner for the period.",
+      "relation": {
+        "type": "idea",
+        "label": "Provisional scope assumption"
+      }
+    },
+    {
+      "id": "workshops",
+      "parentId": "room_use",
+      "label": "Paid repair workshops",
+      "kind": "option",
+      "status": "open",
+      "notes": "Proposed means: host paid repair workshops in the spare room. Could support income if paying demand and costs clear the hurdle; community benefit depends on who attends and how sessions are run. Must fit within five spare staff-hours weekly for preparation and hosting. Proposed alternative only—not a recommendation. Basis: stated option from the brief; no observed bookings.\nReviewer edit: workshops must finish by 18:00.",
+      "relation": {
+        "type": "idea",
+        "label": "Stated room-use possibility"
+      }
+    },
+    {
+      "id": "workshop_economics",
+      "parentId": "workshops",
+      "label": "Event surplus under stated assumptions",
+      "kind": "metric",
+      "method": "driver",
+      "status": "open",
+      "notes": "Parent question answered in part by conditional arithmetic, not by demand evidence and not as expected value. Equation: net surplus (GBP per event) = (ticket price − variable cost per attendee) × paying attendees − fixed event cost. Whole-attendee break-even = ceil(fixed cost ÷ contribution per attendee) when contribution is positive. Linked model workshop_illustration uses invented inputs only: attendees 12 in every price scenario; fixed cost £204; variable cost £7; ticket prices £18 / £24 / £30 as low/base/high sensitivity alternatives with no probabilities. Conditional hand calculation under those inputs: contribution £11 / £17 / £23; surplus −£72 / £0 / +£72; break-even 19 / 12 / 9 whole attendees. These figures are teaching assumptions, not forecasts for the bookshop.",
+      "relation": {
+        "type": "part-of",
+        "label": "Conditional workshop economics"
+      }
+    },
+    {
+      "id": "ws_fixed_cost",
+      "parentId": "workshop_economics",
+      "label": "Fixed cost £204 per event",
+      "kind": "metric",
+      "status": "open",
+      "notes": "Invented illustrative fixed cost for the worked exercise (£204 in every price scenario). Cancellation treatment, materials beyond the stated variable cost, and extra staff cost are not established.",
+      "relation": {
+        "type": "calculated-from",
+        "label": "Subtract fixed cost"
+      }
+    },
+    {
+      "id": "ws_contribution",
+      "parentId": "workshop_economics",
+      "label": "Contribution per attendee",
+      "kind": "metric",
+      "status": "open",
+      "notes": "Contribution = ticket price − £7 variable cost. At the three invented prices: £11, £17, £23. Fixed cost is deducted separately in the net equation.",
+      "relation": {
+        "type": "calculated-from",
+        "label": "Multiply by attendees"
+      }
+    },
+    {
+      "id": "ws_price",
+      "parentId": "ws_contribution",
+      "label": "Ticket price scenarios",
+      "kind": "metric",
+      "status": "open",
+      "notes": "Invented sensitivity alternatives £18 (low), £24 (base), £30 (high). Not a probability distribution; attendance is held fixed in the model and is not adjusted for price. Scenario results are conditional surplus figures, not expected values.",
+      "relation": {
+        "type": "calculated-from",
+        "label": "Price input"
+      }
+    },
+    {
+      "id": "ws_variable_cost",
+      "parentId": "ws_contribution",
+      "label": "Variable cost £7 per attendee",
+      "kind": "metric",
+      "status": "open",
+      "notes": "Invented illustrative variable cost, assumed constant over the modelled attendance range.",
+      "relation": {
+        "type": "calculated-from",
+        "label": "Minus variable cost"
+      }
+    },
+    {
+      "id": "ws_attendees",
+      "parentId": "workshop_economics",
+      "label": "Assumed 12 paying attendees",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Invented attendance held constant across price scenarios to isolate price arithmetic. Not evidence that twelve people will book. Demand remains a separate hypothesis.",
+      "relation": {
+        "type": "calculated-from",
+        "label": "Attendance input"
+      }
+    },
+    {
+      "id": "workshop_staffing",
+      "parentId": "workshops",
+      "label": "Fits five spare hours weekly?",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Constraint implication under this option: preparation, hosting, tidy-down and follow-up must fit one employee's five spare hours per week. No timetable or measured prep time is available. Unknown whether a viable workshop cadence fits the limit.",
+      "relation": {
+        "type": "part-of",
+        "label": "Staffing constraint under this option"
+      }
+    },
+    {
+      "id": "wtp_hypothesis",
+      "parentId": "workshops",
+      "label": "Enough people would pay a viable price",
+      "kind": "hypothesis",
+      "method": "hypothesis",
+      "status": "uncertain",
+      "notes": "Provisional claim required for workshops if income matters: enough customers would pay a ticket price that covers relevant costs within staffing and room constraints. Competing explanations for weak results could include topic fit, timing, awareness, or price. The linked fictional model does not test this claim. Status remains uncertain until discriminating evidence exists. Demand remains unknown.",
+      "relation": {
+        "type": "part-of",
+        "label": "Demand hypothesis for workshops"
+      }
+    },
+    {
+      "id": "wtp_evidence_check",
+      "parentId": "wtp_hypothesis",
+      "label": "Inspect willingness to pay",
+      "kind": "test",
+      "status": "open",
+      "notes": "Evidence that would change the workshop choice: paid deposits or confirmed bookings at a stated price and date; clear refusals or non-response at that price; or credible comparable local paid-repair attendance at similar prices. Stated interest without purchase commitment would remain weak. Absence of any paying signal would challenge the hypothesis and, if income is the governing priority, would weigh against relying on workshops alone relative to storage, a non-paid reading room, or a combined package. No owner or deadline is assigned.",
+      "relation": {
+        "type": "tests",
+        "label": "Willingness-to-pay investigation"
+      }
+    },
+    {
+      "id": "reading_room",
+      "parentId": "room_use",
+      "label": "Quiet reading room",
+      "kind": "option",
+      "status": "open",
+      "notes": "Proposed means: open the spare room as a quiet reading space. Skews toward community benefit unless a separate charge or spend uplift is later evidenced. Still consumes staffing for supervision and set-up within the five-hour spare capacity. Proposed alternative only—not a recommendation. No customer research on use or value is available. May also appear inside a combined or sequenced package.",
+      "relation": {
+        "type": "idea",
+        "label": "Stated room-use possibility"
+      }
+    },
+    {
+      "id": "reading_community",
+      "parentId": "reading_room",
+      "label": "Community presence without a ticket",
+      "kind": "outcome",
+      "method": "solution",
+      "status": "uncertain",
+      "notes": "Desired end explored under this option: community presence without requiring a paid ticket. If community benefit is later ranked above near-term income, this outcome may matter more than workshop surplus under invented inputs. Ranking remains undecided. Solution means that might achieve this outcome hang beneath it.",
+      "relation": {
+        "type": "part-of",
+        "label": "Outcome sought under this option"
+      }
+    },
+    {
+      "id": "reading_mechanism",
+      "parentId": "reading_community",
+      "label": "How a reading room could help",
+      "kind": "solution",
+      "status": "open",
+      "notes": "Possible means toward community presence: a calm in-shop space increases dwell time and perceived hospitality, which might strengthen community ties and optionally support browse-to-purchase. Assumptions unverified: local demand for quiet space; supervision fits five spare hours; any sales uplift actually materialises. Counterpoint: room use might displace storage value without measurable community or income gain.",
+      "relation": {
+        "type": "could-achieve",
+        "label": "Possible means"
+      }
+    },
+    {
+      "id": "reading_staffing",
+      "parentId": "reading_room",
+      "label": "Supervision within five hours",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Constraint implication under this option: opening hours, tidying and light supervision must fit the same five spare hours. Coverage pattern unknown.",
+      "relation": {
+        "type": "part-of",
+        "label": "Staffing constraint under this option"
+      }
+    },
+    {
+      "id": "storage",
+      "parentId": "room_use",
+      "label": "Keep as storage",
+      "kind": "option",
+      "status": "open",
+      "notes": "Proposed means: leave the room as storage for the three months—or retain storage alongside limited other uses if exclusivity is not assumed. Preserves operational buffer and avoids new programme load on the five spare hours. Forgoes workshop income experiments and reading-room community presence to the extent the room stays storage-only. Remains a valid no-action-style alternative. Proposed alternative only—not a recommendation.",
+      "relation": {
+        "type": "idea",
+        "label": "Stated room-use possibility"
+      }
+    },
+    {
+      "id": "storage_option_value",
+      "parentId": "storage",
+      "label": "Preserve space and staff capacity",
+      "kind": "assumption",
+      "status": "open",
+      "notes": "Keeping storage avoids committing scarce hours and an unbudgeted fit-out while priorities and demand are unknown. Reconsider if confirmed paying demand appears, community use is clearly prioritised, or storage need falls. No evidence yet forces leaving storage.",
+      "relation": {
+        "type": "part-of",
+        "label": "Option-value rationale"
+      }
+    },
+    {
+      "id": "storage_tradeoff",
+      "parentId": "storage",
+      "label": "Forgoes trial of other uses",
+      "kind": "assumption",
+      "status": "open",
+      "notes": "Opportunity cost: three months of workshops or reading-room learning would not occur if the room stays storage-only. Material only if those trials could answer a priority the owner later adopts. Not a reason to reject storage by itself; partial combinations may reduce this trade-off.",
+      "relation": {
+        "type": "challenges",
+        "label": "Opportunity-cost counterpoint"
+      }
+    },
+    {
+      "id": "combined_uses",
+      "parentId": "room_use",
+      "label": "Combine or sequence uses",
+      "kind": "option",
+      "status": "open",
+      "notes": "Open package: use more than one stated possibility within the three months (for example workshops on selected days and reading room at other times, or storage plus a limited trial). Left open because exclusive full-period use was not established by the prompt. Still bounded by five spare staff-hours, unknown demand, and undecided income vs community priority. Proposed alternative only—not a recommendation.",
+      "relation": {
+        "type": "idea",
+        "label": "Combinations remain open"
+      }
+    }
+  ],
+  "decision": {
+    "recommendation": "",
+    "rationale": "Recommendation explicitly deferred. Income versus community benefit is undecided; demand, budget and customer research are absent; exclusive full-period room use is only a provisional scope assumption; the workshop Numbers model is fictional conditional arithmetic only and does not establish paying attendance or an expected value.",
+    "uncertainties": [
+      "Whether income or community benefit should govern the three-month choice.",
+      "Whether anyone would pay a viable workshop price (no observed demand).",
+      "Whether preparation and hosting fit five spare staff-hours per week.",
+      "Whether a confirmed budget exists for fit-out, materials or promotion.",
+      "Whether a quiet reading room would be used or valued locally.",
+      "Whether room use should be exclusive for the full period or combined/sequenced within it."
+    ],
+    "nextSteps": [
+      "Decide or defer the income-versus-community priority that should govern comparison.",
+      "Confirm whether exclusive full-period use is required or whether combinations stay in scope.",
+      "If workshops remain in play for income, gather willingness-to-pay evidence at a stated price before treating conditional model surplus as actionable.",
+      "Keep storage and combined packages available while those unknowns remain."
+    ]
+  },
+  "analysis": {
+    "models": [
+      {
+        "id": "workshop_illustration",
+        "title": "Workshop price sensitivity · fictional inputs",
+        "nodeId": "workshop_economics",
+        "description": "Worked exercise only. Attendance fixed at an assumed twelve paying people in every scenario. Ticket price varies across £18 / £24 / £30 as low/base/high sensitivity alternatives with no assigned probabilities. Fixed cost £204 and variable cost £7 per attendee are invented. Results illustrate conditional surplus and whole-attendee break-even under these assumptions; they are not expected values, evidence of bookshop demand, price elasticity, or a decision to run workshops.",
+        "variables": [
+          {
+            "id": "attendees",
+            "label": "Paying attendees",
+            "unit": "people per event",
+            "basis": "Fictional illustrative assumption supplied for the exercise: twelve paying attendees in every price scenario. No demand evidence.",
+            "values": {
+              "low": 12,
+              "base": 12,
+              "high": 12
+            }
+          },
+          {
+            "id": "fixed_cost",
+            "label": "Fixed event cost",
+            "unit": "GBP per event",
+            "basis": "Fictional illustrative fixed cost of GBP204 in every scenario, supplied for the exercise. Completeness of real costs is unknown.",
+            "values": {
+              "low": 204,
+              "base": 204,
+              "high": 204
+            }
+          },
+          {
+            "id": "variable_cost",
+            "label": "Variable cost per attendee",
+            "unit": "GBP per person",
+            "basis": "Fictional illustrative variable cost supplied for the exercise; assumed constant over the modelled range.",
+            "values": {
+              "low": 7,
+              "base": 7,
+              "high": 7
+            }
+          },
+          {
+            "id": "price",
+            "label": "Ticket price",
+            "unit": "GBP per person",
+            "basis": "Fictional price alternatives for sensitivity only (£18 low, £24 base, £30 high). Not a probability distribution; attendance is not varied with price in this model. Outputs are conditional results, not expected values.",
+            "values": {
+              "low": 18,
+              "base": 24,
+              "high": 30
+            }
+          },
+          {
+            "id": "contribution",
+            "label": "Contribution per attendee",
+            "unit": "GBP per person",
+            "basis": "Ticket price minus variable cost; fixed cost deducted in net surplus.",
+            "formula": "price - variable_cost"
+          },
+          {
+            "id": "surplus",
+            "label": "Net event surplus",
+            "unit": "GBP per event",
+            "basis": "Assumed attendance × contribution − fixed cost. Conditional teaching result under stated inputs only; not an expected value because no probabilities are assigned.",
+            "formula": "attendees * contribution - fixed_cost"
+          },
+          {
+            "id": "break_even",
+            "label": "Whole-attendee break-even",
+            "unit": "people per event",
+            "basis": "Ceiling of fixed cost divided by positive contribution. Threshold only; not evidence that that many people will book.",
+            "formula": "ceil(fixed_cost / contribution)"
+          }
+        ],
+        "outputId": "surplus"
+      }
+    ],
+    "workplan": [
+      {
+        "id": "investigate_wtp",
+        "nodeId": "wtp_hypothesis",
+        "title": "Investigate willingness to pay for repair workshops",
+        "analysis": "Test whether enough people would pay a stated viable ticket price for a repair workshop in this room within the three-month window and five-hour staffing limit. Keep the fictional conditional surplus model separate from any demand finding.",
+        "evidenceNeeded": "Paid deposits or confirmed bookings at a stated price and date; or clear non-purchase at that price; optionally comparable local paid-repair attendance at similar prices. Distinguish stated interest from purchase commitment.",
+        "source": "Not supplied. No booking records, surveys or customer research are available in this fictional case.",
+        "priorityReason": "If income is later prioritised, willingness to pay can reverse the workshop option even when fictional arithmetic shows a non-negative conditional surplus at twelve attendees. If community benefit is prioritised instead, this investigation may matter less than reading-room evidence.",
+        "owner": "",
+        "dueDate": "",
+        "status": "open",
+        "finding": "",
+        "limitations": "No owner or deadline assigned. Completing or skipping this task does not by itself support or reject the hypothesis, and does not create a room-use recommendation. Demand remains unknown."
+      }
+    ],
+    "brief": {
+      "situation": "A fictional bookshop has a spare room for three months, five spare staff-hours per week, and stated uses including paid repair workshops, a quiet reading room, and storage. Income versus community benefit is undecided. Demand, budget and customer research are missing. Exclusive full-period use is only a provisional scope assumption.",
+      "complication": "Workshop economics can be illustrated with supplied fictional inputs, but those figures are conditional arithmetic—not demand evidence and not expected value without probabilities. Shared constraints must not be mistaken for additional room-use choices. Combinations remain open. A recommendation would overreach the unknowns.",
+      "answer": "Recommendation deferred. Keep the stated uses and combined/sequenced packages open until the governing priority is set, scope exclusivity is confirmed or dropped, and material evidence—especially willingness to pay if workshops are pursued for income—is obtained. The linked model is a worked conditional arithmetic illustration only.",
+      "sections": [
+        {
+          "id": "structure_claim",
+          "claim": "The map keeps stated room uses and open combinations; shared constraints sit in context.",
+          "body": "Root exploration includes paid repair workshops, quiet reading room, keep as storage, an explicit combine-or-sequence package, and a provisional exclusive-full-period-use assumption. Staffing limit, undecided income/community priority, and evidence gaps are recorded in context and under each option where they apply, so they do not compete as extra room-use categories.",
+          "nodeIds": [
+            "room_use",
+            "scope_exclusive",
+            "workshops",
+            "reading_room",
+            "storage",
+            "combined_uses"
+          ],
+          "sourceIds": [],
+          "modelRefs": []
+        },
+        {
+          "id": "model_claim",
+          "claim": "Under the supplied fictional inputs, base price breaks even at twelve attendees with zero conditional surplus.",
+          "body": "With twelve assumed attendees, £204 fixed cost and £7 variable cost, ticket prices £18 / £24 / £30 yield conditional net surplus −£72 / £0 / +£72 and whole-attendee break-even 19 / 12 / 9. These are teaching results under stated inputs only. They are not expected values: no probabilities were supplied. They do not establish that twelve people will pay.",
+          "nodeIds": [
+            "workshop_economics",
+            "ws_contribution",
+            "ws_attendees",
+            "ws_fixed_cost"
+          ],
+          "sourceIds": [],
+          "modelRefs": [
+            {
+              "modelId": "workshop_illustration",
+              "variableId": "surplus",
+              "scenario": "low"
+            },
+            {
+              "modelId": "workshop_illustration",
+              "variableId": "surplus",
+              "scenario": "base"
+            },
+            {
+              "modelId": "workshop_illustration",
+              "variableId": "surplus",
+              "scenario": "high"
+            },
+            {
+              "modelId": "workshop_illustration",
+              "variableId": "break_even",
+              "scenario": "low"
+            },
+            {
+              "modelId": "workshop_illustration",
+              "variableId": "break_even",
+              "scenario": "base"
+            },
+            {
+              "modelId": "workshop_illustration",
+              "variableId": "break_even",
+              "scenario": "high"
+            }
+          ]
+        },
+        {
+          "id": "demand_claim",
+          "claim": "Willingness to pay remains an open hypothesis that could change the workshop choice.",
+          "body": "An open workplan item is linked to the paying-demand hypothesis. Evidence that would change the choice includes confirmed paid bookings at a stated price, or clear absence of purchase at that price. No owner or deadline is invented. Until such evidence exists—and until income versus community priority and exclusivity scope are set—the room-use recommendation stays deferred. Demand remains unknown.",
+          "nodeIds": [
+            "wtp_hypothesis",
+            "wtp_evidence_check"
+          ],
+          "sourceIds": [],
+          "modelRefs": []
+        }
+      ],
+      "basedOnRevision": 1
+    }
+  }
+}

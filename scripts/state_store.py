@@ -9,6 +9,7 @@ from contextlib import contextmanager
 from datetime import date, datetime
 from pathlib import Path
 from urllib.parse import urlsplit
+from analysis import InvalidAnalysis, validate_analysis
 
 KINDS = {"question", "option", "criterion", "evidence", "assumption", "action",
          "hypothesis", "metric", "objective", "solution", "outcome", "test", "chance", "claim"}
@@ -96,7 +97,7 @@ def validate(state):
     if not isinstance(state, dict):
         raise InvalidState("State must be an object.")
     required = {"schemaVersion", "revision", "title", "question", "context", "nextQuestion", "nodes", "decision"}
-    if not required <= set(state) or set(state) - required - {"sources", "problem"}:
+    if not required <= set(state) or set(state) - required - {"sources", "problem", "analysis"}:
         raise InvalidState("State must contain only the documented top-level fields.")
     if type(state["schemaVersion"]) is not int or state["schemaVersion"] != 1:
         raise InvalidState("Unsupported schemaVersion; expected 1.")
@@ -187,6 +188,14 @@ def validate(state):
     for field in ("uncertainties", "nextSteps"):
         if not isinstance(decision[field], list) or len(decision[field]) > 100 or any(not isinstance(s, str) or len(s) > 10000 for s in decision[field]):
             raise InvalidState(f"Decision {field} must be an array of short strings.")
+    if "analysis" in state:
+        try:
+            validate_analysis(state["analysis"], set(by_id), set(sources))
+        except InvalidAnalysis as error:
+            raise InvalidState(str(error)) from None
+        brief = state["analysis"].get("brief")
+        if brief and brief["basedOnRevision"] > state["revision"]:
+            raise InvalidState("Brief basedOnRevision cannot refer to a future session revision.")
     if len(json.dumps(state, ensure_ascii=False).encode("utf-8")) > MAX_BYTES:
         raise InvalidState("The session is too large.")
     return state
@@ -238,6 +247,9 @@ def update(session, proposed, expected):
         current = read_state(folder)
         if current["revision"] != expected:
             raise Conflict(current)
+        brief = proposed.get("analysis", {}).get("brief")
+        if brief and brief["basedOnRevision"] > current["revision"]:
+            raise InvalidState("Brief basedOnRevision must refer to a revision already read, not a future save.")
         saved = copy.deepcopy(proposed)
         saved["revision"] = current["revision"] + 1
         atomic_write(folder, saved)

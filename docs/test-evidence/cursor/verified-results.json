@@ -1,0 +1,59 @@
+{
+  "checkedAt": "2026-09-10T10:09:07.502342+00:00",
+  "artifact": "follow-up.json",
+  "source": "reader-edited.json",
+  "artifactSha256": "c1943a5bb8be6d55c3d6c964356aefbcd0943980c13ee6af436f438d06af0364",
+  "schemaValidation": "pass",
+  "revision": 1,
+  "briefBasedOnRevision": 1,
+  "briefStale": false,
+  "modelId": "workshop_illustration",
+  "scenarios": [
+    "low",
+    "base",
+    "high"
+  ],
+  "fixedCost": {
+    "low": 204.0,
+    "base": 204.0,
+    "high": 204.0
+  },
+  "surplus": [
+    -72.0,
+    0.0,
+    72.0
+  ],
+  "wholeAttendeeBreakEven": [
+    19.0,
+    12.0,
+    9.0
+  ],
+  "calculationErrors": [],
+  "independentArithmetic": "pass",
+  "reviewerNotePreservedExactly": "Reviewer edit: workshops must finish by 18:00.",
+  "entireWorkshopsNotesPreservedExactly": true,
+  "existingNodeIdsPreserved": true,
+  "addedNodeIds": [
+    "combined_uses",
+    "scope_exclusive"
+  ],
+  "modelVariableWorkplanBriefSectionIdsPreserved": true,
+  "stalePriorResultMatches": [],
+  "fidelity": {
+    "recommendationDeferred": true,
+    "demandUncertain": true,
+    "noInventedProbabilities": true,
+    "solutionDirectionCorrected": true,
+    "exclusiveScopeProvisional": true,
+    "combinationsOpen": true,
+    "conditionalArithmeticClearlyLabelled": true
+  },
+  "observations": [
+    "The provisional scope assumption is a labelled root sibling alongside room-use possibilities; keeping scope in context would make the visual categories cleaner. It is no longer presented as a proven MECE partition.",
+    "The 18:00 reviewer note is preserved verbatim in workshop notes but is not repeated in the staffing inquiry or workplan."
+  ],
+  "limits": [
+    "Verified the file handoff and Python schema/calculation runtime only. No UI, canonical revision-aware session write, or export performed in this check. Cursor reports command execution was blocked; this does not establish an end-to-end Cursor runtime pass."
+  ],
+  "inputsUnchanged": true
+}
