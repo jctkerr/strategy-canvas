@@ -1,6 +1,7 @@
 """Regression tests for the portable runtime; no third-party dependencies."""
 import copy
 import http.client
+import http.server
 import json
 import selectors
 import subprocess
@@ -17,6 +18,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import export_state
 import render_state
+import serve
 import state_store
 
 
@@ -284,6 +286,20 @@ def stop_process(process):
             stream.close()
 
 
+class HTTPServerTests(unittest.TestCase):
+    def test_loopback_binding_does_not_require_reverse_dns(self):
+        # Some macOS Python builds spend over 30 seconds resolving numeric
+        # loopback addresses. Binding the local canvas must not need DNS.
+        for module in (serve, export_state):
+            with self.subTest(module=module.__name__):
+                with patch("socket.getfqdn", side_effect=AssertionError("Unexpected DNS lookup")):
+                    with module.LoopbackHTTPServer(("127.0.0.1", 0), http.server.BaseHTTPRequestHandler) as server:
+                        self.assertEqual(server.server_address[0], "127.0.0.1")
+                        self.assertEqual(server.server_name, "127.0.0.1")
+                        self.assertEqual(server.server_port, server.server_address[1])
+                        self.assertGreater(server.server_port, 0)
+
+
 class HTTPTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
@@ -299,9 +315,16 @@ class HTTPTests(unittest.TestCase):
         self.addCleanup(stop_process, process)
         with selectors.DefaultSelector() as selector:
             selector.register(process.stdout, selectors.EVENT_READ)
-            self.assertTrue(selector.select(timeout=10), "Server did not announce its loopback address")
+            if not selector.select(timeout=10):
+                log.seek(0)
+                self.fail("Server did not announce its loopback address within 10 seconds. "
+                          f"Exit code: {process.poll()!r}. Stderr: "
+                          + log.read().decode("utf-8", errors="replace"))
             banner = process.stdout.readline().strip()
-        self.assertTrue(banner.startswith("Strategy Canvas ready: http://127.0.0.1:"), banner)
+        if not banner.startswith("Strategy Canvas ready: http://127.0.0.1:"):
+            log.seek(0)
+            self.fail(f"Unexpected server output: {banner!r}. Exit code: {process.poll()!r}. Stderr: "
+                      + log.read().decode("utf-8", errors="replace"))
         self.port = int(banner.rsplit(":", 1)[1])
         self.origin = "http://127.0.0.1:" + str(self.port)
 

@@ -2,10 +2,11 @@
 """Serve one strategy canvas session on loopback only."""
 import argparse
 import json
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from http.server import BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlparse
 
+from loopback_server import LoopbackHTTPServer
 from render_state import html_document
 from state_store import Conflict, InvalidState, MAX_BYTES, initialise, read_state, update
 
@@ -92,7 +93,7 @@ def main():
             except OSError as error:
                 self.json_reply(500, {"error": str(error)})
 
-    server = ThreadingHTTPServer(("127.0.0.1", args.port), Handler)
+    server = LoopbackHTTPServer(("127.0.0.1", args.port), Handler)
     print(f"Strategy Canvas ready: http://127.0.0.1:{server.server_port}", flush=True)
     print(f"Session: {args.session}", flush=True)
     try:

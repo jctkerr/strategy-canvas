@@ -5,10 +5,11 @@ import json
 import os
 import sys
 import tempfile
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from http.server import BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlparse
 
+from loopback_server import LoopbackHTTPServer
 from render_state import html_document, svg_document
 from state_store import InvalidState, read_state, session_lock
 
@@ -80,7 +81,7 @@ def preview(files, port):
             self.end_headers()
             self.wfile.write(data)
 
-    server = ThreadingHTTPServer(("127.0.0.1", port), Handler)
+    server = LoopbackHTTPServer(("127.0.0.1", port), Handler)
     print(f"Saved tree preview: http://127.0.0.1:{server.server_port}", flush=True)
     try:
         server.serve_forever()
