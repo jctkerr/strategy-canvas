@@ -74,14 +74,69 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     assert.equal(await page.locator('#method-choice').isVisible(),false);
     const chooser=await page.locator('#approach-panel').boundingBox();
     assert.ok(chooser.height<650,'The default chooser should fit without a long explanatory page');
+    assert.equal(await page.locator('#approach-panel').evaluate(el=>el.tagName),'SECTION');
+    assert.equal(await page.locator('#approach-panel').getAttribute('role'),'region');
+    assert.equal(await page.locator('dialog[open], [aria-modal="true"]:visible').count(),0,'The chooser must not make the canvas modal');
+    const anchor=await card(page,'a').locator('.node-type').boundingBox();
+    assert.ok(Math.abs(chooser.x-anchor.x)<350 && Math.abs(chooser.y-anchor.y)<chooser.height+50,'Chooser stays beside its branch control');
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('#approach-panel').isHidden(),true);
+    assert.equal(await card(page,'a').locator('.node-type').evaluate(el=>el===document.activeElement),true,'Escape returns focus to the branch control');
+    assert.deepEqual(await read(),beforeToggle,'Escape must not save any change');
+    await card(page,'a').locator('.node-type').click();
+    await page.locator('#question').click();
+    assert.equal(await page.locator('#approach-panel').isHidden(),true,'Clicking the canvas outside dismisses the chooser');
+    assert.deepEqual(await read(),beforeToggle,'Outside dismissal must not save any change');
+    checks.push('The branch chooser is anchored and nonmodal; Escape returns focus and outside dismissal writes nothing.');
+    await card(page,'a').locator('.node-type').click();
     assert.ok((await page.locator('#approach-panel').innerText()).trim().split(/\s+/).length<150,'Default chooser copy remains brief');
-    await page.locator('#method-tasks [data-method="hypothesis"]').click();
-    assert.deepEqual(await read(),beforeToggle,'Choosing previews until Use type');
-    const changed=await saved(page,'#method-apply');
+    const changed=await saved(page,'#method-tasks [data-method="hypothesis"]');
+    await page.locator('#approach-panel').waitFor({state:'hidden'});
     assert.equal(changed.nodes.find(n=>n.id==='a').method,'hypothesis');
     assert.equal(changed.nodes.find(n=>n.id==='root').method,'issue');
     assert.equal(changed.nodes.find(n=>n.id==='child').method,'driver');
-    checks.push('A compact nine-choice picker targets the selected branch and preserves deeper overrides.');
+    checks.push('One click applies a type to the selected branch, closes the chooser and preserves deeper overrides.');
+
+    const beforePending=await read();
+    let releaseResponse, responseHeld;
+    const responseGate=new Promise(resolve=>{releaseResponse=resolve;});
+    const held=new Promise(resolve=>{responseHeld=resolve;});
+    const holdTypeSave=async route=>{
+      if(route.request().method()!=='PUT')return route.continue();
+      const response=await route.fetch();
+      responseHeld();
+      await responseGate;
+      await route.fulfill({response});
+    };
+    await page.route('**/api/state',holdTypeSave);
+    try {
+      await card(page,'a').locator('.node-type').click();
+      const response=page.waitForResponse(r=>r.url().endsWith('/api/state')&&r.request().method()==='PUT');
+      await page.locator('#method-tasks [data-method="solution"]').click();
+      await Promise.race([held,new Promise((_,reject)=>setTimeout(()=>reject(Error('Type save did not reach the held response')),10000))]);
+      assert.equal(await page.locator('#edit-form').evaluate(el=>el.inert),true,'The visible editor must pause during the type save');
+      await card(page,'b').click();
+      await card(page,'root').locator('.node-add').click();
+      assert.equal(await page.locator('.tree-node[aria-pressed="true"]').getAttribute('data-id'),'a','Pending save cannot switch the edit target or start an Add draft');
+      await page.locator('#label').focus();
+      assert.equal(await page.locator('#label').evaluate(el=>el===document.activeElement),false,'An inert editor cannot accept focus while the response is pending');
+      await page.keyboard.type('This input must not replace the thought');
+      assert.equal(await page.locator('#label').inputValue(),beforePending.nodes.find(n=>n.id==='a').label);
+      const pendingState=await read(), expectedPending=structuredClone(beforePending);
+      expectedPending.revision+=1; expectedPending.nodes.find(n=>n.id==='a').method='solution';
+      assert.deepEqual(pendingState,expectedPending,'Only the selected type save can reach storage while the response is held');
+      releaseResponse();
+      assert.equal((await response).status(),200);
+      await page.waitForFunction(()=>!document.querySelector('#edit-form').inert);
+      await page.locator('#label').fill('Wording edited after the type save');
+      const resumed=await saved(page);
+      assert.equal(resumed.nodes.find(n=>n.id==='a').label,'Wording edited after the type save');
+      assert.equal(resumed.nodes.find(n=>n.id==='a').notes,beforePending.nodes.find(n=>n.id==='a').notes);
+    } finally {
+      releaseResponse();
+      await page.unroute('**/api/state',holdTypeSave);
+    }
+    checks.push('A delayed type save pauses selection and editing; after it finishes, fresh wording saves with hidden notes preserved.');
 
     await page.locator('#label').fill('Unsaved local wording');
     const external=await read(); external.nodes.find(n=>n.id==='a').notes='New notes from another editor.'; await put(external);
@@ -119,7 +174,10 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     const box=await page.locator('#approach-panel').boundingBox();
     assert.ok(box.x>=0&&box.y>=0&&box.x+box.width<=391&&box.y+box.height<=845);
     await page.screenshot({path:path.join(output,'mobile-tree-types.png')});
-    await page.keyboard.press('Escape'); await closeEditor(page);
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('#approach-panel').isHidden(),true);
+    assert.equal(await card(page,'a').locator('.node-type').evaluate(el=>el===document.activeElement),true);
+    await closeEditor(page);
     await page.setViewportSize({width:1400,height:950}); await page.locator('#fit').click();
     await page.screenshot({path:path.join(output,'direct-canvas.png')});
     await card(page,'a').click(); await card(page,'a').locator('.node-type').click();

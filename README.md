@@ -42,7 +42,7 @@ Start on the tree. **Quick start** and **How to use** are available when you wan
 2. **Explore and challenge.** Ask about one branch, click a thought to edit it, or use its **+** to add beneath it. The agent should build on your latest edits.
 3. **Keep what you learn.** Ask for a complete HTML export, or use **Export** in the canvas. You can pause with open alternatives or compare them when ready.
 
-Select a card and choose **Tree type** to change how that branch develops. Pick a type, then apply it. **Example & help** holds the explanation and source; different branches can use different types.
+Click **Tree type** on a card to open a small menu beside it. Choose once to save; **Undo** reverses the change. Children follow that type until a branch sets its own. **Example & help** holds the explanation and source.
 
 **Analysis** keeps the next steps alongside the tree:
 

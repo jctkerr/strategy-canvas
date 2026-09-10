@@ -11,8 +11,10 @@ const origin = url.replace(/\/$/, '');
 const results = [];
 const copy = value => JSON.parse(JSON.stringify(value));
 async function chooseMethod(page, method) {
+  const pending=page.waitForResponse(r=>r.url().endsWith('/api/state') && r.request().method()==='PUT');
   await page.locator('#method-tasks button[data-method="' + method + '"]').click();
-  assert.equal(await page.locator('#method-tasks button[aria-pressed="true"]').getAttribute('data-method'), method);
+  assert.equal((await pending).status(),200);
+  await page.locator('#approach-panel').waitFor({state:'hidden'});
 }
 async function showMethodHelp(page) {
   const details = page.locator('#method-help');
@@ -104,7 +106,6 @@ async function download(page, format, name) {
     const beforeMethod=await read();
     await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
     await chooseMethod(page, 'driver');
-    await page.locator('#method-apply').click();
     await page.locator('#approach-panel').waitFor({state:'hidden'});
     const changedMethod=await read();
     const expectedMethod=copy(beforeMethod);expectedMethod.nodes[0].method='driver';expectedMethod.revision+=1;
