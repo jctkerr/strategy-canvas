@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "revision": 6,
+  "title": "Fictional bookshop \u00b7 shared manual and agent trial",
+  "question": "Could paid workshops earn extra income for our bookshop next quarter?",
+  "context": "Fictional usability trial only. A bookshop is considering paid workshops next quarter. Five staff-hours a week are available; demand and budget are unknown. No empirical claims or recommendation.",
+  "nextQuestion": "What would count as enough extra contribution to make a workshop worth the effort?",
+  "nodes": [
+    {
+      "id": "root",
+      "parentId": null,
+      "label": "Could paid workshops be worthwhile?",
+      "kind": "question",
+      "status": "open",
+      "notes": "Initial issue tree: willingness to pay, incremental economics, and operational feasibility. These are decision conditions, not a claim of statistical independence or an exhaustive causal partition. Demand influences revenue; staffing influences costs.",
+      "method": "issue"
+    },
+    {
+      "id": "thought-cab9976d-dd23-49d0-9724-24826874db85",
+      "parentId": "root",
+      "label": "Would local readers actually pay to attend?",
+      "kind": "question",
+      "status": "open",
+      "notes": "",
+      "relation": {
+        "type": "part-of"
+      }
+    },
+    {
+      "status": "open",
+      "notes": "",
+      "id": "economics",
+      "parentId": "root",
+      "label": "Would revenue cover the extra costs?",
+      "kind": "question",
+      "relation": {
+        "type": "part-of"
+      }
+    },
+    {
+      "status": "open",
+      "notes": "",
+      "id": "capacity",
+      "parentId": "root",
+      "label": "Can it fit within five staff-hours a week?",
+      "kind": "question",
+      "relation": {
+        "type": "part-of"
+      }
+    },
+    {
+      "status": "open",
+      "notes": "For next quarter, extra contribution (GBP) = workshop ticket revenue (GBP) minus avoidable extra workshop costs (GBP). All inputs are unknown. Existing shop rent is excluded unless workshops change it; staff time and displaced shop activity need explicit treatment.",
+      "id": "contribution",
+      "parentId": "economics",
+      "label": "Extra contribution",
+      "kind": "metric",
+      "relation": {
+        "type": "part-of"
+      },
+      "method": "driver"
+    },
+    {
+      "status": "open",
+      "notes": "Add workshop ticket revenue in GBP over the quarter. No attendance or price is assumed.",
+      "id": "revenue",
+      "parentId": "contribution",
+      "label": "Ticket revenue",
+      "kind": "metric",
+      "relation": {
+        "type": "calculated-from"
+      }
+    },
+    {
+      "status": "open",
+      "notes": "Subtract extra costs attributable to workshops over the quarter, in GBP. Include setup and delivery; avoid counting the same staff cost twice.",
+      "id": "costs",
+      "parentId": "contribution",
+      "label": "Avoidable extra costs",
+      "kind": "metric",
+      "relation": {
+        "type": "calculated-from"
+      }
+    },
+    {
+      "status": "uncertain",
+      "notes": "Proposed explanation of potential demand, not a fact. Topic, audience, price and booking commitment need to be specified. A waitlist alone would not establish willingness to pay.",
+      "id": "demand-hypothesis",
+      "parentId": "thought-cab9976d-dd23-49d0-9724-24826874db85",
+      "label": "A practical workshop could attract paying readers",
+      "kind": "hypothesis",
+      "relation": {
+        "type": "possible-cause"
+      },
+      "method": "hypothesis"
+    },
+    {
+      "status": "open",
+      "notes": "Proposed research task only: first inspect any relevant existing booking evidence. If inadequate, ask prospective readers about a concrete workshop and price; distinguish interest from paid commitment. No research or event has been launched.",
+      "id": "booking-test",
+      "parentId": "demand-hypothesis",
+      "label": "Check interest at a stated price",
+      "kind": "test",
+      "relation": {
+        "type": "tests"
+      }
+    },
+    {
+      "status": "open",
+      "notes": "",
+      "id": "staff-hours",
+      "parentId": "capacity",
+      "label": "How much prep, delivery and cleanup time?",
+      "kind": "question",
+      "relation": {
+        "type": "part-of"
+      }
+    }
+  ],
+  "decision": {
+    "recommendation": "",
+    "rationale": "",
+    "uncertainties": [],
+    "nextSteps": []
+  },
+  "problem": {
+    "situation": "A fictional bookshop is considering paid workshops. Demand and budget are unknown.",
+    "desiredChange": "Earn extra contribution next quarter without disrupting the shop.",
+    "constraints": "At most five staff-hours per week; budget still to clarify."
+  }
+}

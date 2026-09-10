@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "revision": 3,
+  "title": "Could paid workshops earn extra income for our bookshop next quarter?",
+  "question": "Could paid workshops earn extra income for our bookshop next quarter?",
+  "context": "",
+  "nextQuestion": "",
+  "nodes": [
+    {
+      "id": "root",
+      "parentId": null,
+      "label": "Could paid workshops earn extra income for our bookshop next quarter?",
+      "kind": "question",
+      "status": "open",
+      "notes": "",
+      "method": "issue"
+    },
+    {
+      "id": "thought-cab9976d-dd23-49d0-9724-24826874db85",
+      "parentId": "root",
+      "label": "Would enough people pay to attend?",
+      "kind": "question",
+      "status": "open",
+      "notes": "",
+      "relation": {
+        "type": "part-of"
+      }
+    }
+  ],
+  "decision": {
+    "recommendation": "",
+    "rationale": "",
+    "uncertainties": [],
+    "nextSteps": []
+  }
+}

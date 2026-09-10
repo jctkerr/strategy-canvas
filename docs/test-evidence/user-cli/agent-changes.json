@@ -1,0 +1,92 @@
+{
+  "set": {
+    "title": "Fictional bookshop \u00b7 shared manual and agent trial",
+    "context": "Fictional usability trial only. A bookshop is considering paid workshops next quarter. Five staff-hours a week are available; demand and budget are unknown. No empirical claims or recommendation.",
+    "problem": {
+      "situation": "A fictional bookshop is considering paid workshops. Demand and budget are unknown.",
+      "desiredChange": "Earn extra contribution next quarter without disrupting the shop.",
+      "constraints": "At most five staff-hours per week; budget still to clarify."
+    },
+    "nextQuestion": "What would count as enough extra contribution to make a workshop worth the effort?"
+  },
+  "editNodes": [
+    {
+      "id": "root",
+      "label": "Could paid workshops be worthwhile?",
+      "notes": "Initial issue tree: willingness to pay, incremental economics, and operational feasibility. These are decision conditions, not a claim of statistical independence or an exhaustive causal partition. Demand influences revenue; staffing influences costs."
+    }
+  ],
+  "addNodes": [
+    {
+      "id": "economics",
+      "parentId": "root",
+      "label": "Would revenue cover the extra costs?",
+      "kind": "question",
+      "relation": {
+        "type": "part-of"
+      }
+    },
+    {
+      "id": "capacity",
+      "parentId": "root",
+      "label": "Can it fit within five staff-hours a week?",
+      "kind": "question",
+      "relation": {
+        "type": "part-of"
+      }
+    },
+    {
+      "id": "contribution",
+      "parentId": "economics",
+      "label": "Extra contribution",
+      "kind": "metric",
+      "relation": {
+        "type": "part-of"
+      },
+      "method": "driver",
+      "notes": "For next quarter, extra contribution (GBP) = workshop ticket revenue (GBP) minus avoidable extra workshop costs (GBP). All inputs are unknown. Existing shop rent is excluded unless workshops change it; staff time and displaced shop activity need explicit treatment."
+    },
+    {
+      "id": "revenue",
+      "parentId": "contribution",
+      "label": "Ticket revenue",
+      "kind": "metric",
+      "relation": {
+        "type": "calculated-from"
+      },
+      "notes": "Add workshop ticket revenue in GBP over the quarter. No attendance or price is assumed."
+    },
+    {
+      "id": "costs",
+      "parentId": "contribution",
+      "label": "Avoidable extra costs",
+      "kind": "metric",
+      "relation": {
+        "type": "calculated-from"
+      },
+      "notes": "Subtract extra costs attributable to workshops over the quarter, in GBP. Include setup and delivery; avoid counting the same staff cost twice."
+    },
+    {
+      "id": "demand-hypothesis",
+      "parentId": "thought-cab9976d-dd23-49d0-9724-24826874db85",
+      "label": "A practical workshop could attract paying readers",
+      "kind": "hypothesis",
+      "relation": {
+        "type": "possible-cause"
+      },
+      "method": "hypothesis",
+      "status": "uncertain",
+      "notes": "Proposed explanation of potential demand, not a fact. Topic, audience, price and booking commitment need to be specified. A waitlist alone would not establish willingness to pay."
+    },
+    {
+      "id": "booking-test",
+      "parentId": "demand-hypothesis",
+      "label": "Check interest at a stated price",
+      "kind": "test",
+      "relation": {
+        "type": "tests"
+      },
+      "notes": "Proposed research task only: first inspect any relevant existing booking evidence. If inadequate, ask prospective readers about a concrete workshop and price; distinguish interest from paid commitment. No research or event has been launched."
+    }
+  ]
+}

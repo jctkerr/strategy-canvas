@@ -144,7 +144,74 @@ Opening the peek closes the editing drawer, and opening Details closes the peek.
 
 ## Read and update
 
-`GET /api/state` returns the canonical state object. Read it before proposing an assistant edit so manual canvas changes are preserved.
+### Local CLI quick reference
+
+Prefer the bundled CLI when the agent can access the session's files. It saves compact changes through the same validated, revision-checked store as the live browser. It needs only the existing Python runtime; there is no dedicated Strategy Canvas MCP server to configure.
+
+Create a new session from the person's question, then read its full current state:
+
+```sh
+python3 /absolute/path/strategy-canvas/scripts/canvas.py \
+  --session /absolute/path/to/session init --question "Could a workshop be viable?"
+python3 /absolute/path/strategy-canvas/scripts/canvas.py \
+  --session /absolute/path/to/session show
+```
+
+This creates only a root question at revision 1, with no method, children or recommendation. For this fictional setup example, save the following as `changes.json` after reading the appropriate method recipe:
+
+```json
+{
+  "set": {"context": "Fictional example; demand and price are unknown."},
+  "editNodes": [{"id": "root", "method": "issue"}],
+  "addNodes": [{
+    "id": "demand",
+    "parentId": "root",
+    "label": "Would enough people pay?",
+    "kind": "question",
+    "relation": {"type": "part-of"}
+  }]
+}
+```
+
+Apply it using the revision returned by `show` (1 for this unchanged new session):
+
+```sh
+python3 /absolute/path/strategy-canvas/scripts/canvas.py \
+  --session /absolute/path/to/session apply \
+  --expected-revision 1 --changes /absolute/path/to/changes.json
+```
+
+Start the live preview separately, keeping that process running:
+
+```sh
+python3 /absolute/path/strategy-canvas/scripts/serve.py \
+  --session /absolute/path/to/session --port 0
+```
+
+Use the exact printed loopback URL. The browser sees subsequent accepted CLI edits in the same session. Creating or editing state alone does not start a server or open an in-app preview. Use the existing [export helper](#deterministic-file-export) to save populated HTML, SVG and JSON from this session.
+
+To continue a manually built standalone tree, adopt its exported JSON into a **new** session instead of using `--question`:
+
+```sh
+python3 /absolute/path/strategy-canvas/scripts/canvas.py \
+  --session /absolute/path/to/new-session init \
+  --from /absolute/path/to/exported-tree.json
+```
+
+Import preserves the supplied IDs, revision and other state fields. Both forms of `init` refuse an existing `state.json`, including concurrent attempts to initialise the same session. `--question` accepts a nonblank question up to 240 characters. `--from -` and `--changes -` read JSON from standard input. **New** and `/new.html` are separate standalone pages; their edits are not in the old session's CLI state or `/api/state`. Export first, adopt that JSON, then serve the new session.
+
+Partial-change rules:
+
+- `set` replaces only the named top-level values: `title`, `question`, `context`, `nextQuestion`, `decision`, `sources`, `problem` or `analysis`. A supplied object or array replaces that whole value; it does not merge nested fields. Omitted values stay intact. `nodes`, `revision` and `schemaVersion` cannot be replaced here.
+- `editNodes` merges the listed fields into an existing node identified by `id`; all unmentioned fields remain. An ID must exist and occur only once in the batch. Changing the governing `question` does not rename the root or title implicitly; include those edits if intended.
+- `addNodes` requires a new stable `id`, `parentId`, `label` and `kind`. It appends nodes in the supplied order, defaulting only `status` to `open` and `notes` to empty. Set uncertainty, method, relationship or provenance explicitly when warranted; the CLI infers no evidence or support. Parents may be added in the same batch. Existing IDs are never replaced.
+- The complete result must pass the existing schema. An invalid batch writes nothing; no-op batches are rejected without increasing the revision. There is no deletion operation in this helper. A complete-state update remains available below when needed.
+
+`init` and `apply` print a compact receipt containing the absolute session path, accepted revision and node count; `show` prints the full current state. `apply` requires the revision you actually read and saves one revision per batch. Exit code 3 reports a conflict with `currentRevision`; exit code 2 reports invalid input or a read/write error. Reread and reconcile a conflict deliberately, including any new manual edits; never retry blindly with a newer number. CLI and HTTP writes use the same session lock and atomic replacement, including a second revision check at the point of saving.
+
+### HTTP and complete-state fallback
+
+When the API is reachable but the caller cannot access local session files, `GET /api/state` returns the canonical state object. Read it before proposing an assistant edit so manual canvas changes are preserved. The runtime remains loopback-only; use the host's actual connectivity rather than exposing a public port.
 
 `PUT /api/state` with `Content-Type: application/json` accepts:
 
@@ -154,7 +221,7 @@ Opening the peek closes the editing drawer, and opening Details closes the peek.
 
 A successful response is the newly stored state with an incremented revision. The server ignores the proposed revision for incrementing, but validates it as a positive integer. A stale `expectedRevision` returns HTTP 409 with `{"error":"…","current":{...}}`; reread, reconcile and retry deliberately. Invalid input returns HTTP 400, wrong content type 415, oversized/empty body 413. Invalid Host or cross-origin requests are rejected. Browser requests must come from the printed server origin. JSON strings are treated as data, not HTML.
 
-For an assistant operating through filesystem tools, use the same storage contract:
+For a local operation that needs to replace a complete state, the existing helper uses the same storage contract:
 
 ```sh
 python3 /absolute/path/strategy-canvas/scripts/update_state.py \

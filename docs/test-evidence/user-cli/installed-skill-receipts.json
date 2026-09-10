@@ -1,0 +1,164 @@
+[
+  {
+    "operation": "start live session + HTTP ready",
+    "command": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "<installed-skill>/scripts/serve.py",
+      "--session",
+      "<disposable-cli-session>",
+      "--port",
+      "0"
+    ],
+    "elapsedSeconds": 0.120927,
+    "url": "http://127.0.0.1:63297"
+  },
+  {
+    "operation": "initial read",
+    "method": "GET /api/state via stdlib urllib",
+    "elapsedSeconds": 0.000787,
+    "revision": 1
+  },
+  {
+    "operation": "01-initial-tree",
+    "command": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "<installed-skill>/scripts/update_state.py",
+      "--session",
+      "<disposable-cli-session>",
+      "--state",
+      "<disposable-cli-session>/01-initial-tree.json",
+      "--expected-revision",
+      "1"
+    ],
+    "elapsedSeconds": 0.050127,
+    "exitCode": 0,
+    "stdout": "{\"revision\": 2, \"nodes\": 15}\n",
+    "stderr": ""
+  },
+  {
+    "operation": "01-initial-tree saved readback",
+    "method": "GET /api/state via stdlib urllib",
+    "elapsedSeconds": 0.001454,
+    "revision": 2
+  },
+  {
+    "operation": "before demand update",
+    "method": "GET /api/state via stdlib urllib",
+    "elapsedSeconds": 0.000913,
+    "revision": 2
+  },
+  {
+    "operation": "02-deepen-hypothesis",
+    "command": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "<installed-skill>/scripts/update_state.py",
+      "--session",
+      "<disposable-cli-session>",
+      "--state",
+      "<disposable-cli-session>/02-deepen-hypothesis.json",
+      "--expected-revision",
+      "2"
+    ],
+    "elapsedSeconds": 0.055916,
+    "exitCode": 0,
+    "stdout": "{\"revision\": 3, \"nodes\": 17}\n",
+    "stderr": ""
+  },
+  {
+    "operation": "02-deepen-hypothesis saved readback",
+    "method": "GET /api/state via stdlib urllib",
+    "elapsedSeconds": 0.001524,
+    "revision": 3
+  },
+  {
+    "operation": "before driver update",
+    "method": "GET /api/state via stdlib urllib",
+    "elapsedSeconds": 0.000809,
+    "revision": 3
+  },
+  {
+    "operation": "03-refine-cost-driver",
+    "command": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "<installed-skill>/scripts/update_state.py",
+      "--session",
+      "<disposable-cli-session>",
+      "--state",
+      "<disposable-cli-session>/03-refine-cost-driver.json",
+      "--expected-revision",
+      "3"
+    ],
+    "elapsedSeconds": 0.049994,
+    "exitCode": 0,
+    "stdout": "{\"revision\": 4, \"nodes\": 18}\n",
+    "stderr": ""
+  },
+  {
+    "operation": "03-refine-cost-driver saved readback",
+    "method": "GET /api/state via stdlib urllib",
+    "elapsedSeconds": 0.001216,
+    "revision": 4
+  },
+  {
+    "operation": "stale write rejected",
+    "command": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "<installed-skill>/scripts/update_state.py",
+      "--session",
+      "<disposable-cli-session>",
+      "--state",
+      "<disposable-cli-session>/02-deepen-hypothesis.json",
+      "--expected-revision",
+      "2"
+    ],
+    "elapsedSeconds": 0.051461,
+    "exitCode": 3,
+    "stdout": "",
+    "stderr": "{\"error\": \"The session changed. Read the latest revision before saving.\", \"currentRevision\": 4}\n"
+  },
+  {
+    "operation": "final canonical read",
+    "method": "GET /api/state via stdlib urllib",
+    "elapsedSeconds": 0.001477,
+    "revision": 4
+  },
+  {
+    "operation": "export complete snapshot",
+    "command": [
+      "/opt/homebrew/opt/python@3.14/bin/python3.14",
+      "<installed-skill>/scripts/export_state.py",
+      "--session",
+      "<disposable-cli-session>",
+      "--output",
+      "<disposable-cli-session>/exports/workshop-tree"
+    ],
+    "elapsedSeconds": 0.071479,
+    "exitCode": 0,
+    "stdout": "{\"revision\": 4, \"nodes\": 18, \"files\": {\"html\": \"<disposable-cli-session>/exports/workshop-tree.html\", \"svg\": \"<disposable-cli-session>/exports/workshop-tree.svg\", \"json\": \"<disposable-cli-session>/exports/workshop-tree.json\"}}\n",
+    "stderr": ""
+  },
+  {
+    "operation": "artifact inspection",
+    "revision": 4,
+    "nodes": 18,
+    "paths": {
+      "html": "<disposable-cli-session>/exports/workshop-tree.html",
+      "svg": "<disposable-cli-session>/exports/workshop-tree.svg",
+      "json": "<disposable-cli-session>/exports/workshop-tree.json"
+    },
+    "bytes": {
+      "html": 188632,
+      "svg": 28695,
+      "json": 9673
+    },
+    "jsonExactCanonicalMatch": true,
+    "allSvgLabelsPresent": true,
+    "allHtmlNodeIdsPresent": true,
+    "recommendationEmpty": true
+  },
+  {
+    "operation": "temporary server stopped",
+    "pid": 58344,
+    "returnCode": -15
+  }
+]

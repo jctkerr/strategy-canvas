@@ -1,0 +1,9 @@
+{
+  "seconds": 0.050299416994675994,
+  "receipt": {
+    "session": "<disposable-shared-session>",
+    "revision": 4,
+    "nodes": 9
+  },
+  "manualBranchExactlyPreserved": true
+}

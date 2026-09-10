@@ -1,0 +1,15 @@
+{
+  "staleExit": 3,
+  "staleError": {
+    "error": "The session changed. Read the latest revision before saving.",
+    "currentRevision": 5
+  },
+  "staleChangedNothing": true,
+  "manualWordingPreserved": true,
+  "newSave": {
+    "session": "<disposable-shared-session>",
+    "revision": 6,
+    "nodes": 10
+  },
+  "newSaveSeconds": 0.04726899997331202
+}

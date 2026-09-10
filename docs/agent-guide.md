@@ -33,10 +33,17 @@ If you want to open it before connecting an agent:
 ```sh
 git clone https://github.com/jctkerr/strategy-canvas.git
 cd strategy-canvas
+python3 scripts/canvas.py --session ../strategy-canvas-session init --question "What should I focus on next?"
 python3 scripts/serve.py --session ../strategy-canvas-session --port 0
 ```
 
-Keep the terminal running and give the exact printed URL to your desktop agent to open in its built-in preview. You can also paste it into that pane yourself. A new session starts with the fictional sales example. To run the development checks, use `python3 -m unittest discover -s tests -v` and `python3 scripts/build_demo.py --check` from the repository folder.
+Keep the terminal running and give the exact printed URL to your desktop agent to open in its built-in preview. You can also paste it into that pane yourself. This starts with your question; the agent can add useful branches as you talk. To reopen an existing session, run only the final command. `init` never replaces an existing session.
+
+Agents with local execution should use the [CLI quick reference](../references/schema.md#read-and-update) to read the latest canvas and save a batch of small changes. No additional Python packages or Strategy Canvas MCP connection are needed. The preview reads the same saved session. HTTP remains available when the agent cannot access the session directory directly.
+
+For a standalone canvas, export **Editable state (JSON)** and supply that file to the agent. It can adopt the complete tree using `canvas.py --session NEW_DIRECTORY init --from exported.json`. Check that the file actually downloaded before closing the standalone tab. If the host cannot download files, keep that tab open; its edits have not reached any live session. In a live session, the agent can export directly with the bundled `export_state.py` helper.
+
+To run the development checks, use `python3 -m unittest discover -s tests -v` and `python3 scripts/build_demo.py --check` from the repository folder.
 
 ## Codex
 

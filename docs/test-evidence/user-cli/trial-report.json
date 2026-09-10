@@ -1,0 +1,24 @@
+{
+  "date": "2026-09-10",
+  "case": "Fictional bookshop considering paid workshops next quarter. Demand and budget unknown; five staff-hours/week available.",
+  "manualInCodex": [
+    "Started standalone from question, chose issue tree, added three branches, edited metric type, added driver inputs with shortcuts. Six thoughts.",
+    "Switched to an isolated live session for a verified shared-state trial: manually set issue method and added demand question (revision 3).",
+    "Agent CLI added seven nodes with issue, hypothesis and driver subtrees (revision 4); original manual branch identical.",
+    "Manually revised demand wording (revision 5); stale CLI patch from revision 4 rejected with no change.",
+    "Fresh CLI patch added a capacity subquestion (revision 6), preserving every existing node; ten-node tree observed in the in-app browser. Reset view fitted the expanded tree."
+  ],
+  "fixes": [
+    "A/E/T/Shift+A work from card controls after a tree-type save; Enter/Space retain their native control actions.",
+    "Singular node count reads 1 thought.",
+    "Export toast says Download requested rather than claiming file delivery."
+  ],
+  "boundaries": [
+    "No dedicated Strategy Canvas MCP server or tool. CUA MCP operated the Codex in-app browser; separate Playwright MCP failed to connect to 127.0.0.1:9223.",
+    "Codex in-app standalone JSON export requested twice, but no file/download event was verified. That standalone export/import round trip is not claimed. CLI exports from the separate live session were created.",
+    "Independent installed-skill trial used Codex subagent, not a new Claude, Cursor or Grok run.",
+    "Timing excludes reasoning, patch drafting and browser polling.",
+    "These are usability and state-integrity tests, not evidence of strategic completeness or real workshop viability.",
+    "Published receipts substitute placeholders for local test directory paths."
+  ]
+}
