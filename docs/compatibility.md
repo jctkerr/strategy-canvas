@@ -57,6 +57,18 @@ The initial output again placed shared criteria and an evidence boundary beside 
 
 ## Runtime checks
 
-All 21 standard-library tests passed locally on 10 September 2026. They cover state validation, revision conflicts, competing writers, atomic saves, loopback access boundaries and complete exports. The generated demo check and skill metadata validator also passed.
+All 30 standard-library tests passed locally on 10 September 2026. They cover state validation, revision conflicts, competing writers, atomic saves, loopback access boundaries and complete exports. The generated demo check and skill metadata validator also passed.
 
 The repository's [Python checks](https://github.com/jctkerr/strategy-canvas/actions/workflows/python.yml) run on Linux with Python 3.9 and 3.14, and macOS with Python 3.14. Software tests check runtime behaviour; they do not establish the quality or completeness of an agent's strategy.
+
+## Tree methods and editing checks
+
+The method update was checked locally on 10 September 2026. [Fourteen rendered browser checks](test-evidence/method-guidance/browser-results.json) exercised all eight method guides, contextual additions, successive component roles, draft discard, undo, method changes, problem edits, concurrent updates and standalone export/reload. Controls were also exercised at a 390-pixel viewport. This is browser emulation, not a physical-phone test. The repeatable development check is `tests/browser-smoke.cjs`; it requires Playwright and a disposable local session. It is not required to use the skill.
+
+A separate agent used the updated skill to generate these fictional cases and validated their HTML, SVG and JSON snapshots:
+
+- [A bookshop with an unclear objective](test-evidence/method-guidance/bookshop.json): proposed objectives and possible means, the five-hour constraint retained, no recommendation. Review identified potential overlap between commercial room hire and community room access. Their notes acknowledge overlap; one canonical room-access idea with references to its benefits could make the map clearer.
+- [An event with uncertain demand](test-evidence/method-guidance/event.json): choices, unknown attendance and cost drivers. The £20/£5/£120 inputs also appear in the method recipe, so this checks following instructions rather than unseen arithmetic.
+- [An event with new inputs](test-evidence/method-guidance/event-new-inputs.json): £24.50 tickets, £6.20 variable cost and £146.50 avoidable fixed cost. [Decimal arithmetic](test-evidence/method-guidance/checked-arithmetic.json) gives £18.30 contribution, a minimum of nine paying attendees, a 10p loss at eight and £18.20 surplus at nine. Demand probabilities and capacity remain unknown; no expected value was invented.
+
+These are bounded local checks, not evidence of unattended strategic correctness. The new method guidance has not been rerun in Grok Bot; its earlier compatibility evidence above remains specific to those tested versions and workflows. The canvas stores equations and probability assumptions in notes; it does not solve or validate them automatically.

@@ -10,7 +10,12 @@ from datetime import date, datetime
 from pathlib import Path
 from urllib.parse import urlsplit
 
-KINDS = {"question", "option", "criterion", "evidence", "assumption", "action"}
+KINDS = {"question", "option", "criterion", "evidence", "assumption", "action",
+         "hypothesis", "metric", "objective", "solution", "outcome", "test", "chance", "claim"}
+METHODS = {"exploration", "issue", "hypothesis", "driver", "solution", "objectives",
+           "decision", "opportunity", "argument"}
+RELATIONS = {"part-of", "possible-cause", "calculated-from", "could-achieve", "refines",
+             "supports", "challenges", "choice", "outcome", "tests", "idea"}
 STATUSES = {"open", "supported", "uncertain", "ruled-out"}
 PROVENANCE = {"observed", "proposed", "catalogue", "context"}
 MAX_BYTES = 2_000_000
@@ -91,7 +96,7 @@ def validate(state):
     if not isinstance(state, dict):
         raise InvalidState("State must be an object.")
     required = {"schemaVersion", "revision", "title", "question", "context", "nextQuestion", "nodes", "decision"}
-    if not required <= set(state) or set(state) - required - {"sources"}:
+    if not required <= set(state) or set(state) - required - {"sources", "problem"}:
         raise InvalidState("State must contain only the documented top-level fields.")
     if type(state["schemaVersion"]) is not int or state["schemaVersion"] != 1:
         raise InvalidState("Unsupported schemaVersion; expected 1.")
@@ -102,6 +107,13 @@ def validate(state):
             raise InvalidState(f"{field} must be text of at most 10000 characters.")
     if not state["question"].strip():
         raise InvalidState("A strategic question is required.")
+    if "problem" in state:
+        problem = state["problem"]
+        if not isinstance(problem, dict) or set(problem) - {"situation", "desiredChange", "constraints"}:
+            raise InvalidState("Problem fields do not match the schema.")
+        for field, value in problem.items():
+            if not isinstance(value, str) or len(value) > 10000:
+                raise InvalidState(f"Problem {field} must be text of at most 10000 characters.")
     sources = validate_sources(state.get("sources", []))
     nodes = state["nodes"]
     if not isinstance(nodes, list) or not 1 <= len(nodes) <= 300:
@@ -112,7 +124,7 @@ def validate(state):
         if not isinstance(node, dict):
             raise InvalidState("Each node must be an object.")
         fields = {"id", "parentId", "label", "kind", "status", "notes"}
-        if not fields <= set(node) or set(node) - fields - {"source", "sourceIds", "provenance"}:
+        if not fields <= set(node) or set(node) - fields - {"source", "sourceIds", "provenance", "method", "relation"}:
             raise InvalidState("Node fields do not match the schema.")
         ident = node["id"]
         if not isinstance(ident, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,79}", ident):
@@ -130,6 +142,18 @@ def validate(state):
             raise InvalidState("Unknown node kind.")
         if not isinstance(node["status"], str) or node["status"] not in STATUSES:
             raise InvalidState("Unknown node status.")
+        if "method" in node and (not isinstance(node["method"], str) or node["method"] not in METHODS):
+            raise InvalidState("Unknown node method.")
+        if "relation" in node:
+            relation = node["relation"]
+            if node["parentId"] is None:
+                raise InvalidState("The root cannot have an incoming relation.")
+            if not isinstance(relation, dict) or "type" not in relation or set(relation) - {"type", "label"}:
+                raise InvalidState("Relation fields do not match the schema.")
+            if not isinstance(relation["type"], str) or relation["type"] not in RELATIONS:
+                raise InvalidState("Unknown relation type.")
+            if "label" in relation and (not isinstance(relation["label"], str) or len(relation["label"]) > 120):
+                raise InvalidState("Relation label must be text of at most 120 characters.")
         for field in ("notes", "source"):
             if field in node and (not isinstance(node[field], str) or len(node[field]) > 20000):
                 raise InvalidState(f"Node {field} must be text of at most 20000 characters.")

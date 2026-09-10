@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "title": "Fictional bookshop · clarify the purpose",
+  "question": "What should the spare room improve?",
+  "context": "Fictional exercise. Only the spare room, five staff hours per week and interest in workshops are supplied facts. The candidate priorities and uses below are proposals for discussion. No priority, demand, extra budget or operational problem has been established. No choice has been made.",
+  "problem": {
+    "situation": "The bookshop has a spare room and the owner keeps considering workshops, without a clear problem to solve.",
+    "desiredChange": "Clarify a worthwhile benefit before choosing a use. The owner has not yet named that benefit.",
+    "constraints": "At most five staff hours per week. Room capacity, permitted uses, budget, demand and access arrangements are unknown. Leaving the room as it is remains available."
+  },
+  "nextQuestion": "What would you most like to be different in the shop?",
+  "nodes": [
+    {
+      "id": "purpose",
+      "parentId": null,
+      "label": "Possible priorities · still open",
+      "kind": "question",
+      "status": "uncertain",
+      "notes": "Start with possible valued outcomes, not a presumption that workshops are wanted or needed. The first split groups proposed ends at comparable abstraction: cash available to the business; quality of local relationships; ease of staff work. These can coexist and are not a ranked or exhaustive partition of the owner's values. Each objective branch switches to solution exploration so its children show possible means. Measures and operating constraints live in notes. One workshop idea has one home under income, with its possible connection benefit referenced under local-connections. Keep the existing room use and choosing no new activity available; no commitment follows from this map. Draft reasoning; the owner has not endorsed these goals.",
+      "provenance": "context",
+      "method": "objectives"
+    },
+    {
+      "id": "income",
+      "parentId": "purpose",
+      "label": "More money left for the shop",
+      "kind": "objective",
+      "status": "uncertain",
+      "notes": "Proposed end: extra net cash after every additional cost, not gross event revenue. The owner has not said income is the problem. Measure net contribution over an agreed period, including paid staff time if incremental. Ways beneath this objective are tentative and can combine if time permits. Five weekly staff hours must cover preparation, promotion, administration, delivery and cleanup; no time estimate is asserted.",
+      "provenance": "proposed",
+      "method": "solution",
+      "relation": {
+        "type": "refines",
+        "label": "A possible valued outcome"
+      }
+    },
+    {
+      "id": "workshop",
+      "parentId": "income",
+      "label": "Occasional paid workshop",
+      "kind": "solution",
+      "status": "uncertain",
+      "notes": "User-mentioned possibility, still open. Ticket contribution could add cash if sufficient paying demand exceeds materials, facilitator and other extra costs. A tightly bounded format and an external facilitator might reduce delivery time, but coordination still takes staff hours. Existing customer requests or bookings would be more informative than assuming an audience. The workshop could also create local connections; see local-connections. Unknown: topic, demand, price, capacity, costs and full staff workload. No trial or workshop has been selected.",
+      "provenance": "proposed",
+      "relation": {
+        "type": "could-achieve",
+        "label": "Ticket contribution after all extra costs"
+      }
+    },
+    {
+      "id": "hire",
+      "parentId": "income",
+      "label": "Hire the room to a local group",
+      "kind": "solution",
+      "status": "uncertain",
+      "notes": "Proposed alternative: rental income with the organiser running the activity. It might need less preparation than a shop-led workshop, but access, cleanup, scheduling and supervision could still consume the five hours. Check existing local enquiries and practical arrangements before treating this as easy or profitable. Unknown: demand, acceptable uses, terms, price and actual staff time.",
+      "provenance": "proposed",
+      "relation": {
+        "type": "could-achieve",
+        "label": "Rental contribution with bounded administration"
+      }
+    },
+    {
+      "id": "local-connections",
+      "parentId": "purpose",
+      "label": "Stronger local connections",
+      "kind": "objective",
+      "status": "uncertain",
+      "notes": "Proposed end: people build valued relationships around the shop. This is not a claim of weak community or that footfall equals belonging. Discuss what a meaningful change would look like: repeat participation and useful relationships are candidate indicators, not targets. Workshops in node workshop could contribute too, but are recorded once. The following are further possibilities; no format is selected.",
+      "provenance": "proposed",
+      "method": "solution",
+      "relation": {
+        "type": "refines",
+        "label": "A possible valued outcome"
+      }
+    },
+    {
+      "id": "reading-group",
+      "parentId": "local-connections",
+      "label": "A reader-led book group",
+      "kind": "solution",
+      "status": "uncertain",
+      "notes": "A recurring conversation could help readers build connections through books. A willing volunteer host could share delivery, but invitation, hosting arrangements and cleanup still need time. Use known customer interest or existing group enquiries before presuming need. Unknown: host availability, reader interest and whether regular sessions fit the weekly staffing limit.",
+      "provenance": "proposed",
+      "relation": {
+        "type": "could-achieve",
+        "label": "Repeated conversation around a shared interest"
+      }
+    },
+    {
+      "id": "community-room",
+      "parentId": "local-connections",
+      "label": "Space for an existing community group",
+      "kind": "solution",
+      "status": "uncertain",
+      "notes": "The shop could support an already active local group that needs a place to meet. This serves a different emphasis from commercial hire in node hire; it is one possible arrangement of shared room access, not independent proof of demand. Existing requests would clarify fit. Unknown: actual need, access, compatibility with shop operations and staff burden. Avoid counting any shared relationship benefit twice.",
+      "provenance": "proposed",
+      "relation": {
+        "type": "could-achieve",
+        "label": "Give an existing group a useful meeting place"
+      }
+    },
+    {
+      "id": "staff-friction",
+      "parentId": "purpose",
+      "label": "An easier working week",
+      "kind": "objective",
+      "status": "uncertain",
+      "notes": "Proposed end: less avoidable staff effort or interruption. No current bottleneck is established. Discuss where time is actually lost before dedicating the room. Time saved must exceed setup and ongoing effort; do not equate spare space with a need for a new customer activity. These ideas could use the room without creating an events programme.",
+      "provenance": "proposed",
+      "method": "solution",
+      "relation": {
+        "type": "refines",
+        "label": "A possible valued outcome"
+      }
+    },
+    {
+      "id": "orders",
+      "parentId": "staff-friction",
+      "label": "Prepare collections away from the till",
+      "kind": "solution",
+      "status": "uncertain",
+      "notes": "If order preparation currently interrupts customer service, a dedicated preparation area could reduce switching and clutter. This depends on a real bottleneck and suitable access; the prompt provides neither. Review current work patterns first. Additional walking or retrieval effort could make this worse. No extra staffing beyond the five hours is assumed.",
+      "provenance": "proposed",
+      "relation": {
+        "type": "could-achieve",
+        "label": "Reduce interruptions if preparation is a bottleneck"
+      }
+    },
+    {
+      "id": "stock",
+      "parentId": "staff-friction",
+      "label": "Organise stock for easier retrieval",
+      "kind": "solution",
+      "status": "uncertain",
+      "notes": "If staff lose time finding books or handling deliveries, a clearly arranged stock area could reduce retrieval and handling effort. This is conditional on a real problem; do not manufacture one to justify using the room. Check the existing storage and workflow before moving anything. Capacity, accessibility and setup time remain unknown.",
+      "provenance": "proposed",
+      "relation": {
+        "type": "could-achieve",
+        "label": "Reduce searching if current storage causes friction"
+      }
+    }
+  ],
+  "decision": {
+    "recommendation": "",
+    "rationale": "The user asked to keep the choice open. Clarify the valued benefit before choosing a room use. Workshops are a candidate means; they are not the governing objective.",
+    "uncertainties": [
+      "Which benefit the owner actually wants.",
+      "Existing evidence of demand or operational friction.",
+      "Whether any proposed use fits five staff hours including all overhead.",
+      "Capacity, access, costs and permissible uses."
+    ],
+    "nextSteps": [
+      "Optional: name the change that would matter most in the shop. No activity has been agreed."
+    ]
+  }
+}

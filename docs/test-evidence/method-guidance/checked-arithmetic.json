@@ -1,0 +1,13 @@
+{
+  "ticket": "24.50",
+  "variable_per_attendee": "6.20",
+  "fixed_avoidable": "146.50",
+  "contribution_per_attendee": "18.30",
+  "continuous_threshold": "8.005464480874316939890710383",
+  "minimum_integer_attendance": 9,
+  "payoff_at_zero": "-146.50",
+  "payoff_at_eight": "-0.10",
+  "payoff_at_nine": "18.20",
+  "demand_probabilities": "unknown; none assigned",
+  "cancel_payoff_in_supplied_model": "0.00"
+}

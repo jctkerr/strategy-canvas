@@ -18,9 +18,9 @@ The HTML template and styling live in `assets/canvas.html`; edit the CSS variabl
 
 ## Canonical schema
 
-The top-level fields in the example below are required. The structured sources extension described afterwards is optional; unknown fields are rejected. There must be exactly one root, every parent must exist, every ID must be unique and the tree must be acyclic. Node array order controls sibling order. Keep IDs stable across edits.
+The top-level fields in the example below are required. The problem/method/relationship and structured sources extensions described afterwards are optional; unknown fields are rejected. There must be exactly one root, every parent must exist, every ID must be unique and the tree must be acyclic. Node array order controls sibling order. Keep IDs stable across edits.
 
-These are structural checks, not proof of semantic MECE or evidence quality. Use `notes` to record a split's question, universe, grouping basis, sibling boundaries and gaps, and to distinguish partition, sequence, causal, support or reference relationships. The runtime has no typed edge or cross-link field: refer to existing node IDs in notes and reuse `sourceIds` for shared evidence, without inventing schema fields or duplicating canonical items. Apply the semantic check in [method.md](method.md).
+These are structural checks, not proof of semantic MECE or evidence quality. Use `notes` to record a split's question, universe, grouping basis, sibling boundaries and gaps. Use each child's optional `relation` to name the incoming connection; its type is descriptive, not a certified relationship. The runtime has one parent per node and no cross-link or graph field: refer to existing node IDs in notes and reuse `sourceIds` for shared evidence, without inventing schema fields or duplicating canonical items. Apply the semantic check in [method.md](method.md).
 
 Record candidate mechanisms, assumptions and supporting/challenging evidence in existing notes and source fields. There is no `reviewed`, review-receipt or dependency-hash field, and the server does not perform semantic review or automatically invalidate old review claims. Use `context` and relevant node notes to identify draft/unreviewed reasoning, exact review scope and stale findings; the node `status` values retain their documented meaning. `supported` does not mean the whole decomposition passed review. An accepted PUT or successful export proves schema-valid storage, not first-principles reasoning, conceptual MECE or current evidence. Do not add unsupported certification fields or present an old review note as applying to changed content; follow the review-freshness instructions in the method reference.
 
@@ -52,7 +52,7 @@ Record candidate mechanisms, assumptions and supporting/challenging evidence in 
 }
 ```
 
-- `kind`: `question`, `option`, `criterion`, `evidence`, `assumption`, `action`.
+- `kind`: `question`, `option`, `criterion`, `evidence`, `assumption`, `action`, `hypothesis`, `metric`, `objective`, `solution`, `outcome`, `test`, `chance`, `claim`. These name the thought's role; they do not choose a method, establish truth or run a calculation.
 - `status`: `open`, `supported`, `uncertain`, `ruled-out`. A supported status is not an automatic verification: explain its basis in notes/source.
 - IDs: 1–80 ASCII letters, digits, underscores or hyphens; first character must be a letter or digit.
 - Labels: 1–240 characters, non-blank. Short labels of roughly 3–8 words work best. Cards display up to three lines with truncation; the full label is available in the inspector, SVG title and JSON/Markdown/HTML exports.
@@ -61,6 +61,52 @@ Record candidate mechanisms, assumptions and supporting/challenging evidence in 
 - Decision recommendation/rationale: at most 20,000 characters. Each decision list allows at most 100 strings of at most 10,000 characters.
 - `schemaVersion`: exactly 1. `revision`: positive integer, assigned to current revision + 1 on every accepted update.
 - Tree: 1–300 nodes. Whole state: at most 2 MB UTF-8. The canonical map can hold substantive brainstorming breadth and depth. Keep its presentation concise through short labels, branch collapse and Focus branch; do not treat a small visible view as a limit on the ideas recorded.
+
+## Optional problem, method and relationship metadata
+
+This additive extension retains `schemaVersion: 1`. Existing states remain valid and unmodified; missing method or relation fields mean unspecified. The runtime never silently upgrades a legacy tree to an analytical method or infers causal meaning from its shape. Preserve these fields during ordinary edits and exports.
+
+An optional top-level `problem` object holds any of the following optional fields, each a string of at most 10,000 characters. Empty strings and an empty object are valid; unknown fields, arrays and null are rejected.
+
+- `situation`: what is happening, with known facts and relevant uncertainty.
+- `desiredChange`: what the person wants to be different, or the decision they need to reach.
+- `constraints`: relevant limits, boundaries or commitments.
+
+This is a brief that the person can revise, not mandatory intake. Recover known context first and ask only about material gaps. Keep `question` as the governing question; the brief supplies its context rather than replacing it.
+
+Each node may specify a `method` string. Its descendants inherit that method until a descendant explicitly overrides it. The closest explicit ancestor wins; array order does not affect inheritance. A method can change within the same map as the reasoning question changes. There is no default stored method and no automatic conversion of existing children when a method changes.
+
+| Value | Intended use |
+| --- | --- |
+| `exploration` | Generate and develop possibilities without forcing a premature comparison. |
+| `issue` | Decompose a governing question into answerable subquestions. |
+| `hypothesis` | Examine a provisional claim through testable conditions and disconfirming evidence. |
+| `driver` | Express a result through explicit mathematical drivers, operators, units and assumptions. |
+| `solution` | Connect a desired improvement to potential interventions and their causal mechanisms. |
+| `objectives` | Clarify desired ends and more specific objectives before assessing alternatives. |
+| `decision` | Compare choices with uncertain outcomes, probabilities and payoffs or utilities. |
+| `opportunity` | Product discovery: outcome, research-grounded customer needs, solutions and assumption tests. |
+| `argument` | Organise a conclusion, logically grouped supporting arguments and evidence. |
+
+Each non-root node may also have an incoming `relation` object. `type` is required and must be one of the following strings. Optional `label` is plain text of at most 120 characters (empty is allowed), for a specific mechanism, operator or explanation. The root cannot have a relation. Unknown fields or types are rejected. Relations do not inherit: each describes that node's own connection to its parent.
+
+| Type | Reading of the connection |
+| --- | --- |
+| `part-of` | The child is a component or subquestion of the parent; explain the grouping basis and boundaries. |
+| `possible-cause` | The child might contribute to or explain the parent; a causal hypothesis, not proof. |
+| `calculated-from` | The parent is calculated using the child; record the full equation and units in the parent's notes and use the label for the child's operator or role. |
+| `could-achieve` | The child is an intervention that could help achieve the parent; explain the mechanism and assumptions. |
+| `refines` | The child makes the parent's objective or concept more specific. |
+| `supports` | The child offers an argument or evidence in favour of the parent; record its relevance and limits. |
+| `challenges` | The child raises evidence or reasoning against the parent. |
+| `choice` | The child is an available choice at the parent decision. |
+| `outcome` | The child is a possible consequence or chance outcome beneath the parent. |
+| `tests` | The child is a test of the parent assumption or claim. |
+| `idea` | The child is a related possibility being explored; no stronger relationship is claimed. |
+
+For example, a root metric can use `method: "driver"`; its child metric can use `relation: {"type": "calculated-from", "label": "Subtract variable cost"}`. The root's notes should contain the complete equation, measurement period and units. A later branch can override its inherited method with `method: "solution"` when exploring how to change the result. Add only the semantics the reasoning supports; do not populate fields just to appear complete.
+
+These are descriptive aids, not a solver or semantic certification. A decision tree requires explicit probabilities, conditional assumptions, payoff units/time horizon and any calculations in notes. The runtime has no probability/payoff fields, probability-sum checks, expected-value calculation or automatic rollback. Driver methods do not evaluate equations. A one-parent tree cannot model feedback, shared causal dependencies or a means–ends network faithfully; use references in notes or a separate suitable representation. There is no `reasoning`, `reviewed` or causal-proof field. Method and relation changes require the agent to review affected reasoning; accepted storage does not perform that review.
 
 ## Optional structured sources and provenance
 
@@ -127,7 +173,7 @@ Select any non-root thought and use **Focus branch** in the existing canvas cont
 
 Every HTML/SVG/JSON/Markdown export retains the entire canonical tree while focused or collapsed. Standalone HTML starts in the whole-tree view. Print also clears focus and expands the whole tree before opening the browser print dialog.
 
-Add thought creates an open question under the selected node. Delete branch removes the selected node and its descendants; the root cannot be deleted. Undo reverses the most recent locally saved action and is disabled after any intervening external revision. This is one-level undo, not a full history. View selection, pan/zoom and collapsed branches are local to the browser and do not change canonical JSON.
+The compact **Problem** control opens the optional situation, desired change and constraints brief. **Approach** explains the selected branch's method and lets the person change it. The contextual **Add** control names a useful next contribution for that approach and opens a draft under the selected node; only saving adds it to the canonical tree. Its suggested kind and relation remain editable. Delete branch removes the selected node and its descendants; the root cannot be deleted. Undo reverses the most recent locally saved action and is disabled after any intervening external revision. This is one-level undo, not a full history. View selection, pan/zoom and collapsed branches are local to the browser and do not change canonical JSON.
 
 When another editor updates the session, the canvas polls and redraws while preserving selection and view. An unsaved local draft is retained; changing its underlying node shows a conflict notice. Review or discard that draft before saving it over a newer edit. Switching branches requires saving or discarding an active draft, so entered work is not silently lost. This save protection concerns edits only; conversational prompts are always optional.
 
@@ -147,7 +193,7 @@ python3 /absolute/path/strategy-canvas/scripts/export_state.py \
 
 Pass an output stem **without an extension**. The helper takes one locked, validated snapshot of the latest canonical state and writes `decision-tree.html`, `decision-tree.svg` and `decision-tree.json`. An existing output stem is replaced deliberately; use a new stem to preserve an earlier snapshot. Exporting over the session's own `state.json` is rejected. All three files represent the same revision. Files are written through temporary files and individually replaced atomically. The original session is not changed.
 
-The HTML uses the exact reusable canvas template with safely embedded state and offline mode. It starts with the source peek closed and no iframe; optional native posts still require an explicit open and an internet connection. The SVG includes every node with complete visible labels, growing cards/row spacing when long labels need it; full notes and sources remain in node titles, and canonical state is retained in SVG metadata. The usual concise-label layout matches the live canvas. JSON preserves all canonical fields, including the complete source registry and provenance. SVG node titles include provenance and the full metadata of directly referenced sources; canonical SVG metadata also preserves the entire registry. The command prints the revision, node count and exact paths; an invalid state or file error exits with code 2. This helper generates no Markdown or PDF.
+The HTML uses the exact reusable canvas template with safely embedded state and offline mode. It starts with the source peek closed and no iframe; optional native posts still require an explicit open and an internet connection. The SVG includes every node with complete visible labels, growing cards/row spacing when long labels need it. Each typed node shows its effective method; each explicitly related child shows its incoming relationship type and full label inside its card to avoid overlapping edge captions. The problem brief and title wrap above the tree. Full notes and sources remain in node titles, and canonical state is retained in SVG metadata. The usual concise-label layout matches the live canvas. JSON preserves all canonical fields, including the problem brief, explicit method/relationship metadata, complete source registry and provenance. SVG node titles include effective method, relationship, provenance and the full metadata of directly referenced sources; canonical SVG metadata also preserves the entire registry. The command prints the revision, node count and exact paths; an invalid state or file error exits with code 2. This helper generates no Markdown or PDF.
 
 To preview these exact three saved files locally, add `--serve --port 0`. Keep the resulting process alive and use the exact printed loopback URL. `/` serves the populated standalone HTML, `/tree.svg` the full tree image, and `/state.json` the saved state; other paths are unavailable. This is a **saved snapshot preview**, not a live canonical session. Re-export explicitly when the original session changes. Standalone HTML edits remain in browser memory until exported again and do not modify the saved file or original session. The saved HTML/SVG/JSON remain usable after any preview server stops. Prefer linking the HTML tree and SVG image first, with JSON for further work and prose only as an optional companion.
 

@@ -2,6 +2,14 @@
 
 The map should contribute useful thinking before asking the person for more work. Use recovered facts, constraints and prior decisions to build concrete branches. Where knowledge is incomplete, contribute useful possibilities and label them as proposals or hypotheses. An empty list of headings is not a first map. Concise presentation means progressive disclosure, not withholding options, evidence or deeper reasoning.
 
+## Start from the problem, then choose a structure
+
+Recover a short brief: what is happening, what would count as a useful change and what constrains the work. Use the optional `problem` fields for this context; make inferences explicit and keep unknowns open. “Should we run workshops?” is a proposed means until the intended outcome is clear. Income, community and customer loyalty imply different questions and trade-offs. Ask one useful question if that distinction is missing; do not require a fixed intake sequence or stop contributing possibilities.
+
+Choose from [tree-methods.md](tree-methods.md), reading only the relevant recipe: issue, hypothesis, driver/equation, solution/how, objectives, decision under uncertainty, opportunity solution or argument hierarchy. Explain why the method fits in one sentence. Use open exploration when ideas need room before classification. The Explore/Deepen/Compare modes below concern the conversation; they are not a complete taxonomy of tree structures.
+
+Store `method` where a branch adopts a structure; descendants without an explicit method inherit from the nearest ancestor. Store each child's `relation` to its parent and an optional short label when it clarifies the connection. Preserve explicit child methods on a parent change; review existing relationships rather than silently relabelling their meaning. Follow the schema's allowed fields. A diagram can contain several clearly distinguished methods, but a list of methods is not itself analysis.
+
 ## Follow the user's mode
 
 - **Explore:** generate a substantive breadth of mechanisms, methods and concrete candidate ideas, including useful alternatives beyond the first obvious packages. Populate several ideas under meaningful groups and deeper variants where context supports them. Keep the map open; do not impose a one-winner decision, rank options or use a residual branch as a substitute for generating ideas.
@@ -12,7 +20,7 @@ The current conversational agent owns synthesis and continuity. Bounded research
 
 ## Shape the reasoning
 
-Work from first principles: recover the goal or decision, the relevant situation and constraints, then distinguish what is observed from what is assumed. For each developed possibility, explain the causal mechanism: what would change, why that could help the desired outcome, and which condition could break the link. Cite evidence that supports or challenges those steps; do not substitute a source list, familiar framework or successful format for the argument. Early possibilities may have tentative mechanisms or named gaps rather than invented facts. A conclusion must be no stronger than the reasoning and evidence beneath it.
+Work from first principles: recover the goal or decision, the relevant situation and constraints, then distinguish what is observed from what is assumed. For each developed intervention, explain the causal mechanism: what would change, why that could help the desired outcome, and which condition could break the link. For other structures, explain the relevant mathematical, decompositional or argumentative relationship rather than pretending every link is causal. Cite evidence that supports or challenges those steps; do not substitute a source list, familiar framework or successful format for the argument. Early possibilities may have tentative mechanisms or named gaps rather than invented facts. A conclusion must be no stronger than the reasoning and evidence beneath it.
 
 For content, **purpose → reader situation → desired change → obstacle → contribution → post possibilities** can be a useful reasoning sequence. Adapt or omit steps that do not fit: personal purpose can include reflection, connection or enjoyment. These are not six sibling content types or a mandatory intake wizard. Lore supplies credible material and perspective; a reader connection explains relevance; the proposed point of view joins them. Broad topic curation or copying a popular post does not establish that connection.
 
@@ -59,7 +67,7 @@ Keep source evidence distinct from result evidence. A visible native post establ
 
 ## Scoped MECE check
 
-Apply this check to every decomposition before presentation and after updates. Its siblings must be **mutually exclusive and collectively exhaustive within an explicit scope**, or visibly identify the unresolved boundaries or gaps. First identify the relationship: a partition divides one universe; a sequence orders steps; a causal link proposes influence; support and reference links connect evidence or shared items. Do not imply every parent-child edge is a partition, that sequential stages are alternatives, or that separate causes act independently.
+Check the relationship type before presentation and after relevant updates. Apply MECE where a split claims to partition a universe: siblings must be **mutually exclusive and collectively exhaustive within the explicit scope**, or visibly identify unresolved boundaries or gaps. Other structures need their own tests: equations need valid operators and units; causal claims need mechanisms and evidence; arguments need logical support; chance outcomes need a defined sample space and coherent probabilities. A sequence orders steps, and support/reference links connect evidence or shared items. Do not imply every edge is a partition, that sequential stages are alternatives, or that separate causes act independently.
 
 Peer navigation groups also need one coherent inclusion rule. Calling mixed branches “complementary dimensions” or “not a partition” does not repair a hierarchy that puts what, where, how and individual items at the same organising level. Factor those dimensions into scoped levels or explicit questions, and attach support/reference relationships where they apply. Check the underlying records or choices, not merely whether each supplied heading string was filed once. Keep uncertain items visible while repairing the grouping; a provisional label does not excuse a known structural mixture.
 

@@ -13,7 +13,8 @@
       "kind": "question",
       "status": "uncertain",
       "notes": "Mode: explore the consequential gaps, not recommend an offer.\n\nKnown fictional context: A offers more pay, three office days and an estimated 70-minute journey each way. B offers less pay, one office day and an estimated 25-minute journey each way. Both offers cover essential spending. The person wants room for a weekly evening class and helping family; team and growth prospects also matter. Both offers expire next Friday. Keeping the current job is an available alternative.\n\nUnknown: exact pay and benefits, current-job baseline, normal and peak working hours, class day/time/location, family commitments, employer flexibility, actual team experience, role content and progression, and the exact deadline date/time. Wants have not been ranked or declared non-negotiable. No personal answer is inferred.\n\nRoot decomposition: Which of the three stated job choices should remain open at the offer deadline? Universe: A, B, or declining both and retaining the current job. Basis: the job held after this choice. Boundaries: A excludes B/current; B excludes A/current; current excludes both offers. These exhaust the stated choice, not every possible career move. Negotiating terms and requesting an extension are possible information/actions within the choice, not fourth competing jobs. Accepting both or resigning without a new job is outside the requested scope; neither is assumed impossible.\n\nUnder each option, the same five decision questions organise information: time available, financial position, team experience, development prospects, and commitment terms. These are comparison dimensions, not independent causal factors or mutually exclusive job choices. Primary placement: hours/flexibility/travel time under time; pay/benefits/travel expense under money; manager/colleague behaviour under team; work content/learning/progression under growth; written terms/deadlines/notice under terms. Cross-effects are referenced in notes. Coverage includes the supplied priorities and practical acceptance conditions; the person's full values and other deal-breakers remain unknown. Criterion weights and a complete universal taxonomy are not claimed.",
-      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented.",
+      "method": "exploration"
     },
     {
       "id": "offer-a",
@@ -22,7 +23,10 @@
       "kind": "option",
       "status": "open",
       "notes": "A remains open. Known only from the fictional brief: higher pay, essentials covered, three office days, estimated 70 minutes each way. Higher pay could fund flexibility or future options, but the amount available after travel and other work costs is unknown. Office time could help or hinder relationships and learning; neither outcome is established. A could fit the class and family commitments if actual hours, office-day placement and flexibility leave enough room. See a-time, a-money, a-team, a-growth and a-terms before deciding. No score or preference is assigned.",
-      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented.",
+      "relation": {
+        "type": "choice"
+      }
     },
     {
       "id": "a-time",
@@ -76,7 +80,10 @@
       "kind": "option",
       "status": "open",
       "notes": "B remains open. Known only from the fictional brief: lower pay, essentials covered, one office day, estimated 25 minutes each way. Less estimated travel could leave more room for a class and family help if the working-hours pattern permits it. That does not establish better work-life fit, team quality, remote collaboration or growth. See b-time, b-money, b-team, b-growth and b-terms. No preference is assigned.",
-      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented.",
+      "relation": {
+        "type": "choice"
+      }
     },
     {
       "id": "b-time",
@@ -130,7 +137,10 @@
       "kind": "option",
       "status": "open",
       "notes": "The prompt explicitly retains the current job as an alternative. Do not treat accepting a new offer as mandatory or the current job as automatically safe or satisfying.\nIts pay, hours, commute, team, growth and contract terms have not been supplied. Keeping it may preserve something valuable or prolong a reason to leave; neither account is known. Establish the same five criteria before comparing. Declining offers and starting a fresh job search are separate decisions; continued search is a possible later action, not presumed.",
-      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented."
+      "source": "Fictional example supplied with Strategy Canvas; no real person, employer or outcome is represented.",
+      "relation": {
+        "type": "choice"
+      }
     },
     {
       "id": "current-time",

@@ -109,10 +109,20 @@ For an ordinary web chat without file execution, use the method conversationally
 1. Give the agent a question, your relevant constraints and what remains unknown.
 2. Check that the canvas contains your situation, rather than the fictional sales demo.
 3. Ask it to explore one branch. Keep alternatives visible and ask what would change the choice.
-4. Edit a thought through **Details → Save**. Ask the agent to continue from that edit; it should read the latest saved revision first.
+4. Select a thought and use **Add** to extend it, or **Details → Save** to edit it. Add offers a question, idea, reason or another suitable next component for that branch. Nothing is added until you save. Ask the agent to continue from your edits; it should read the latest saved revision first.
 5. Ask it to export the complete tree as HTML, SVG and JSON. Open the HTML before sharing it.
 
 **Live session:** edits are saved on the machine running the server. **Standalone HTML:** edits last until reload unless you export them again. **GitHub demo:** a fictional standalone example, not an AI conversation.
+
+## Choose an approach when useful
+
+Start by telling your agent what is happening and what you want to change. **Problem** keeps that brief and your constraints together. These fields are optional; you can start with an unfinished question.
+
+**Approach** explains the method used for the selected branch, with an illustrative example, source and limitation. It includes open exploration, issue and hypothesis trees, quantitative drivers, solutions, objectives, decisions under uncertainty, opportunity solution trees and argument hierarchies. Your agent can choose a suitable approach; you can change it yourself. An approach change guides future additions and leaves existing thoughts in place.
+
+Different branches may use different approaches. **Connection** in Details explains how a thought relates to its parent. Expand its controls to change that relationship. A connection label records your reasoning; it does not prove the relationship or run a calculation.
+
+Agents should read the relevant recipe in [the tree-method guide](../references/tree-methods.md) before using a method. Each recipe covers its scope, steps, worked example and checks. Keep the person's problem in view instead of requiring them to learn the method names first.
 
 ## If something does not work
 

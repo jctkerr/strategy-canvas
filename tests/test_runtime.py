@@ -39,6 +39,20 @@ def sourced_example():
     return state
 
 
+def semantic_example():
+    state = example()
+    state["problem"] = {"situation": "A fictional shop has less cash available.",
+                        "desiredChange": "Understand the cause before choosing a remedy.",
+                        "constraints": "Use existing records; figures are illustrative."}
+    root = next(node for node in state["nodes"] if node["parentId"] is None)
+    root["method"] = "issue"
+    child = next(node for node in state["nodes"] if node["parentId"] == root["id"])
+    child["method"] = "driver"
+    child["relation"] = {"type": "part-of", "label": "Examine the cash result"}
+    child["kind"] = "metric"
+    return state
+
+
 class BootstrapParser(HTMLParser):
     def __init__(self):
         super().__init__()
@@ -66,6 +80,76 @@ class ValidationTests(unittest.TestCase):
             before = copy.deepcopy(state)
             self.assertEqual(state_store.validate(state), before)
             self.assertEqual(state, before)
+
+    def test_legacy_state_stays_untyped_and_unmodified(self):
+        state = example()
+        state.pop("problem", None)
+        for node in state["nodes"]:
+            node.pop("method", None)
+            node.pop("relation", None)
+        before = copy.deepcopy(state)
+        self.assertEqual(state_store.validate(state), before)
+        self.assertEqual(set(render_state.effective_methods(state).values()), {None})
+        self.assertEqual(state, before)
+
+    def test_optional_problem_and_all_method_relation_and_kind_values_validate(self):
+        state = semantic_example()
+        for field, values in (("method", state_store.METHODS), ("kind", state_store.KINDS)):
+            for value in values:
+                with self.subTest(field=field, value=value):
+                    state["nodes"][0][field] = value
+                    self.assertEqual(state_store.validate(state), state)
+        for relation in state_store.RELATIONS:
+            with self.subTest(relation=relation):
+                state["nodes"][1]["relation"] = {"type": relation, "label": "é" * 120}
+                state_store.validate(state)
+        state["problem"] = {}
+        state_store.validate(state)
+        state["problem"] = {key: "é" * 10000 for key in ("situation", "desiredChange", "constraints")}
+        state_store.validate(state)
+
+    def test_malformed_problem_metadata_is_rejected(self):
+        for problem in (None, [], "a problem", {"goal": "unknown field"},
+                        {"situation": False}, {"desiredChange": []}, {"constraints": "x" * 10001}):
+            with self.subTest(problem=str(problem)[:80]):
+                state = example()
+                state["problem"] = problem
+                with self.assertRaises(state_store.InvalidState):
+                    state_store.validate(state)
+
+    def test_malformed_method_relation_and_unimplemented_fields_are_rejected(self):
+        cases = [("method", value) for value in (None, [], {}, True, "profitability", "")]
+        cases += [("relation", value) for value in (
+            None, [], {}, {"label": "Missing type"}, {"type": []}, {"type": "proves"},
+            {"type": "supports", "weight": 0.9}, {"type": "supports", "label": False},
+            {"type": "supports", "label": "x" * 121})]
+        cases += [("reasoning", {}), ("probability", 0.5), ("payoff", 30), ("reviewed", True)]
+        for field, value in cases:
+            with self.subTest(field=field, value=value):
+                state = example()
+                state["nodes"][1][field] = value
+                with self.assertRaises(state_store.InvalidState):
+                    state_store.validate(state)
+
+    def test_root_cannot_claim_an_incoming_relation(self):
+        state = example()
+        next(node for node in state["nodes"] if node["parentId"] is None)["relation"] = {"type": "idea"}
+        with self.assertRaisesRegex(state_store.InvalidState, "root cannot"):
+            state_store.validate(state)
+
+    def test_method_is_inherited_from_nearest_explicit_ancestor(self):
+        state = semantic_example()
+        child = state["nodes"][1]
+        state["nodes"].append({"id": "nested-metric", "parentId": child["id"], "label": "Contribution",
+                               "kind": "metric", "status": "open", "notes": "",
+                               "relation": {"type": "calculated-from"}})
+        state["nodes"].reverse()  # Array order must not determine inheritance.
+        before = copy.deepcopy(state)
+        methods = render_state.effective_methods(state_store.validate(state))
+        self.assertEqual(methods["nested-metric"], "driver")
+        self.assertEqual(methods[child["id"]], "driver")
+        self.assertEqual(methods[next(node["id"] for node in state["nodes"] if node["parentId"] is None)], "issue")
+        self.assertEqual(state, before)
 
     def test_schema_and_revision_are_strict(self):
         for field, value in (("schemaVersion", True), ("schemaVersion", 2),
@@ -165,6 +249,20 @@ class SessionFixture(unittest.TestCase):
 
 
 class SessionTests(SessionFixture):
+    def test_semantics_survive_revision_updates_and_stale_conflicts(self):
+        proposed = semantic_example()
+        saved = state_store.update(self.session, proposed, 1)
+        edited = copy.deepcopy(saved)
+        edited["nodes"][-1]["notes"] = "A human changed this note."
+        latest = state_store.update(self.session, edited, 2)
+        self.assertEqual(latest["revision"], 3)
+        self.assertEqual(latest["problem"], proposed["problem"])
+        self.assertEqual(latest["nodes"][1]["relation"], proposed["nodes"][1]["relation"])
+        with self.assertRaises(state_store.Conflict) as caught:
+            state_store.update(self.session, saved, 2)
+        self.assertEqual(caught.exception.current, latest)
+        self.assertEqual(state_store.read_state(self.session), latest)
+
     def test_initialisation_preserves_existing_session(self):
         proposed = copy.deepcopy(self.original)
         proposed["title"] = "Saved conversation"
@@ -265,6 +363,39 @@ class ExportTests(SessionFixture):
         parser.feed(render_state.html_document(self.state, offline=False))
         self.assertEqual(json.loads(parser.boot), {"state": self.state, "offline": False})
 
+    def test_semantic_exports_preserve_safe_complete_metadata_and_grow_for_text(self):
+        state = semantic_example()
+        state["problem"]["situation"] = ("A long situation needing room. " * 80) + self.payload
+        state["nodes"][1]["relation"]["label"] = "A long relationship needing several wrapped lines " + self.payload
+        state["nodes"][1]["label"] = "A detailed metric needing its entire label visible " * 4
+        state["title"] = "A long title with its complete text retained " * 20
+        state_store.update(self.session, state, self.state["revision"])
+        saved, files = export_state.export_session(self.session, self.folder / "semantics")
+        self.assertEqual(json.loads(files["json"].read_text(encoding="utf-8")), saved)
+        parser = BootstrapParser()
+        parser.feed(files["html"].read_text(encoding="utf-8"))
+        self.assertEqual(json.loads(parser.boot)["state"], saved)
+        self.assertFalse(any(tag == "img" and attrs.get("onerror") for tag, attrs in parser.tags))
+        svg = ET.fromstring(files["svg"].read_text(encoding="utf-8"))
+        ns = {"svg": render_state.NS}
+        self.assertEqual(json.loads(svg.find("svg:metadata", ns).text), saved)
+        self.assertFalse(svg.findall(".//svg:script", ns))
+        problem = " ".join("".join(line.itertext()) for line in svg.findall("svg:text[@class='problem-brief']", ns))
+        self.assertIn(saved["problem"]["situation"], problem)
+        cards = svg.findall(".//svg:g[@class='tree-node']", ns)
+        child = next(card for card in cards if card.attrib["data-id"] == state["nodes"][1]["id"])
+        semantics = child.find("svg:text[@class='node-semantics']", ns)
+        visible = " ".join(semantics.itertext())
+        self.assertIn("Method: Driver tree", visible)
+        self.assertIn("Connection: Part of parent — " + state["nodes"][1]["relation"]["label"], visible)
+        bottom = float(semantics.attrib["y"]) + 12 * (len(semantics) - 1)
+        card_height = float(child.find("svg:rect", ns).attrib["height"])
+        self.assertLess(bottom + 10, card_height)
+        tree = svg.find("svg:g", ns)
+        tree_y = float(tree.attrib["transform"].split()[1].rstrip(")"))
+        self.assertLess(max(float(line.attrib["y"]) for line in svg.findall("svg:text", ns)), tree_y)
+        self.assertLess(tree_y + max(float(card.attrib["transform"].split()[1].rstrip(")")) + card_height for card in cards), float(svg.attrib["height"]))
+
     def test_export_refuses_to_overwrite_canonical_session(self):
         before = (self.session / "state.json").read_bytes()
         with self.assertRaises(state_store.InvalidState):
@@ -353,6 +484,22 @@ class HTTPTests(unittest.TestCase):
         status, _, body = self.request("PUT", body=payload, headers=headers)
         self.assertEqual(status, 409)
         self.assertEqual(json.loads(body)["current"], saved)
+        self.assertEqual(state_store.read_state(self.session), saved)
+
+    def test_semantic_metadata_round_trips_and_invalid_metadata_is_rejected(self):
+        proposed = semantic_example()
+        headers = {"Content-Type": "application/json", "Origin": self.origin}
+        status, _, body = self.request("PUT", body=json.dumps({"expectedRevision": 1, "state": proposed}), headers=headers)
+        self.assertEqual(status, 200)
+        saved = json.loads(body)
+        self.assertEqual(saved["problem"], proposed["problem"])
+        self.assertEqual(saved["nodes"], proposed["nodes"])
+        self.assertEqual(json.loads(self.request()[2]), saved)
+        invalid = copy.deepcopy(saved)
+        invalid["nodes"][1]["relation"]["probability"] = 0.5
+        status, _, body = self.request("PUT", body=json.dumps({"expectedRevision": 2, "state": invalid}), headers=headers)
+        self.assertEqual(status, 400)
+        self.assertIn("Relation fields", json.loads(body)["error"])
         self.assertEqual(state_store.read_state(self.session), saved)
 
     def test_untrusted_host_and_origin_cannot_read_or_write(self):

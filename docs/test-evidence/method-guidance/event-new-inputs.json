@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "title": "Fictional event · fresh cost inputs",
+  "question": "Hold this event or cancel?",
+  "context": "Fictional exercise. Supplied ticket price £24.50, variable cost £6.20 per attendee, and fixed avoidable cost £146.50. Attendance probabilities and capacity are unknown. No extra cost, demand estimate or expected payoff is invented. The calculations concern one event and non-negative integer paying attendance. Cancel is £0 under this supplied avoidable-cost model.",
+  "problem": {
+    "situation": "One event is being considered; paying attendance is unknown. Each ticket is £24.50, each attendee costs £6.20, and the event has £146.50 in avoidable fixed cost.",
+    "desiredChange": "Choose whether to hold or cancel while distinguishing a cost-covering threshold from evidence of demand.",
+    "constraints": "No demand probabilities or capacity figure. Fixed cost is explicitly avoidable if cancelled. Additional cancellation charges, discounts, step costs and non-financial benefits are not part of the supplied model. No preferred risk tolerance is assumed."
+  },
+  "nextQuestion": "How many paid bookings do you already have?",
+  "nodes": [
+    {
+      "id": "decision",
+      "parentId": null,
+      "label": "Hold or cancel · demand unknown",
+      "kind": "question",
+      "notes": "Actions for this one event: hold or cancel. These are mutually exclusive within the stated scope. Holding is followed by uncertain paying attendance; cancellation avoids the stated fixed and variable costs. Use £ per event consistently. Contribution = £24.50 − £6.20 = £18.30 per attendee. Holding payoff is £18.30N − £146.50. A continuous threshold of 8.005464480874316939890710383 attendees must be rounded UP to 9 because attendees are whole people. At 8, the event still loses £0.10; at 9, it has £18.20 surplus. Demand, capacity and risk tolerance remain unknown. Do not treat minimum attendance as evidence it will occur. No expected value or automatic recommendation can be derived without demand information. Draft decision analysis.",
+      "status": "uncertain",
+      "provenance": "context",
+      "method": "decision"
+    },
+    {
+      "id": "hold",
+      "parentId": "decision",
+      "label": "Hold the event",
+      "kind": "option",
+      "notes": "Choose to incur the £146.50 avoidable fixed cost and run this event. Net event contribution at N paying attendees = (£24.50 − £6.20)N − £146.50. Assumptions: everyone counted pays the stated price, variable cost is linear, and supplied costs are the complete model. No demand likelihood or additional revenue is assumed.",
+      "status": "open",
+      "provenance": "proposed",
+      "relation": {
+        "type": "choice",
+        "label": "Controllable action"
+      }
+    },
+    {
+      "id": "attendance",
+      "parentId": "hold",
+      "label": "Paying attendance · unknown",
+      "kind": "chance",
+      "notes": "N is non-negative integer paying attendance. The two child categories 0–8 and 9 or more are mutually exclusive and exhaustive within that population. Probabilities are unknown, not equal and not zero. Capacity is unknown, so feasibility of reaching nine has not been established. Outcome payoffs are conditional results, not expected values.",
+      "status": "uncertain",
+      "provenance": "context",
+      "relation": {
+        "type": "outcome",
+        "label": "Uncertain attendance after holding"
+      }
+    },
+    {
+      "id": "loss",
+      "parentId": "attendance",
+      "label": "0–8 attendees: loss",
+      "kind": "outcome",
+      "notes": "Probability: unknown. For integer N from 0 through 8, payoff £18.30N − £146.50 ranges from −£146.50 to −£0.10. Eight attendees do not cover the costs, even though the fractional threshold is very close to eight. This is an arithmetic range, not a forecast.",
+      "status": "uncertain",
+      "provenance": "proposed",
+      "relation": {
+        "type": "outcome",
+        "label": "N = 0, 1, …, 8"
+      }
+    },
+    {
+      "id": "surplus",
+      "parentId": "attendance",
+      "label": "9+ attendees: surplus",
+      "kind": "outcome",
+      "notes": "Probability: unknown. At nine paying attendees, £18.30 × 9 − £146.50 = £18.20 per event; each additional paying attendee adds £18.30 under the stated assumptions. No integer attendance produces exactly zero net payoff in this model. No upper capacity or attendance probability has been supplied.",
+      "status": "uncertain",
+      "provenance": "proposed",
+      "relation": {
+        "type": "outcome",
+        "label": "N ≥ 9; capacity unknown"
+      }
+    },
+    {
+      "id": "threshold",
+      "parentId": "surplus",
+      "label": "Minimum to cover costs: 9",
+      "kind": "metric",
+      "notes": "Minimum integer attendance = ceiling(fixed avoidable cost ÷ contribution per attendee) = ceiling(£146.50 ÷ £18.30) = ceiling(8.005464480874316939890710383) = 9. The children show numerator and denominator; ceiling is applied after division. Units: (£ per event) ÷ (£ per attendee) yields attendees per event. Independent Decimal arithmetic confirms payoff(8) = −£0.10 and payoff(9) = +£18.20. This supports the category boundary, not the chance that demand reaches it.",
+      "status": "supported",
+      "provenance": "proposed",
+      "method": "driver",
+      "relation": {
+        "type": "supports",
+        "label": "Explains the cost-covering boundary"
+      }
+    },
+    {
+      "id": "fixed",
+      "parentId": "threshold",
+      "label": "Avoidable fixed cost: £146.50",
+      "kind": "metric",
+      "notes": "Supplied cost: £146.50 per event, explicitly avoidable on cancellation. Numerator of the attendance threshold. No sunk cost or cancellation charge is invented.",
+      "status": "supported",
+      "provenance": "context",
+      "relation": {
+        "type": "calculated-from",
+        "label": "Numerator before rounding up"
+      }
+    },
+    {
+      "id": "contribution",
+      "parentId": "threshold",
+      "label": "Contribution: £18.30 per attendee",
+      "kind": "metric",
+      "notes": "£24.50 − £6.20 = £18.30 contribution per paying attendee. Denominator of fixed cost divided by contribution. This is contribution before the event fixed cost, not net profit per attendee.",
+      "status": "supported",
+      "provenance": "proposed",
+      "relation": {
+        "type": "calculated-from",
+        "label": "Divide by contribution per attendee"
+      }
+    },
+    {
+      "id": "price",
+      "parentId": "contribution",
+      "label": "Ticket price: £24.50",
+      "kind": "metric",
+      "notes": "Supplied revenue per paying attendee. Add as the positive input to contribution; no discount or refund is assumed.",
+      "status": "supported",
+      "provenance": "context",
+      "relation": {
+        "type": "calculated-from",
+        "label": "Add ticket revenue"
+      }
+    },
+    {
+      "id": "variable",
+      "parentId": "contribution",
+      "label": "Variable cost: £6.20",
+      "kind": "metric",
+      "notes": "Supplied variable cost per attendee. Subtract from ticket revenue; assumes no cost step changes within the relevant attendance range.",
+      "status": "supported",
+      "provenance": "context",
+      "relation": {
+        "type": "calculated-from",
+        "label": "Subtract variable cost"
+      }
+    },
+    {
+      "id": "cancel",
+      "parentId": "decision",
+      "label": "Cancel the event",
+      "kind": "option",
+      "notes": "Avoid the £146.50 fixed event cost, incur no attendee-related cost and receive no ticket revenue under the supplied model. Because fixed cost is explicitly avoidable, it is not deducted again under cancellation. Any unmentioned fees would require an update; none is fabricated.",
+      "status": "open",
+      "provenance": "proposed",
+      "relation": {
+        "type": "choice",
+        "label": "Controllable action"
+      }
+    },
+    {
+      "id": "cancel-payoff",
+      "parentId": "cancel",
+      "label": "Cancel: £0 in this model",
+      "kind": "outcome",
+      "notes": "Conditional on the supplied complete-cost model: no event revenue and no event expenditure, giving £0 per event. This is a fixed outcome, not a chance distribution. Compare against holding payoffs of £18.30N − £146.50. No additional cancellation charge, refund liability or non-financial cost has been supplied.",
+      "status": "supported",
+      "provenance": "proposed",
+      "relation": {
+        "type": "outcome",
+        "label": "Avoid all stated event costs"
+      }
+    }
+  ],
+  "decision": {
+    "recommendation": "Keep the choice open until demand and capacity are clearer. Nine paying attendees are needed to cover the stated costs; eight still loses £0.10.",
+    "rationale": "Cancel yields £0 under the supplied avoidable-cost model. Holding loses money at 0–8 paying attendees and yields a surplus at 9 or more, starting at £18.20. The model supplies no likelihood of either category, so an expected payoff or unconditional recommendation would invent demand. Confirm current paid bookings and whether the room can accommodate at least nine before using the threshold for a decision; risk tolerance or other objectives could also change the choice.",
+    "uncertainties": [
+      "Paying attendance and the evidence supporting it.",
+      "Whether capacity is at least nine.",
+      "The decision-maker’s willingness to risk a loss or value non-financial benefits.",
+      "Whether any additional charge or nonlinear cost should be added to the model."
+    ],
+    "nextSteps": [
+      "Check existing paid bookings and the commitment deadline.",
+      "Confirm capacity before assuming the nine-attendee threshold is feasible."
+    ]
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "title": "Fictional event · demand remains unknown",
+  "question": "Hold this event or cancel?",
+  "context": "Fictional exercise using only the supplied £20 ticket, £5 variable cost per attendee and £120 fixed event cost. No attendance forecast, probability, capacity, cancellation cost or risk preference has been supplied. Calculations use paying attendees and the stated total costs. Break-even is not evidence of demand or an unconditional recommendation.",
+  "problem": {
+    "situation": "One event is being considered. Attendance is unknown. Ticket price is £20, variable cost is £5 per attendee and the fixed event cost is £120.",
+    "desiredChange": "Choose whether to hold or cancel with an honest view of the financial threshold and unresolved demand risk.",
+    "constraints": "Demand probabilities, paid bookings, capacity, commitment deadline, cancellation charges and which fixed costs are avoidable remain unknown. No extra costs or willingness to accept losses are assumed."
+  },
+  "nextQuestion": "Do you have any paid bookings yet?",
+  "nodes": [
+    {
+      "id": "decide",
+      "parentId": null,
+      "label": "Hold or cancel · choice open",
+      "kind": "question",
+      "status": "uncertain",
+      "notes": "Bounded decision: hold this one event or cancel it. These are mutually exclusive actions for this event. Root children contain only those actions. Holding has an attendance chance node; attendance categories 0–7, exactly 8 and 9 or more exhaust non-negative integer paying attendance without assuming a capacity. No probabilities are known, so no expected payoff or rollback is calculated. Financial comparison also needs avoidable costs: a £120 sunk cost must not be counted as a new consequence of holding if cancellation cannot recover it. Non-financial value and risk tolerance are unknown. Conditional result only: eight attendees cover the stated total costs under the linear-cost assumptions. Draft decision, not solved.",
+      "provenance": "context",
+      "method": "decision"
+    },
+    {
+      "id": "hold",
+      "parentId": "decide",
+      "label": "Hold the event",
+      "kind": "option",
+      "status": "open",
+      "notes": "Commit to running this event. Stated-cost net result for N paying attendees: (£20 − £5) × N − £120 = £15N − £120, in pounds per event. This assumes every attendee pays £20, each incurs £5 variable cost, and £120 is the complete fixed event cost; it omits no invented cost or revenue. It is a total-cost result, not necessarily the incremental result versus cancellation. No demand probability is supplied.",
+      "provenance": "proposed",
+      "relation": {
+        "type": "choice",
+        "label": "Controllable action for this event"
+      }
+    },
+    {
+      "id": "attendance",
+      "parentId": "hold",
+      "label": "Paying attendance is unknown",
+      "kind": "chance",
+      "status": "uncertain",
+      "notes": "Chance outcome after the hold decision. N is a non-negative integer count of paying attendees at this one event. The three child categories partition N: 0–7, 8, and 9 or more. Their probabilities are all unknown and are not assumed equal. Payoffs are conditional ranges/formulas, not expected values. Capacity may narrow the possible upper range but has not been supplied.",
+      "provenance": "context",
+      "relation": {
+        "type": "outcome",
+        "label": "Uncertain number of paying attendees"
+      }
+    },
+    {
+      "id": "loss",
+      "parentId": "attendance",
+      "label": "0–7 attendees: a loss",
+      "kind": "outcome",
+      "status": "uncertain",
+      "notes": "Probability: unknown. With N from 0 through 7, the stated-cost net result £15N − £120 ranges from −£120 through −£15 per event. The zero-attendance loss is conditional on incurring the £120 when held. These are arithmetic bounds, not attendance predictions.",
+      "provenance": "proposed",
+      "relation": {
+        "type": "outcome",
+        "label": "N = 0, 1, …, 7"
+      }
+    },
+    {
+      "id": "break-even",
+      "parentId": "attendance",
+      "label": "8 attendees: break-even",
+      "kind": "outcome",
+      "status": "uncertain",
+      "notes": "Probability: unknown. At N = 8, £20 × 8 − £5 × 8 − £120 = £0 per event. The threshold is computed as N_break_even = fixed event cost ÷ contribution per attendee = £120 ÷ (£20 − £5) = 8 paying attendees. The child driver structure explains how this threshold is calculated; it does not assign its likelihood. Constant prices and linear costs are assumed, with no additional threshold cost or discount. Eight seats must be feasible; capacity is unknown.",
+      "provenance": "proposed",
+      "method": "driver",
+      "relation": {
+        "type": "outcome",
+        "label": "N = 8 exactly"
+      }
+    },
+    {
+      "id": "fixed",
+      "parentId": "break-even",
+      "label": "Fixed event cost: £120",
+      "kind": "metric",
+      "status": "supported",
+      "notes": "Supplied by the user: £120 per event. Numerator of N_break_even = fixed cost ÷ contribution per attendee. Whether it is recoverable or avoidable on cancellation is not supplied. Do not silently assume cancellation has a £0 result.",
+      "provenance": "context",
+      "relation": {
+        "type": "calculated-from",
+        "label": "Numerator: £ per event"
+      }
+    },
+    {
+      "id": "contribution",
+      "parentId": "break-even",
+      "label": "Contribution per attendee: £15",
+      "kind": "metric",
+      "status": "supported",
+      "notes": "Arithmetic: £20 ticket revenue per attendee − £5 variable cost per attendee = £15 contribution per paying attendee. Divide fixed event cost by this amount to obtain the threshold attendance. This is not profit per attendee after allocating fixed cost. No future demand is implied.",
+      "provenance": "proposed",
+      "relation": {
+        "type": "calculated-from",
+        "label": "Divide by: £ per paying attendee"
+      }
+    },
+    {
+      "id": "ticket",
+      "parentId": "contribution",
+      "label": "Ticket price: £20",
+      "kind": "metric",
+      "status": "supported",
+      "notes": "Supplied price: £20 per paying attendee. Positive input to contribution = ticket price − variable cost. Assumes no discounts, refunds or unpaid attendance within N.",
+      "provenance": "context",
+      "relation": {
+        "type": "calculated-from",
+        "label": "Add ticket revenue per attendee"
+      }
+    },
+    {
+      "id": "variable",
+      "parentId": "contribution",
+      "label": "Variable cost: £5",
+      "kind": "metric",
+      "status": "supported",
+      "notes": "Supplied variable cost: £5 per attendee. Subtract it from ticket revenue to obtain contribution. Constant across the attendance range by assumption; actual step costs are not known.",
+      "provenance": "context",
+      "relation": {
+        "type": "calculated-from",
+        "label": "Subtract variable cost per attendee"
+      }
+    },
+    {
+      "id": "surplus",
+      "parentId": "attendance",
+      "label": "9+ attendees: a surplus",
+      "kind": "outcome",
+      "status": "uncertain",
+      "notes": "Probability: unknown. At N = 9, the stated-cost result is +£15 per event; each further paying attendee adds £15 under the supplied linear-cost assumptions. General payoff: £15N − £120. There is no asserted maximum because capacity is unknown. The shop may value time or other costs absent from the prompt; those could change the threshold.",
+      "provenance": "proposed",
+      "relation": {
+        "type": "outcome",
+        "label": "N ≥ 9; upper capacity unknown"
+      }
+    },
+    {
+      "id": "cancel",
+      "parentId": "decide",
+      "label": "Cancel the event",
+      "kind": "option",
+      "status": "open",
+      "notes": "Controllable alternative for this one event. No attendance revenue or attendee-related costs would arise if it is cancelled, but the treatment of the fixed cost, fees, refunds and commitments is unknown. If all event costs are avoidable and no cancellation charge applies, its incremental cash result is £0; that is a conditional scenario, not a supplied fact.",
+      "provenance": "proposed",
+      "relation": {
+        "type": "choice",
+        "label": "Controllable action for this event"
+      }
+    },
+    {
+      "id": "cancel-result",
+      "parentId": "cancel",
+      "label": "Cancellation cost still unknown",
+      "kind": "outcome",
+      "status": "uncertain",
+      "notes": "Do not insert £0 as an established payoff. Ask which part of the £120 has already been spent or cannot be recovered, and whether cancellation incurs charges. Compare future avoidable cash flows consistently across hold and cancel; any common sunk cost cancels out of the incremental comparison. No probability is needed for a certain cancellation payoff once its contractual basis is known.",
+      "provenance": "context",
+      "relation": {
+        "type": "outcome",
+        "label": "Depends on existing commitments"
+      }
+    }
+  ],
+  "decision": {
+    "recommendation": "No unconditional hold-or-cancel recommendation yet. Eight paying attendees cover the stated total costs under the stated assumptions.",
+    "rationale": "The price and cost arithmetic establish a hurdle, not demand. No probability distribution is supplied, so expected monetary value cannot be calculated. Paid bookings before any commitment deadline would inform demand; avoidable fixed cost and cancellation terms determine the correct comparison. If a financial break-even rule is wanted, it must be agreed alongside the downside the owner accepts.",
+    "uncertainties": [
+      "Paying attendance and the evidence for it.",
+      "Which fixed costs cancellation would avoid, and any cancellation charges.",
+      "Capacity and whether costs remain linear at relevant attendance.",
+      "Whether the owner values non-financial benefits or accepts a possible loss."
+    ],
+    "nextSteps": [
+      "Check existing paid bookings and the commitment deadline before deciding.",
+      "Clarify avoidable cost and cancellation terms before assigning the cancel payoff."
+    ]
+  }
+}
