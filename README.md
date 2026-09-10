@@ -1,71 +1,42 @@
 # Strategy Canvas
 
-**See your options clearly. Work through a decision on your own or with your AI agent.**
+**Think through a question with a tree you can edit.**
 
-Explore a choice in conversation while a visual tree keeps your options, assumptions and evidence in view. Open a promising branch, challenge it, and return to the wider picture when you need to.
+See your options, assumptions and evidence together. Work on your own, or let your AI agent help you think it through.
 
-**[Start with your question](https://jctkerr.github.io/strategy-canvas/new.html)** · [Explore a worked example](https://jctkerr.github.io/strategy-canvas/)
+**[Open a blank canvas](https://jctkerr.github.io/strategy-canvas/new.html)** · [See a fictional example](https://jctkerr.github.io/strategy-canvas/)
+
+Enter a question. Click a card to edit; use **+** to add a branch. **?** explains the tree types. Different branches can use different types.
 
 ![A fictional sales decision shown in Strategy Canvas](docs/images/canvas-preview.png)
 
-The demo is a fictional sales decision you can explore and edit. There is also a [fictional career example](https://jctkerr.github.io/strategy-canvas/career.html). Neither contains an AI conversation; export your changes before closing or reloading the tab.
+## With your agent
 
-**[James Kerr](https://jameskerr.me)** · Free and open source · [MIT licence](LICENSE)
+The **canvas** is your visual workspace. The **skill** teaches your existing agent how to guide the conversation and update the tree. There is no AI built into the canvas.
 
-## Use it for your decision
-
-The **canvas** works manually: enter a question, add branches and edit as you think. The **skill** gives your agent instructions for working through the same decision with you.
-
-For a manual start, open [a blank canvas](https://jctkerr.github.io/strategy-canvas/new.html). Enter a question or choose **Go straight to canvas** and add it later. Export the HTML to keep your work. To continue with an agent, attach the exported JSON and ask it to open a live session from that tree.
-
-Copy this into your agent and replace the final question with your own:
+Use an agent that can work with files and run code, such as Codex, Claude Code or Cursor. Paste this and replace the last line:
 
 ```text
-Use Strategy Canvas to help me think this through:
+Use Strategy Canvas:
 https://github.com/jctkerr/strategy-canvas
 
-Set up the skill, follow its instructions and open the editable
-canvas inside this app, beside our conversation. Reuse that view
-as we work. Keep assumptions visible and leave the choice open.
+Install the complete skill and open the canvas beside our conversation.
+Help me sharpen my question, choose useful tree types and develop
+branches as we talk. Preserve my manual edits.
 
-My question: Where should I focus extra sales effort over the next
-three months?
+My question: [What would you like to think through?]
 ```
 
-Use an agent with file access and code execution, such as Codex, Claude Code or Cursor. Your agent handles the setup; its usual access and costs apply. Check the compatibility record below for the exact workflows tested.
+Your agent handles setup. You do not need to learn the tree types first. Your usual agent access and costs apply; [see which setups we have tested](docs/compatibility.md).
 
-For installation, agent-specific commands or troubleshooting, see the **[agent guide](docs/agent-guide.md)**. Our **[compatibility record](docs/compatibility.md)** separates tested workflows from documented but untested setups.
+## Keep your work
 
-## Think it through together
+Live sessions save on the computer running them. Ask your agent for a downloadable copy.
 
-Start on the tree. The **?** at the top right explains each tree type in one line and how to work with your agent. **Quick start** and **How to use** are available when you want more guidance.
+Using the browser link or a downloaded canvas? Choose **Export → Interactive canvas** before closing or reloading. Check that the file downloaded.
 
-1. **Start with your question.** Type it into a blank canvas or give your agent the situation and constraints. Use **Edit** beside the heading to refine it later.
-2. **Explore and challenge.** Ask about one branch, click a thought to edit it, or hover/click its **+** to choose what to add beneath it. The agent should build on your latest edits.
-3. **Keep what you learn.** Ask for a complete HTML export, or use **Export** in the canvas. You can pause with open alternatives or compare them when ready.
+To continue a manual tree with your agent, attach the file from **Export → Editable state (JSON)**.
 
-Click **Tree type** on a card to open a small menu beside it. Choose once to save; **Undo** reverses the change. Children follow that type until a branch sets its own. **Example & help** holds the explanation and source. The menu marks a suitable type as **Suggested** when the card gives a clear clue; it keeps your existing choice until you select another. New children start with a suitable card kind, changeable under **Details**. Editing opens a compact writing surface beside the card; save to return to the tree.
+[Setup & troubleshooting](docs/agent-guide.md) · [Tree types, examples & sources](references/tree-methods.md)
 
-With a card focused: **A** adds a child, **Shift+A** a sibling, **Enter/E** edits and **T** opens tree types. **Cmd/Ctrl+Enter** saves in an editor. **Escape** returns to the tree after saving; it keeps unsaved drafts. **Keyboard shortcuts** on the canvas shows navigation controls too.
-
-**Analysis** keeps the next steps alongside the tree:
-
-- **Numbers:** change assumptions and see formulas recalculate across three scenarios. Missing inputs and broken formulas stay visible.
-- **Workplan:** connect an investigation to the question it could resolve, including the evidence needed and what you found.
-- **Brief:** write your answer and supporting claims, link their sources and model results, then export an editable PowerPoint. A changed session flags an older brief for checking.
-
-These are optional. Start with the tree and use them when they help. The [fictional workshop example](https://jctkerr.github.io/strategy-canvas/workshop.html) shows the complete workflow; its figures are illustrative assumptions, not evidence of demand.
-
-For broader strategy work, your agent can use the [sourced business-framework recipes](references/business-frameworks.md). They explain Five Forces, SWOT/TOWS, the strategy kernel, the strategy choice cascade and the growth-share matrix in their intended scopes, with examples and limits. They are agent guidance, not five dedicated editors.
-
-The tree makes reasoning visible. It does not establish that every option has been found or that its claims are true.
-
-## Where your work lives
-
-A live session saves on the computer running it: yours for a local agent, or the host's for a cloud agent. Use the preview your agent provides.
-
-Downloaded HTML works on its own. Export before closing or reloading to keep your edits. To continue from those edits with your agent, export the JSON and attach it. Exports include the whole tree, notes and sources; review them before sharing.
-
-The canvas has no accounts, analytics or automatic publishing. Your agent may process material through its own provider.
-
-For the file format, API and export details, see the [runtime reference](references/schema.md).
+**[James Kerr](https://jameskerr.me)** · Free and open source · [MIT licence](LICENSE)

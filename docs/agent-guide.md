@@ -1,6 +1,6 @@
 # Use Strategy Canvas with your agent
 
-Start with the [copy-and-paste prompt in the README](../README.md#use-it-for-your-decision). Your agent can handle setup. Use the instructions below if you prefer a reusable installation or need to troubleshoot.
+Start with the [copy-and-paste prompt in the README](../README.md#with-your-agent). Your agent can handle setup. Use the instructions below if you prefer a reusable installation or need to troubleshoot.
 
 Keep the complete folder: `SKILL.md` alone cannot run the canvas.
 
