@@ -22,7 +22,7 @@ const fixture = {
 async function read() { const r=await fetch(origin+'/api/state'); assert.equal(r.status,200); return r.json(); }
 async function put(s) { const before=await read(); const r=await fetch(origin+'/api/state',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({expectedRevision:before.revision,state:s})}); assert.equal(r.status,200,await r.clone().text()); return r.json(); }
 const card=(p,id)=>p.locator('.tree-node[data-id="'+id+'"]');
-async function saved(p, button='#save') { const request=p.waitForResponse(r=>r.url().endsWith('/api/state')&&r.request().method()==='PUT'); await p.locator(button).click(); assert.equal((await request).status(),200); return read(); }
+async function saved(p, button='#save') { const request=p.waitForResponse(r=>r.url().endsWith('/api/state')&&r.request().method()==='PUT'); await p.locator(button).click(); assert.equal((await request).status(),200); if(button==='#save')await p.locator('.inspector').waitFor({state:'hidden'}); return read(); }
 async function closeEditor(p) { if(await p.locator('#main').evaluate(el=>el.classList.contains('inspect-open'))) await p.locator('#close-details').click(); }
 async function exportJSON(p,name) { await p.locator('details.export summary').click(); const pending=p.waitForEvent('download'); await p.locator('[data-export="json"]').click(); const file=path.join(output,name); await(await pending).saveAs(file); return JSON.parse(await fs.readFile(file,'utf8')); }
 (async()=>{
@@ -37,11 +37,26 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     await card(page,'a').click();
     assert.equal(await page.locator('#label').isVisible(),true,'A card opens its editor directly');
     assert.equal(await page.locator('#notes').isVisible(),false,'Metadata stays behind Details');
+    assert.equal(await page.locator('#kind').isVisible(),false,'Routine editing shows no card-kind selector');
+    assert.equal(await page.locator('.inspector textarea:visible, .inspector input:visible, .inspector select:visible').count(),1,'Routine editing presents only the thought field');
+    const editor=await page.locator('.inspector').boundingBox(), selectedCard=await card(page,'a').locator('rect.card').boundingBox();
+    assert.ok(editor.width<=360&&editor.height<340,'The initial editor is a compact card rather than a tall drawer');
+    assert.ok(editor.x>=0&&editor.y>=0&&editor.x+editor.width<=1401&&editor.y+editor.height<=951,'The editor remains within the viewport');
+    const gapX=Math.max(0,editor.x-(selectedCard.x+selectedCard.width),selectedCard.x-(editor.x+editor.width));
+    const gapY=Math.max(0,editor.y-(selectedCard.y+selectedCard.height),selectedCard.y-(editor.y+editor.height));
+    assert.ok(gapX<=32&&gapY<=32,'The editor is anchored next to the selected card');
+    assert.equal(await page.locator('dialog[open], [aria-modal="true"]:visible').count(),0,'Editing keeps the canvas nonmodal');
+    await page.screenshot({path:path.join(output,'compact-editor-desktop.png')});
     await page.locator('#label').fill('Understand queueing');
+    await page.locator('#close-details').click();
+    assert.equal(await page.locator('#label').isVisible(),true,'Close keeps an unsaved editor available');
+    assert.equal(await page.locator('#label').inputValue(),'Understand queueing','Close preserves the unsaved wording');
+    assert.deepEqual(await read(),initial,'Closing a dirty editor never saves or discards implicitly');
     const renamed=await saved(page);
     const actual=renamed.nodes.find(n=>n.id==='a'), expected={...initial.nodes.find(n=>n.id==='a'),label:'Understand queueing'};
     assert.deepEqual(actual,expected,'A label-only edit must retain hidden metadata');
-    checks.push('Click edits directly; label changes preserve hidden notes, source, status and relationship.');
+    assert.equal(await card(page,'a').evaluate(el=>el===document.activeElement),true,'Saving an edit returns keyboard focus to its card');
+    checks.push('The editor is compact, anchored and nonmodal; one field opens by default, dirty Close keeps the draft, and Save returns focus with hidden metadata preserved.');
 
     await closeEditor(page); await page.locator('#fit').click();
     await card(page,'b').locator('.node-add').click();
@@ -50,6 +65,7 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     const added=await saved(page), node=added.nodes.find(n=>n.label==='Check delivery promises');
     assert.equal(node.parentId,'b','Plus must add to the clicked card, not the prior selection');
     assert.ok(node.relation?.type); assert.notEqual(node.status,'supported');
+    assert.equal(await card(page,node.id).evaluate(el=>el===document.activeElement),true,'Adding returns keyboard focus to the new card');
     assert.deepEqual(added.nodes.find(n=>n.id==='a'),actual);
     await closeEditor(page); await page.locator('#fit').click();
     const beforeToggle=await read();
@@ -138,6 +154,7 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     }
     checks.push('A delayed type save pauses selection and editing; after it finishes, fresh wording saves with hidden notes preserved.');
 
+    await card(page,'a').click();
     await page.locator('#label').fill('Unsaved local wording');
     const external=await read(); external.nodes.find(n=>n.id==='a').notes='New notes from another editor.'; await put(external);
     await page.locator('#conflict').waitFor({state:'visible'});
@@ -170,7 +187,12 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     checks.push('Standalone export keeps direct editing and the complete state without changing the live session.');
 
     await page.setViewportSize({width:390,height:844}); await page.locator('#fit').click();
-    await card(page,'a').click(); await card(page,'a').locator('.node-type').click();
+    await card(page,'a').click();
+    const mobileEditor=await page.locator('.inspector').boundingBox();
+    assert.ok(mobileEditor.x>=0&&mobileEditor.y>=0&&mobileEditor.x+mobileEditor.width<=391&&mobileEditor.y+mobileEditor.height<=845,'The compact editor fits a phone-width viewport');
+    assert.ok(mobileEditor.height<340&&mobileEditor.y>400,'The phone editor occupies a compact area at the bottom');
+    await page.screenshot({path:path.join(output,'compact-editor-mobile.png')});
+    await card(page,'a').locator('.node-type').click();
     const box=await page.locator('#approach-panel').boundingBox();
     assert.ok(box.x>=0&&box.y>=0&&box.x+box.width<=391&&box.y+box.height<=845);
     await page.screenshot({path:path.join(output,'mobile-tree-types.png')});

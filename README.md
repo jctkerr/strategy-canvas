@@ -44,7 +44,7 @@ Start on the tree. **Quick start** and **How to use** are available when you wan
 2. **Explore and challenge.** Ask about one branch, click a thought to edit it, or use its **+** to add beneath it. The agent should build on your latest edits.
 3. **Keep what you learn.** Ask for a complete HTML export, or use **Export** in the canvas. You can pause with open alternatives or compare them when ready.
 
-Click **Tree type** on a card to open a small menu beside it. Choose once to save; **Undo** reverses the change. Children follow that type until a branch sets its own. **Example & help** holds the explanation and source. The menu marks a suitable type as **Suggested** when the card gives a clear clue; it keeps your existing choice until you select another. New children start with a suitable card kind, visible and editable above their wording.
+Click **Tree type** on a card to open a small menu beside it. Choose once to save; **Undo** reverses the change. Children follow that type until a branch sets its own. **Example & help** holds the explanation and source. The menu marks a suitable type as **Suggested** when the card gives a clear clue; it keeps your existing choice until you select another. New children start with a suitable card kind, changeable under **Details**. Editing opens a compact writing surface beside the card; save to return to the tree.
 
 With a card focused: **A** adds a child, **Shift+A** a sibling, **Enter/E** edits and **T** opens tree types. **Cmd/Ctrl+Enter** saves in an editor. **Escape** returns to the tree after saving; it keeps unsaved drafts. **Keyboard shortcuts** on the canvas shows navigation controls too.
 

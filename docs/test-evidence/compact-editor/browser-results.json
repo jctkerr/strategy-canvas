@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "checks": [
+    "Add opens an unsaved draft; discard preserves the original state.",
+    "issue: guide/source visible, typed addition saved, original alternative preserved, undo works.",
+    "hypothesis: guide/source visible, typed addition saved, original alternative preserved, undo works.",
+    "driver: guide/source visible, typed addition saved, original alternative preserved, undo works.",
+    "solution: guide/source visible, typed addition saved, original alternative preserved, undo works.",
+    "objectives: guide/source visible, typed addition saved, original alternative preserved, undo works.",
+    "decision: guide/source visible, typed addition saved, original alternative preserved, undo works.",
+    "opportunity: guide/source visible, typed addition saved, original alternative preserved, undo works.",
+    "argument: guide/source visible, typed addition saved, original alternative preserved, undo works.",
+    "Hypothesis, product-discovery, decision and argument branches offer the correct successive component roles.",
+    "Changing an approach preserves all existing content and child metadata.",
+    "Problem brief saves; JSON round-trip is exact; HTML, SVG and Markdown carry the semantics.",
+    "Concurrent external edits keep a local draft and expose the conflict.",
+    "Approach and Add are usable at 390px; no browser script errors."
+  ]
+}

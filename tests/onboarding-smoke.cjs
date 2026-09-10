@@ -78,6 +78,7 @@ async function visibleWithin(page, selector, container) {
     assert.match(await page.locator('#new-child-hint').innerText(), /Paid workshops/);
     await page.locator('#label').fill('Would people book in advance?');
     await page.locator('#thought-details > summary').click();
+    await page.locator('#evidence-details > summary').click();
     await page.locator('#notes').fill('Unfinished reasoning to keep.');
     const draft = await page.locator('#kind').inputValue();
     await page.locator('#help-open').click();

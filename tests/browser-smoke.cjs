@@ -139,6 +139,7 @@ async function download(page, format, name) {
 
     await load(fixture('issue'));
     await page.locator('#thought-details > summary').click();
+    await page.locator('#evidence-details > summary').click();
     await page.locator('#notes').fill('A draft that must survive a concurrent edit.');
     const external=await read(); external.nodes[0].notes='New notes from another editor.'; await put(external);
     await page.locator('#conflict').waitFor({state:'visible'});
