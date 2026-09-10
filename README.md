@@ -38,7 +38,7 @@ For installation, agent-specific commands or troubleshooting, see the **[agent g
 
 ## Think it through together
 
-Start on the tree. **Quick start** and **How to use** are available when you want guidance.
+Start on the tree. The **?** at the top right explains each tree type in one line and how to work with your agent. **Quick start** and **How to use** are available when you want more guidance.
 
 1. **Start with your question.** Type it into a blank canvas or give your agent the situation and constraints. Use **Edit** beside the heading to refine it later.
 2. **Explore and challenge.** Ask about one branch, click a thought to edit it, or hover/click its **+** to choose what to add beneath it. The agent should build on your latest edits.
