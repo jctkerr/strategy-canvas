@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "revision": 3,
+  "title": "Bookshop spare-room decision (fictional)",
+  "question": "For the next three months, how should the neighbourhood bookshop use its spare room?",
+  "context": "FICTIONAL CASE ONLY. A neighbourhood bookshop has a spare room. Stated options for the next three months: (1) paid workshops, (2) quiet reading room, (3) keep as storage. One staff member has five hours a week available. Demand and budget are unknown. No personal files, integrations or real business data were used. All figures and local demand claims are absent by design; assumptions are marked uncertain. Recommendation deliberately left empty. Shared constraints (not room-use options): one staff member has five hours a week; demand and budget are unknown. Comparison lenses when ready (attach under options, not as root siblings): revenue/contribution over 3 months; staff-hour fit within 5 h/week; budget/setup risk; learning value; ops/storage value preserved; reversibility after 3 months. Evidence boundary: only the fictional brief was used — no sales figures, demographics, competitor events, cost quotes, interviews, or personal/business integrations; no numbers invented. Sources: user-supplied fictional case; public Strategy Canvas repository for method/runtime only.",
+  "nextQuestion": "Which consequential unknown would you rather resolve first: likely workshop demand, reading-room footfall, or storage value of the room?",
+  "nodes": [
+    {
+      "id": "root",
+      "parentId": null,
+      "label": "Use of spare room (3 months)",
+      "kind": "question",
+      "status": "open",
+      "notes": "Mode: explore mutually exclusive primary uses for the next three months; leave choice open.\n\nFirst-split check (method.md choice-tree rule): root children answer only which primary room use to pursue. Shared criteria, staffing/budget constraints and evidence boundaries live in session context and these root notes — not as sibling cards.\n\nParent question / universe: primary use of the spare room for the next three months among the three stated options. Horizon: three months. Excluded for now: permanent renovation, selling the space, long leases, multi-use hybrids as a fourth primary category (hybrids noted under options if useful).\n\nGrouping basis: primary room use (what the room is mainly for).\n\nSibling boundaries:\n- Workshops: scheduled, ticketed learning events as primary use.\n- Reading room: quiet sit-and-read space as primary use (may be free or lightly charged; charging is a variant, not a separate top option).\n- Storage: room held for stock/ops storage; no public programme.\n\nThese three exhaust the user's stated choice set. Overlap: a workshop evening in an otherwise reading room is a hybrid — primary-placement by intended main use for the three-month trial; secondary uses in option notes.\n\nConstraints from the brief (also in context): one staff member, five hours/week; demand unknown; budget unknown. Implications remain under each option.\n\nShared comparison lenses (not root children): revenue/contribution; staff-hour fit; budget/setup risk; learning value; ops/storage value; reversibility. Detail previously held under Shared criteria / Evidence boundary is preserved in context and option branches.\n\nDraft / unreviewed exploration — structural first-split corrected; not a certified recommendation."
+    },
+    {
+      "id": "opt-workshops",
+      "parentId": "root",
+      "label": "Paid workshops",
+      "kind": "option",
+      "status": "open",
+      "notes": "Primary use: ticketed workshops in the spare room for three months.\n\nProposed mechanism: events create incremental revenue and footfall that may lift book sales; requires marketing, hosting capacity and enough paying demand.\n\nDepends on: topics people will pay for, price, frequency feasible in 5 staff hours/week, materials/setup cost, and whether the room suits groups.\n\nProposed alternative, not a recommendation. Provenance: proposed from the stated case only.",
+      "provenance": "proposed"
+    },
+    {
+      "id": "ws-mechanism",
+      "parentId": "opt-workshops",
+      "label": "How workshops could help",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Causal sketch (unverified):\n1) Attract paying attendees → workshop fee income.\n2) Attendees browse/buy books → ancillary retail uplift.\n3) Recurring programme builds local habit → repeat visits.\n\nBreak conditions: weak topic/price fit; marketing reach too small; staff hours consumed by prep/cleanup with little surplus; room capacity/ambiance poor for groups; cannibalises quiet browsing.\n\nNo demand or margin data in the brief."
+    },
+    {
+      "id": "ws-staff-constraint",
+      "parentId": "opt-workshops",
+      "label": "5 staff hours/week limit",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Known constraint from brief: one staff member has five hours a week.\n\nImplication (inference): feasible workshop cadence is likely low (e.g. one short session per week or fortnight) once prep, hosting, cleanup and bookings are included. Exact hours per workshop unknown — mark as gap.\n\nBasis: stated constraint + inference about event ops. Not measured."
+    },
+    {
+      "id": "ws-demand-gap",
+      "parentId": "opt-workshops",
+      "label": "Paying demand unknown",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Budget and demand unknown per brief.\n\nConsequential gap: whether enough locals will pay at a price that covers materials, staff time and room opportunity cost.\n\nPossible cheap checks (proposals, not instructions to run): waitlist interest for 1–2 topics; ask regulars; look at similar local event prices (public, if researched later). No check run in this session."
+    },
+    {
+      "id": "ws-budget-gap",
+      "parentId": "opt-workshops",
+      "label": "Setup & materials budget unknown",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Budget unknown. Workshops may need chairs, materials, insurance, payment tooling, or guest facilitator fees. Without a budget ceiling, financial viability cannot be assessed. Keep as explicit gap."
+    },
+    {
+      "id": "opt-reading",
+      "parentId": "root",
+      "label": "Quiet reading room",
+      "kind": "option",
+      "status": "open",
+      "notes": "Primary use: quiet space for sitting and reading for three months.\n\nProposed mechanism: better dwell time and hospitality deepen loyalty and may increase browse-to-buy; possibly a small seat fee or membership, or free as amenity.\n\nDepends on: whether people want a quiet sit-space here, supervision needs within 5 hours/week, furniture/fit-out cost, and theft/noise/ops risk.\n\nProposed alternative, not a recommendation.",
+      "provenance": "proposed"
+    },
+    {
+      "id": "rr-mechanism",
+      "parentId": "opt-reading",
+      "label": "How a reading room could help",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Causal sketch (unverified):\n1) Comfortable quiet space → longer visits.\n2) Longer visits → more discovery and purchases / habit.\n3) Distinctive amenity → word of mouth in the neighbourhood.\n\nBreak conditions: dwell without purchase; needs constant supervision the 5 hours cannot cover; space feels unused; fit-out cost high vs three-month horizon; conflicts with stock/ops needs.\n\nNo footfall or conversion data in the brief."
+    },
+    {
+      "id": "rr-staff-constraint",
+      "parentId": "opt-reading",
+      "label": "Supervision vs 5 hours/week",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "If the room must be supervised whenever open, five staff hours/week caps opening hours tightly unless the main shop floor already covers sightlines, or access is by appointment.\n\nUnknown: can the room be left open unsupervised during shop hours? That single fact changes feasibility a lot."
+    },
+    {
+      "id": "rr-demand-gap",
+      "parentId": "opt-reading",
+      "label": "Sit-and-read demand unknown",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Demand unknown. Locals may prefer cafés, libraries or home. A reading room's value might be social/brand rather than direct revenue — still needs a success metric for three months.\n\nPossible cheap checks: observe how often people ask to sit; temporary chairs for two weeks; ask regulars. None run here."
+    },
+    {
+      "id": "rr-budget-gap",
+      "parentId": "opt-reading",
+      "label": "Fit-out budget unknown",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Budget unknown. Chairs, lighting, rugs, signage, accessibility tweaks may be needed. Low-cost trial possible in principle, but cost ceiling is unspecified."
+    },
+    {
+      "id": "opt-storage",
+      "parentId": "root",
+      "label": "Keep as storage",
+      "kind": "option",
+      "status": "open",
+      "notes": "Primary use: continue/hold as storage for stock and operations for three months.\n\nProposed mechanism: protects ops capacity and avoids committing scarce staff hours and unknown budget to an unproven public use; preserves optionality to decide later with better information.\n\nTrade-off: forgoes learning and possible revenue/loyalty from a public use during the window.\n\nProposed alternative (including 'no action'), not a recommendation.",
+      "provenance": "proposed"
+    },
+    {
+      "id": "st-mechanism",
+      "parentId": "opt-storage",
+      "label": "How storage could help",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Causal sketch:\n1) Reliable storage → smoother stock handling / less shop-floor clutter.\n2) No new programme → staff hours stay available for core retail.\n3) Delay commitment → decide after learning more about demand/budget.\n\nBreak conditions: storage value is low (room barely used); opportunity cost of empty public potential is high; three-month window is uniquely good for a trial (e.g. seasonal events) — none of these are established in the brief."
+    },
+    {
+      "id": "st-opp-cost",
+      "parentId": "opt-storage",
+      "label": "Opportunity cost of not trying",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Keeping storage means not running a three-month learning trial. That is only costly if a cheap trial would have revealed valuable demand. With demand unknown, the opportunity cost itself is unknown.\n\nThis is the core tension with the other two options."
+    },
+    {
+      "id": "st-staff-fit",
+      "parentId": "opt-storage",
+      "label": "Fits the 5-hour constraint",
+      "kind": "assumption",
+      "status": "supported",
+      "notes": "Basis: storage as primary use does not inherently require a new weekly programme, so it is the least demanding of the three options on the stated five staff hours/week. 'Supported' here means consistency with the stated constraint, not proof that storage is best overall."
+    }
+  ],
+  "decision": {
+    "recommendation": "",
+    "rationale": "Choice deliberately left open. First-split corrected so root children are only the three primary room uses; shared constraints and evidence limits sit in context. Branch analysis under each option is preserved. No ranking until you want to compare or deepen one branch.",
+    "uncertainties": [
+      "Paying demand for workshops is unknown",
+      "Sit-and-read demand / unsupervised access is unknown",
+      "Budget ceiling for fit-out or materials is unknown",
+      "True storage value of the room is unknown",
+      "Hours required per workshop or per open reading-room hour are unknown"
+    ],
+    "nextSteps": [
+      "Optional: deepen one branch (workshops, reading room, or storage)",
+      "Optional: pick one cheap evidence check before committing the room",
+      "Optional: when ready, compare the three on the shared criteria"
+    ]
+  }
+}

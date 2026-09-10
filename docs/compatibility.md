@@ -37,7 +37,7 @@ The original, wholly fictional state files are retained unchanged:
 - [First follow-up, revision 4](test-evidence/grok-bot/first-follow-up.json)
 - [Final corrected output, revision 5](test-evidence/grok-bot/final.json)
 
-These are test records, including the observed mistakes, rather than recommended strategy examples. The tested skill was [v0.1.1, commit 779e881](https://github.com/jctkerr/strategy-canvas/tree/779e8817dcda0a8c2634cc9a348d7b6b0fde32a3). The revised setup documentation was written after this test; it is not a separate cold-install test of every documented client.
+These are test records, including the observed mistakes, rather than recommended strategy examples. This first test used [v0.1.1, commit 779e881](https://github.com/jctkerr/strategy-canvas/tree/779e8817dcda0a8c2634cc9a348d7b6b0fde32a3).
 
 Original final export SHA-256 hashes:
 
@@ -46,6 +46,14 @@ HTML  9cca3c8d6b9147e0d478b095455a2407ca2eacb73e81e8aa2ba567c89397a919
 JSON  1fc2a4f550e53762ef000841a4ed733c5c56ca70cb5647482ac6ca37b198fd75
 SVG   07578761999bc0da6c1fb1027fcdf10665119dfb053fac954eddd6e0b7fe678a
 ```
+
+## Short setup prompt test
+
+A second, fresh Grok Bot conversation received the README's short setup prompt, with the question replaced by the same fictional bookshop case and an instruction to use a separate session without personal files or integrations. No installation commands or setup follow-up were supplied. The Bot returned a populated canvas and downloadable HTML and JSON. The [original output](test-evidence/grok-bot/short-prompt.json) validated at revision 2 with 21 nodes; the HTML contained the same state and the recommendation was empty.
+
+This was a fresh conversation on the same Grok Bot account and computer environment, not a clean-machine installation. The copied prompt also worked through GitHub's copy button in Comet. Other clients have not received this setup test.
+
+The initial output again placed shared criteria and an evidence boundary beside the options. That finding led to the concrete [choice-tree example](../references/method.md#check-the-first-split-of-a-choice-tree) in the method. When asked to read and apply that updated example, the Bot produced the [corrected output](test-evidence/grok-bot/short-prompt-corrected.json): three option children at the root, shared material in context, and unchanged option branches. Its revision 3 HTML and JSON matched. This is an observed assisted correction, not proof that future first attempts will always follow the rule.
 
 ## Runtime checks
 
