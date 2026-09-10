@@ -1,4 +1,4 @@
-<h1 id="strategy-canvas"><img src="docs/images/strategy-canvas-cover.png" alt="Strategy Canvas"></h1>
+<h1 id="strategy-canvas"><img src="docs/images/strategy-canvas-cover-product.png" alt="Strategy Canvas"></h1>
 
 **Turn a question into a tree you can edit.**
 
@@ -52,4 +52,4 @@ To continue with an agent, choose **Export → Editable state (JSON)** and attac
 
 [See a fictional example](https://jctkerr.github.io/strategy-canvas/) · [Tree types, examples & sources](references/tree-methods.md)
 
-**[James Kerr](https://jameskerr.me)** · Free and open source · [MIT licence](LICENSE)
+Free and open source · [MIT licence](LICENSE)
