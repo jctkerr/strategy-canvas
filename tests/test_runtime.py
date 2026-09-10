@@ -486,6 +486,18 @@ class HTTPTests(unittest.TestCase):
         self.assertEqual(json.loads(body)["current"], saved)
         self.assertEqual(state_store.read_state(self.session), saved)
 
+    def test_blank_start_is_portable_and_never_replaces_the_live_tree(self):
+        before = state_store.read_state(self.session)
+        status, headers, body = self.request(path="/new.html")
+        self.assertEqual(status, 200)
+        self.assertIn("text/html", headers["Content-Type"])
+        parser = BootstrapParser()
+        parser.feed(body.decode("utf-8"))
+        self.assertEqual(json.loads(parser.boot), {"state": None, "offline": True})
+        self.assertTrue(any(attrs.get("id") == "start-form" for _, attrs in parser.tags))
+        self.assertEqual(state_store.read_state(self.session), before)
+        self.assertEqual(self.request(path="/new.html", headers={"Origin": "https://attacker.example"})[0], 403)
+
     def test_semantic_metadata_round_trips_and_invalid_metadata_is_rejected(self):
         proposed = semantic_example()
         headers = {"Content-Type": "application/json", "Origin": self.origin}

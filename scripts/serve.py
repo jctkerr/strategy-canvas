@@ -76,6 +76,9 @@ def main():
                 elif path in {"/", "/index.html"}:
                     template = html_document(read_state(args.session), offline=False)
                     self.reply(200, template, "text/html; charset=utf-8")
+                elif path == "/new.html":
+                    # A separate portable canvas never replaces the live session.
+                    self.reply(200, html_document(None, offline=True), "text/html; charset=utf-8")
                 elif path == "/favicon.ico":
                     self.reply(204, "")
                 else:

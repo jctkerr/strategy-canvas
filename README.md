@@ -1,10 +1,10 @@
 # Strategy Canvas
 
-**See your options clearly. Work through a decision with your AI agent.**
+**See your options clearly. Work through a decision on your own or with your AI agent.**
 
 Explore a choice in conversation while a visual tree keeps your options, assumptions and evidence in view. Open a promising branch, challenge it, and return to the wider picture when you need to.
 
-**[Try the interactive demo](https://jctkerr.github.io/strategy-canvas/)**
+**[Start with your question](https://jctkerr.github.io/strategy-canvas/new.html)** · [Explore a worked example](https://jctkerr.github.io/strategy-canvas/)
 
 ![A fictional sales decision shown in Strategy Canvas](docs/images/canvas-preview.png)
 
@@ -14,7 +14,9 @@ The demo is a fictional sales decision you can explore and edit. There is also a
 
 ## Use it for your decision
 
-The **skill** gives your agent instructions for thinking through a decision with you. The **canvas** lets you see and edit the resulting tree.
+The **canvas** works manually: enter a question, add branches and edit as you think. The **skill** gives your agent instructions for working through the same decision with you.
+
+For a manual start, open [a blank canvas](https://jctkerr.github.io/strategy-canvas/new.html). Export the HTML to keep your work. To continue with an agent, attach the exported JSON and ask it to open a live session from that tree.
 
 Copy this into your agent and replace the final question with your own:
 
@@ -38,11 +40,13 @@ For installation, agent-specific commands or troubleshooting, see the **[agent g
 
 Start on the tree. **Quick start** and **How to use** are available when you want guidance.
 
-1. **Start with your question.** Give your agent the situation, constraints and what you do not yet know. Check that the canvas reflects your case.
+1. **Start with your question.** Type it into a blank canvas or give your agent the situation and constraints. Use **Edit** beside the heading to refine it later.
 2. **Explore and challenge.** Ask about one branch, click a thought to edit it, or use its **+** to add beneath it. The agent should build on your latest edits.
 3. **Keep what you learn.** Ask for a complete HTML export, or use **Export** in the canvas. You can pause with open alternatives or compare them when ready.
 
-Click **Tree type** on a card to open a small menu beside it. Choose once to save; **Undo** reverses the change. Children follow that type until a branch sets its own. **Example & help** holds the explanation and source.
+Click **Tree type** on a card to open a small menu beside it. Choose once to save; **Undo** reverses the change. Children follow that type until a branch sets its own. **Example & help** holds the explanation and source. The menu marks a suitable type as **Suggested** when the card gives a clear clue; it keeps your existing choice until you select another. New children start with a suitable card kind, visible and editable above their wording.
+
+With a card focused: **A** adds a child, **Shift+A** a sibling, **Enter/E** edits and **T** opens tree types. **Cmd/Ctrl+Enter** saves in an editor. **Escape** returns to the tree after saving; it keeps unsaved drafts. **Keyboard shortcuts** on the canvas shows navigation controls too.
 
 **Analysis** keeps the next steps alongside the tree:
 

@@ -14,8 +14,8 @@ def main():
     args = parser.parse_args()
     root = Path(__file__).resolve().parent.parent
     for source, output in (("demo.json", "index.html"), ("career.json", "career.html"),
-                           ("workshop-analysis.json", "workshop.html")):
-        state = validate(json.loads((root / "examples" / source).read_text(encoding="utf-8")))
+                           ("workshop-analysis.json", "workshop.html"), (None, "new.html")):
+        state = validate(json.loads((root / "examples" / source).read_text(encoding="utf-8"))) if source else None
         expected = html_document(state, offline=True)
         destination = root / "docs" / output
         if args.check:

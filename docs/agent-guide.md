@@ -140,11 +140,15 @@ For an ordinary web chat without file execution, use the method conversationally
 
 The canvas starts with guidance collapsed. **Quick start** and **How to use** are available when needed. Keep discussing the problem with your agent; it can choose a suitable structure and update the same tree. You do not need to learn or select a framework first.
 
-1. Give the agent a question, your relevant constraints and what remains unknown.
+1. Type a question into [a blank canvas](https://jctkerr.github.io/strategy-canvas/new.html), or give your agent a question, relevant constraints and what remains unknown.
 2. Check that the canvas contains your situation, rather than the fictional sales demo.
 3. Ask it to explore one branch. Keep alternatives visible and ask what would change the choice.
-4. Click a thought to edit it, or click its **+** to add beneath it. Type the thought and save; notes, sources and other fields stay in **Details**. A separate chevron expands or collapses children. Nothing is added until you save. Ask the agent to continue from your edits; it should read the latest saved revision first.
+4. Use **Edit** beside the heading to refine the main question. Click a thought to edit it, or click its **+** to add beneath it. Type the thought and save. Its suggested **Card** kind is visible and changeable; notes, sources and other fields stay in **Details**. A separate chevron expands or collapses children. Nothing is added until you save. Ask the agent to continue from your edits; it should read the latest saved revision first.
 5. Ask it to export the complete tree as HTML, SVG and JSON. Open the HTML before sharing it.
+
+Focus a card to use **A** for a child, **Shift+A** for a sibling, **Enter/E** to edit or **T** for tree types. **Cmd/Ctrl+Enter** saves the current edit. Arrow keys navigate or expand/collapse; **Keyboard shortcuts** explains the controls. Letter shortcuts never run while typing in a field.
+
+The **New** link opens a separate standalone canvas and keeps the original tab. Export its HTML before closing. To continue that new tree with an agent, attach its JSON; it is not the original live session.
 
 **Live session:** edits are saved on the machine running the server. **Standalone HTML:** edits last until reload unless you export them again. **GitHub demo:** a fictional standalone example, not an AI conversation.
 
@@ -152,7 +156,7 @@ The canvas starts with guidance collapsed. **Quick start** and **How to use** ar
 
 Start by telling your agent what is happening and what you want to change. **Problem** keeps that brief and your constraints together. These fields are optional; you can start with an unfinished question.
 
-The card’s **Tree type** opens nine short choices beside it, leaving the canvas available. Choose once to save it to that branch; **Undo** reverses the change. Click away or press Escape to dismiss without changing anything. Cards with their own type keep that control visible; other cards show it when selected. **Example & help** contains the selected type’s example, source and limitation. Your agent can suggest a suitable method without requiring you to know its name. An approach change guides future additions and leaves existing thoughts in place; it does not reorganise or validate them.
+The card’s **Tree type** opens nine short choices beside it, leaving the canvas available. Choose once to save it to that branch; **Undo** reverses the change. Click away or press Escape to dismiss without changing anything. Cards with their own type keep that control visible; other cards show it when selected. **Example & help** contains the selected type’s example, source and limitation. The menu marks a suitable method as **Suggested** when the card kind or a clear question provides a clue. It never applies that method automatically. Your agent can also suggest a suitable method without requiring you to know its name. An approach change guides future additions and leaves existing thoughts in place; it does not reorganise or validate them.
 
 Different branches may use different approaches, including branches at the same depth. Choose at the point where the question changes; an entire visual layer does not need one type. For example, an issue tree about workshop viability can contain a calculation branch for break-even attendance. Select the root to set the broad approach, or a thought to change just that branch. Children follow their nearest parent approach unless they have their own; deeper overrides stay in place. Ask the agent to check the existing thoughts and connections when changing methods. **Connection to parent** inside **Details** explains how a thought relates to its parent. Expand its controls to change that relationship. A connection label records your reasoning; it does not prove the relationship or run a calculation.
 
