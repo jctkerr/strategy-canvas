@@ -12,7 +12,7 @@ python3 /absolute/path/strategy-canvas/scripts/serve.py \
   --port 0
 ```
 
-The server binds only to `127.0.0.1`. Port `0` selects an available port. Use the exact printed URL, including the numeric loopback hostname. Keep the process alive in a persistent terminal/exec session. The session directory is created if necessary; the fictional example initialises `state.json` only when no state exists. An existing session is validated and preserved. Open the URL in Codex in-app preview. Reuse the same URL and session for later turns.
+The server binds only to `127.0.0.1`. Port `0` selects an available port. Use the exact printed URL, including the numeric loopback hostname. Keep the process alive in a persistent terminal/exec session. The session directory is created if necessary; the fictional example initialises `state.json` only when no state exists. An existing session is validated and preserved. Open the URL in a browser on the same machine or a host preview that can reach it. A remote agent's loopback URL is not the user's local server. Use a downloadable standalone HTML export when the host cannot provide an accessible live preview. Reuse the same URL and session for later turns.
 
 The HTML template and styling live in `assets/canvas.html`; edit the CSS variables for an intentional visual variation. The canonical state is independent of the template. Template changes need a browser reload; state changes appear through polling roughly every 1.4 seconds while connected.
 

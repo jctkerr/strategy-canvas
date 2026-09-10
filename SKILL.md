@@ -22,6 +22,8 @@ These are starting preferences, not rigid limits. The user's request overrides t
 
 ## Open the canvas early
 
+Check the host's actual capabilities first: it needs access to this whole folder, Python 3.9+ on macOS/Linux/WSL, and a writable session directory. Keep the server in a persistent process when using live updates. If execution or file access is unavailable, explain the limit and use the setup guide in [README.md](README.md); do not claim that reading the instructions created a working canvas.
+
 1. Read [references/schema.md](references/schema.md) before creating or changing state. Resolve this skill's directory and choose a separate session directory for this conversation. Keep the session location and running preview URL in the conversation context.
 2. Start the bundled local server with an available Python 3 runtime; port `0` chooses an available port:
 
@@ -31,7 +33,7 @@ These are starting preferences, not rigid limits. The user's request overrides t
 
    It binds to the local machine and initialises a missing `state.json` from the fictional demo. Use the printed loopback URL exactly, without substituting the hostname. Check that it responds before describing the preview as running.
 3. Read [references/method.md](references/method.md) before populating the first analytical map. If the user has supplied a real topic or decision, build a meaningful initial tree from recovered context and explicitly tentative useful possibilities before presenting it; do not leave a trunk of empty categories. Otherwise show the clearly labelled fictional demo and ask which topic to explore. Never carry the demo's facts into the user's case.
-4. Detect the environment's available preview capability. In Codex, use `open_in_codex` when available to open the server's localhost URL in the current task. Else provide the local browser URL. Reuse this view. Do not promise a preview, browser automation, or live connection the environment cannot provide.
+4. Detect the environment's available preview capability. On the user's machine, open the exact server URL in the host preview or browser; use `open_in_codex` when available. On a remote agent computer, open it in that computer's browser or supported host preview. Its `127.0.0.1` URL will not reach the same server from the user's machine. If no accessible live preview is available, return the populated standalone HTML through the host's file delivery, with its snapshot limits explicit. Reuse the view and keep the loopback binding; do not expose a public port to work around preview access.
 
 ## Think together
 

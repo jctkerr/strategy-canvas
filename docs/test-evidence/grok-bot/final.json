@@ -1,0 +1,268 @@
+{
+  "schemaVersion": 1,
+  "revision": 5,
+  "title": "Bookshop spare room (fictional)",
+  "question": "How should the neighbourhood bookshop use its spare room for the next three months?",
+  "context": "Fictional case only. One spare room; decision horizon is the next three months. Shared constraints (apply to every option; not peer choices): one staff member can spare five hours a week; there is no demand data; there is no confirmed budget. Reader edit preserved: workshops must finish by 18:00. Root holds four option children: three supplied (paid workshops, quiet reading room, keep as storage) plus one proposed idea (shared timetable) — not an exhaustive partition. Recommendation deliberately deferred.",
+  "nextQuestion": "Want to pressure-test daytime demand under the 18:00 finish rule, or draft a single pilot checklist?",
+  "nodes": [
+    {
+      "id": "room-use",
+      "parentId": null,
+      "label": "Use of the spare room",
+      "kind": "question",
+      "status": "open",
+      "notes": "Root children are four option cards only: (1) paid workshops only, (2) quiet reading room only, (3) keep as storage, and (4) shared timetable (proposed). The first three are the supplied competing designations from the case; the fourth is a proposed idea added for exploration. This is three supplied options plus one proposed idea — not an exhaustive partition of every conceivable room use (other hybrids or uses remain possible). Shared staff/budget/data limits live in session context and these root notes — not as sibling cards beside options. Universe: this one spare room over the next three months. Excluded for now: permanent rebuild, selling the space, unrelated retail fit-outs. Reader edit preserved: workshops must finish by 18:00."
+    },
+    {
+      "id": "workshops",
+      "parentId": "room-use",
+      "label": "Paid workshops only",
+      "kind": "option",
+      "status": "open",
+      "notes": "Primary use: scheduled paid sessions in the room (writing, book clubs with fees, craft-with-books, author events with tickets). Mechanism (proposed): ticket or course fees plus possible book-attach sales convert spare floor into near-term cash and footfall. Hard boundary from reader edit: workshops must finish by 18:00. Competing with reading-room calm and with storage convenience. Proposed alternative, not a recommendation. Staff/budget limits are shared context (five hours/week; no confirmed budget), not separate sibling options."
+    },
+    {
+      "id": "workshops-finish",
+      "parentId": "workshops",
+      "label": "Must finish by 18:00",
+      "kind": "assumption",
+      "status": "supported",
+      "notes": "Reader-stated operating rule for this exploration (context/provenance: user edit on the canvas). Workshops under this branch are assumed to end by 18:00. This is a binding design constraint for formats and audience, not market evidence that daytime sessions will sell.",
+      "provenance": "context",
+      "source": "Reader edit on exported HTML: workshops must finish by 18:00."
+    },
+    {
+      "id": "workshops-demand",
+      "parentId": "workshops",
+      "label": "Locals will pay for sessions",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Assumption, not evidence: neighbourhood residents will book and pay enough to justify clearing the room and the five weekly hours, even with a finish-by-18:00 rule. Counterpoint: interest in free events does not prove paid demand; no demand data is supplied; early finish may exclude after-work adults. Next check: soft-count interest (waitlist, deposit for one pilot theme) before committing the full three months. Do not invent attendance or price figures."
+    },
+    {
+      "id": "workshops-audience",
+      "parentId": "workshops",
+      "label": "Daytime audience is reachable",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Assumption forced into view by the 18:00 finish rule: enough paying participants can attend before early evening (remote workers, caregivers, retirees, home-based adults). Counterpoint: classic after-work adult workshops may be weakly served. Next check: ask a small customer sample about daytime paid sessions — still no invented numbers."
+    },
+    {
+      "id": "workshops-capacity",
+      "parentId": "workshops",
+      "label": "Five hours covers run-rate",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Assumption: five staff hours/week can sustain a credible workshop cadence (planning, hosting, recovery, light marketing) with sessions finishing by 18:00. Counterpoint: one poorly scoped series can consume the whole allowance with little left for the shop floor; an early finish time may also shrink evening-adult demand. Next check: timebox a single pilot session end-to-end and measure actual hours used."
+    },
+    {
+      "id": "workshops-promo",
+      "parentId": "workshops",
+      "label": "Promo fits inside five hours",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Assumption: discovery (in-shop posters, email, social, partner shares) can be done inside the same five hours/week as prep and hosting, or via near-zero-extra-effort channels. Counterpoint: empty seats are often a marketing-hours problem. Next check: write a one-pilot promo checklist with minute estimates."
+    },
+    {
+      "id": "workshops-partner",
+      "parentId": "workshops",
+      "label": "Partner host can add capacity",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Assumption: a local teacher, author or community group could host under the shop's roof, stretching beyond five staff hours. Counterpoint: partners need vetting, revenue share and still require shop oversight before 18:00 close of session. Next check: list two plausible partners and what the shop would still owe in hours."
+    },
+    {
+      "id": "workshops-budget",
+      "parentId": "workshops",
+      "label": "Setup fits unknown budget",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Assumption: chairs, materials, insurance or guest fees fit within whatever budget is later confirmed. No budget is confirmed yet; treat cost as an open gate, not a known constraint. Next check: list minimum viable setup costs for one pilot before buying anything."
+    },
+    {
+      "id": "workshops-retail",
+      "parentId": "workshops",
+      "label": "Events won't hurt core retail",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Assumption: using the spare room for paid sessions does not materially damage browse experience, stock access or till coverage during those hours. Counterpoint: noise, blocked storage and staff pulled off floor. Next check: after one pilot, note floor complaints and missed till coverage — qualitative is enough at first."
+    },
+    {
+      "id": "workshops-gap",
+      "parentId": "workshops",
+      "label": "No demand or price evidence yet",
+      "kind": "evidence",
+      "status": "uncertain",
+      "notes": "Evidence gap (explicit): case supplies no historical ticket sales, competitor prices, or waitlist data. Absence of data is not evidence against workshops; it blocks a supported preference."
+    },
+    {
+      "id": "workshops-formats",
+      "parentId": "workshops",
+      "label": "Which formats to trial",
+      "kind": "question",
+      "status": "open",
+      "notes": "Deepening question under paid workshops only — not a new room-use option. Grouping basis: session format for a possible workshops-primary use. Siblings are concrete format ideas to explore; they can later combine in a calendar but are listed as distinct format candidates here. No ranking or winner."
+    },
+    {
+      "id": "format-author",
+      "parentId": "workshops-formats",
+      "label": "Ticketed author / talk events",
+      "kind": "option",
+      "status": "open",
+      "notes": "Proposed format: paid tickets for author talks or readings finishing by 18:00. Mechanism: event fee + book signing sales. Dependencies: speaker availability daytime/early evening; promo time within five hours. Unverified demand.",
+      "provenance": "proposed"
+    },
+    {
+      "id": "format-skills",
+      "parentId": "workshops-formats",
+      "label": "Short skills courses",
+      "kind": "option",
+      "status": "open",
+      "notes": "Proposed format: multi-week or one-off skills sessions (e.g. writing, journaling, bookbinding) with a course fee, ending by 18:00. Mechanism: prepaid seats smooth cashflow. Dependencies: curriculum prep hours vs five-hour cap; materials cost under unknown budget.",
+      "provenance": "proposed"
+    },
+    {
+      "id": "format-bookclub",
+      "parentId": "workshops-formats",
+      "label": "Paid book-club sessions",
+      "kind": "option",
+      "status": "open",
+      "notes": "Proposed format: facilitated book discussion with a session fee, finishing by 18:00. Mechanism: recurring small group; book-attach sales. Dependencies: facilitator time; whether fee feels fair vs free clubs nearby. No local fee evidence yet.",
+      "provenance": "proposed"
+    },
+    {
+      "id": "format-family",
+      "parentId": "workshops-formats",
+      "label": "Daytime family / kids craft",
+      "kind": "option",
+      "status": "open",
+      "notes": "Proposed format: daytime family or kids craft-with-books sessions (fits finish-by-18:00 more naturally than late adult evenings). Mechanism: caregiver spend + kids titles. Dependencies: safeguarding/space rules; mess reset within five hours. Demand unknown.",
+      "provenance": "proposed"
+    },
+    {
+      "id": "workshops-pilot",
+      "parentId": "workshops",
+      "label": "One pilot before a 3-month bet",
+      "kind": "action",
+      "status": "open",
+      "notes": "Optional learning step if workshops remain in play — not a decision that workshops win. Design one session ending by 18:00, with a hour log, a minimum setup-cost list, and a soft demand signal (waitlist or deposits). Keep other room-use options open meanwhile."
+    },
+    {
+      "id": "reading",
+      "parentId": "room-use",
+      "label": "Quiet reading room only",
+      "kind": "option",
+      "status": "open",
+      "notes": "Primary use: a calm place to sit and read, possibly with soft dwell cues (seating, light rules, no ticketed events). Mechanism (proposed): longer dwell and goodwill increase browse-and-buy and repeat visits, without charging for the room itself. Trade-off: little or no direct room revenue; needs the room cleared of storage. Proposed alternative, not a recommendation."
+    },
+    {
+      "id": "reading-dwell",
+      "parentId": "reading",
+      "label": "Dwell turns into purchases",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Assumption: quieter seating raises time-in-shop and conversion enough to matter over three months. Counterpoint: dwell can rise while sales stay flat; some readers may treat it as a free library. Next check: if trialled, track visits that use the room versus basket size/frequency versus a baseline week — still no invented numbers here."
+    },
+    {
+      "id": "reading-ops",
+      "parentId": "reading",
+      "label": "Five hours keep it inviting",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Assumption: five hours/week suffice for setup, light supervision, cleaning and resetting without becoming a babysitting service. Counterpoint: unsupervised space can create loss, noise or conflict with shop work. Next check: define simple house rules and a supervision model before opening."
+    },
+    {
+      "id": "reading-gap",
+      "parentId": "reading",
+      "label": "No dwell or conversion data",
+      "kind": "evidence",
+      "status": "uncertain",
+      "notes": "Evidence gap: no measured dwell time, conversion, or customer requests for a reading corner are supplied. Customer anecdotes would still be weak evidence until counted."
+    },
+    {
+      "id": "storage",
+      "parentId": "room-use",
+      "label": "Keep as storage",
+      "kind": "option",
+      "status": "open",
+      "notes": "Primary use remains stock, seasonal displays, overstock and operational storage — the status-quo / no-customer-facing-change option. Mechanism (proposed): preserves shop-floor efficiency, avoids setup cost and protects the five hours for core retail. Opportunity cost: forgoes learning about workshops or reading-room demand in this three-month window. Proposed alternative, not a recommendation."
+    },
+    {
+      "id": "storage-needed",
+      "parentId": "storage",
+      "label": "Storage scarcity is binding",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Assumption: losing this storage would harm fulfilment, safety or merchandising enough to outweigh upside from customer uses. Counterpoint: some stored stock may be dead or relocatable. Next check: inventory what is stored, what must stay on-site, and what could move or be cleared cheaply."
+    },
+    {
+      "id": "storage-option-value",
+      "parentId": "storage",
+      "label": "Waiting preserves option value",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Assumption: with no demand data or budget, delaying a customer-facing fit-out avoids wasted spend and keeps the room flexible. Counterpoint: three months of inaction also yields no demand signal. Next check: if storage wins temporarily, still schedule a cheap signal (survey, one pop-up) so the next decision is better informed."
+    },
+    {
+      "id": "storage-gap",
+      "parentId": "storage",
+      "label": "No cost of storage measured",
+      "kind": "evidence",
+      "status": "uncertain",
+      "notes": "Evidence gap: opportunity cost of the room and true necessity of current storage contents are unmeasured."
+    },
+    {
+      "id": "shared",
+      "parentId": "room-use",
+      "label": "Shared timetable (proposed)",
+      "kind": "option",
+      "status": "open",
+      "notes": "Proposed idea in addition to the three supplied options — not proof of coverage. Idea: clear the room for customers with a published split (e.g. reading room most hours; paid workshops on set evenings, finishing by 18:00). Mechanism (proposed): test both customer uses without a full three-month bet on one. Costs: scheduling friction, reset work, quiet-vs-event conflict — all drawing on the same five hours/week. Keep open beside the three supplied designations; do not treat the four cards as an exhaustive partition of every conceivable use.",
+      "provenance": "proposed"
+    },
+    {
+      "id": "shared-fit",
+      "parentId": "shared",
+      "label": "Reset fits five hours",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Assumption: switching the room between quiet seating and workshop layout fits inside five hours/week plus any volunteer help. Counterpoint: dual use can burn the whole allowance on logistics. Next check: draft a weekly timetable and hour budget before promising both."
+    },
+    {
+      "id": "shared-signal",
+      "parentId": "shared",
+      "label": "Split use yields clearer signal",
+      "kind": "assumption",
+      "status": "uncertain",
+      "notes": "Assumption: running both lightly for three months produces comparable learning on demand and ops load. Counterpoint: thin attention may under-test both and muddy the signal. Next check: pick one primary metric per use (e.g. paid seats booked vs reading-room visits) and review at a midpoint."
+    },
+    {
+      "id": "shared-gap",
+      "parentId": "shared",
+      "label": "No timetable or staffing plan",
+      "kind": "evidence",
+      "status": "uncertain",
+      "notes": "Evidence gap: no draft calendar, reset checklist, or staff roster exists yet for dual use."
+    }
+  ],
+  "decision": {
+    "recommendation": "",
+    "rationale": "Exploration only. No winner selected. Root has four option children (three supplied plus shared timetable as a proposed idea, not an exhaustive partition). Reader 18:00 edit and workshops deepening preserved.",
+    "uncertainties": [
+      "Paid demand (especially for sessions that finish by 18:00) is unknown.",
+      "Whether reading-room dwell would increase purchases is unknown.",
+      "Whether current storage contents are truly binding is unknown.",
+      "No confirmed budget for setup, materials or insurance.",
+      "Whether five hours/week can sustain workshops, a reading room, or a proposed shared timetable is untested.",
+      "The three user-stated options do not exhaust every conceivable use; other hybrids remain possible.",
+      "The four root options are three supplied choices plus one proposed idea, not an exhaustive partition."
+    ],
+    "nextSteps": [
+      "Keep the three user-stated options open; treat shared timetable as an optional extension only.",
+      "If exploring workshops further: list minimum setup cost and a one-pilot promo/hour checklist under the 18:00 rule.",
+      "Inventory what is stored and what must stay on-site.",
+      "Choose one cheap demand signal before preferring any room use."
+    ]
+  }
+}
