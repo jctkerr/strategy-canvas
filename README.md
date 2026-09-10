@@ -16,7 +16,7 @@ The demo is a fictional sales decision you can explore and edit. There is also a
 
 The **canvas** works manually: enter a question, add branches and edit as you think. The **skill** gives your agent instructions for working through the same decision with you.
 
-For a manual start, open [a blank canvas](https://jctkerr.github.io/strategy-canvas/new.html). Export the HTML to keep your work. To continue with an agent, attach the exported JSON and ask it to open a live session from that tree.
+For a manual start, open [a blank canvas](https://jctkerr.github.io/strategy-canvas/new.html). Enter a question or choose **Go straight to canvas** and add it later. Export the HTML to keep your work. To continue with an agent, attach the exported JSON and ask it to open a live session from that tree.
 
 Copy this into your agent and replace the final question with your own:
 
