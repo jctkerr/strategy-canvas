@@ -41,7 +41,7 @@ For installation, agent-specific commands or troubleshooting, see the **[agent g
 Start on the tree. **Quick start** and **How to use** are available when you want guidance.
 
 1. **Start with your question.** Type it into a blank canvas or give your agent the situation and constraints. Use **Edit** beside the heading to refine it later.
-2. **Explore and challenge.** Ask about one branch, click a thought to edit it, or use its **+** to add beneath it. The agent should build on your latest edits.
+2. **Explore and challenge.** Ask about one branch, click a thought to edit it, or hover/click its **+** to choose what to add beneath it. The agent should build on your latest edits.
 3. **Keep what you learn.** Ask for a complete HTML export, or use **Export** in the canvas. You can pause with open alternatives or compare them when ready.
 
 Click **Tree type** on a card to open a small menu beside it. Choose once to save; **Undo** reverses the change. Children follow that type until a branch sets its own. **Example & help** holds the explanation and source. The menu marks a suitable type as **Suggested** when the card gives a clear clue; it keeps your existing choice until you select another. New children start with a suitable card kind, changeable under **Details**. Editing opens a compact writing surface beside the card; save to return to the tree.

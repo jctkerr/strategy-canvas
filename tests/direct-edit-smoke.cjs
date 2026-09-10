@@ -22,6 +22,8 @@ const fixture = {
 async function read() { const r=await fetch(origin+'/api/state'); assert.equal(r.status,200); return r.json(); }
 async function put(s) { const before=await read(); const r=await fetch(origin+'/api/state',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({expectedRevision:before.revision,state:s})}); assert.equal(r.status,200,await r.clone().text()); return r.json(); }
 const card=(p,id)=>p.locator('.tree-node[data-id="'+id+'"]');
+const choices=p=>p.locator('#add-choices [role="menuitem"][data-choice]');
+async function chooseDefault(p,id){await card(p,id).locator('.node-add').click();await choices(p).first().click();}
 async function saved(p, button='#save') { const request=p.waitForResponse(r=>r.url().endsWith('/api/state')&&r.request().method()==='PUT'); await p.locator(button).click(); assert.equal((await request).status(),200); if(button==='#save')await p.locator('.inspector').waitFor({state:'hidden'}); return read(); }
 async function closeEditor(p) { if(await p.locator('#main').evaluate(el=>el.classList.contains('inspect-open'))) await p.locator('#close-details').click(); }
 async function exportJSON(p,name) { await p.locator('details.export summary').click(); const pending=p.waitForEvent('download'); await p.locator('[data-export="json"]').click(); const file=path.join(output,name); await(await pending).saveAs(file); return JSON.parse(await fs.readFile(file,'utf8')); }
@@ -59,12 +61,51 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     checks.push('The editor is compact, anchored and nonmodal; one field opens by default, dirty Close keeps the draft, and Save returns focus with hidden metadata preserved.');
 
     await closeEditor(page); await page.locator('#fit').click();
-    await card(page,'b').locator('.node-add').click();
-    assert.equal((await read()).revision,renamed.revision,'Add opens a draft only');
+    await card(page,'a').focus();
+    const hoverSelection=await page.locator('.tree-node[aria-pressed="true"]').getAttribute('data-id');
+    await card(page,'b').locator('.node-add').hover();
+    await page.locator('#add-menu').waitFor({state:'visible'});
+    assert.equal(await page.locator('#add-menu').getAttribute('role'),'menu');
+    assert.equal(await card(page,'b').locator('.node-add').getAttribute('aria-haspopup'),'menu');
+    assert.equal(await card(page,'b').locator('.node-add').getAttribute('aria-controls'),'add-menu');
+    assert.equal(await card(page,'b').locator('.node-add').getAttribute('aria-expanded'),'true');
+    assert.equal(await card(page,'a').evaluate(el=>el===document.activeElement),true,'Hover must not steal keyboard focus');
+    assert.equal(await page.locator('.tree-node[aria-pressed="true"]').getAttribute('data-id'),hoverSelection,'Hover must not select the card');
+    assert.equal(await page.locator('.inspector').isHidden(),true,'Hover must not open an editor');
+    assert.deepEqual(await read(),renamed,'Hover writes nothing');
+    const issueChoices=await choices(page).allTextContents();
+    assert.ok(issueChoices.length>=2&&issueChoices.length<=5,'Offer a short list of appropriate choices');
+    assert.ok(issueChoices.every(label=>label.trim().length>0&&label.trim().split(/\s+/).length<=10),'Choice labels are short and readable');
+    assert.equal(await page.locator('dialog[open], [aria-modal="true"]:visible').count(),0,'Add choices stay nonmodal');
+    await choices(page).first().hover();
+    await page.waitForTimeout(350);
+    assert.equal(await page.locator('#add-menu').isVisible(),true,'Moving from the plus into its menu must keep it open');
+    await page.screenshot({path:path.join(output,'contextual-add-desktop.png')});
+    await page.locator('#question').click();
+    assert.equal(await page.locator('#add-menu').isHidden(),true,'Outside click dismisses a hover menu');
+    assert.deepEqual(await read(),renamed,'Dismissal writes nothing');
+    await card(page,'child').locator('.node-add').click();
+    const driverChoices=await choices(page).allTextContents();
+    assert.notDeepEqual(driverChoices,issueChoices,'A metric in a driver branch gets different options from an issue question');
+    assert.equal(await choices(page).first().evaluate(el=>el===document.activeElement),true,'Click focuses the first menu option');
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('#add-menu').isHidden(),true);
+    assert.equal(await card(page,'child').locator('.node-add').evaluate(el=>el===document.activeElement),true,'Escape returns focus to the invoking plus');
+    assert.deepEqual(await read(),renamed,'Opening and escaping never changes a framework or state');
+    checks.push('Hover shows a short contextual nonmodal menu without stealing focus, selection or storage; pointer travel works and outside/Escape dismiss safely.');
+
+    await chooseDefault(page,'b');
+    assert.equal(await page.locator('#add-menu').isHidden(),true,'Choosing closes the menu');
+    assert.equal(await page.locator('#kind').inputValue(),'question','The first issue-tree option keeps the existing question default');
+    assert.equal(await page.locator('#relation-type').inputValue(),'part-of','The default keeps its valid parent connection');
+    assert.equal((await read()).revision,renamed.revision,'Choosing Add opens a draft only');
     await page.locator('#label').fill('Check delivery promises');
     const added=await saved(page), node=added.nodes.find(n=>n.label==='Check delivery promises');
     assert.equal(node.parentId,'b','Plus must add to the clicked card, not the prior selection');
-    assert.ok(node.relation?.type); assert.notEqual(node.status,'supported');
+    assert.equal(node.kind,'question'); assert.equal(node.relation?.type,'part-of'); assert.notEqual(node.status,'supported');
+    assert.equal(node.method,undefined,'Choosing a child never automatically applies a new tree type');
+    assert.equal(added.nodes.find(n=>n.id==='root').method,'issue');
+    assert.equal(added.nodes.find(n=>n.id==='child').method,'driver');
     assert.equal(await card(page,node.id).evaluate(el=>el===document.activeElement),true,'Adding returns keyboard focus to the new card');
     assert.deepEqual(added.nodes.find(n=>n.id==='a'),actual);
     await closeEditor(page); await page.locator('#fit').click();
@@ -74,16 +115,30 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     assert.deepEqual(await read(),beforeToggle,'Collapse must never add or save a node');
     await card(page,'b').locator('.collapse').click();
     assert.equal(await card(page,node.id).count(),1);
-    checks.push('Plus adds beneath its own card; the separate chevron only collapses or expands.');
+    checks.push('The first contextual choice opens an unsaved suitable child beneath its own card; saving preserves frameworks, while the separate chevron only collapses or expands.');
 
     await card(page,'b').locator('.node-add').focus(); await page.keyboard.press('Enter');
+    assert.equal(await choices(page).first().evaluate(el=>el===document.activeElement),true);
+    await page.keyboard.press('ArrowDown');
+    assert.equal(await choices(page).nth(1).evaluate(el=>el===document.activeElement),true,'Down moves through contextual choices');
+    await page.keyboard.press('ArrowUp');
+    assert.equal(await choices(page).first().evaluate(el=>el===document.activeElement),true,'Up returns to the default choice');
+    await page.keyboard.press('Enter');
+    assert.equal(await page.locator('#label').evaluate(el=>el===document.activeElement),true,'Keyboard choice goes straight to writing');
     await page.locator('#label').fill('Keyboard draft');
     await card(page,'root').locator('.node-add').click();
     assert.equal(await page.locator('#label').inputValue(),'Keyboard draft');
+    assert.equal(await page.locator('#add-menu').isHidden(),true,'A dirty draft prevents another contextual menu from opening');
     assert.equal(await page.locator('.tree-node[aria-pressed="true"]').getAttribute('data-id'),'b');
     assert.deepEqual(await read(),beforeToggle);
     await page.locator('#discard').click(); await closeEditor(page);
-    checks.push('Keyboard Add works, and another card cannot steal an unsaved draft or change its parent.');
+    await card(page,'b').focus(); await page.keyboard.press('a');
+    assert.equal(await page.locator('#add-menu').isHidden(),true,'A keeps the direct quick-add path');
+    assert.equal(await page.locator('#label').isVisible(),true);
+    assert.equal(await page.locator('#kind').inputValue(),'question');
+    assert.deepEqual(await read(),beforeToggle,'Quick add is also an unsaved draft');
+    await page.locator('#discard').click(); await closeEditor(page);
+    checks.push('Keyboard plus, arrows and Enter choose an option; A remains quick add, and another card cannot steal an unsaved draft or change its parent.');
 
     await card(page,'a').click(); await card(page,'a').locator('.node-type').click();
     assert.equal(await page.locator('#method-tasks button[data-method]').count(),9);
@@ -179,7 +234,7 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     await offline.goto(pathToFileURL(html).href);
     assert.equal(await offline.locator('dialog[open]').count(),0);
     assert.equal(await offline.locator('#quick-start').isHidden(),true);
-    await card(offline,'b').locator('.node-add').click(); await offline.locator('#label').fill('Offline thought');
+    await chooseDefault(offline,'b'); await offline.locator('#label').fill('Offline thought');
     await offline.locator('#save').click(); await offline.locator('#discard').waitFor({state:'hidden'});
     const exported=await exportJSON(offline,'offline.json');
     assert.equal(exported.nodes.find(n=>n.label==='Offline thought').parentId,'b');
@@ -199,7 +254,23 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     await page.keyboard.press('Escape');
     assert.equal(await page.locator('#approach-panel').isHidden(),true);
     assert.equal(await card(page,'a').locator('.node-type').evaluate(el=>el===document.activeElement),true);
-    await closeEditor(page);
+    await closeEditor(page); await page.locator('#fit').click();
+    const mobileBefore=await read();
+    const phone=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+    phone.on('pageerror',e=>errors.push(e.message)); await phone.goto(origin); await phone.locator('#fit').tap();
+    await card(phone,'root').locator('.node-add').tap();
+    const mobileMenu=await phone.locator('#add-menu').boundingBox();
+    assert.ok(mobileMenu.x>=0&&mobileMenu.y>=0&&mobileMenu.x+mobileMenu.width<=391&&mobileMenu.y+mobileMenu.height<=845,'Contextual add fits a phone-width viewport');
+    for(const option of await choices(phone).all()){
+      const bounds=await option.boundingBox();
+      assert.ok(bounds.height>=36,'Phone options have usable tap targets');
+      assert.ok((await option.innerText()).trim(),'Every touch option has a visible label');
+    }
+    await phone.screenshot({path:path.join(output,'contextual-add-mobile.png')});
+    await choices(phone).first().tap();
+    assert.equal(await phone.locator('#label').isVisible(),true,'Tap has the complete add flow without needing hover');
+    assert.deepEqual(await read(),mobileBefore,'A phone tap opens an unsaved draft');
+    await phone.locator('#discard').tap(); await phone.close();
     await page.setViewportSize({width:1400,height:950}); await page.locator('#fit').click();
     await page.screenshot({path:path.join(output,'direct-canvas.png')});
     await card(page,'a').click(); await card(page,'a').locator('.node-type').click();

@@ -133,3 +133,7 @@ Both Codex bookshop previews were refreshed and the inline main-question editor 
 ## Compact card editor checks
 
 On 10 September 2026, 37 browser check groups passed across [direct editing](test-evidence/compact-editor/direct-results.json), [question and keyboard flows](test-evidence/compact-editor/question-results.json), [tree methods](test-evidence/compact-editor/browser-results.json) and [onboarding](test-evidence/compact-editor/onboarding-results.json). The editor opens beside its card on desktop and as a compact bottom sheet at a 390px viewport. Its default view has one text field; optional card settings and notes stay collapsed. Tests cover retaining dirty drafts on Close, returning focus after Save/Add, concurrent edits and exports. These are browser tests, including phone-sized emulation, not a new external-agent or physical-phone test. The current editor was also opened and inspected in the Codex in-app preview.
+
+## Contextual add menu checks
+
+On 10 September 2026, [10 direct-edit browser check groups](test-evidence/contextual-add/results.json) passed with the contextual **+** menu. Checks cover hover without focus, selection or state changes; moving the pointer into the menu; click and keyboard choice; unchanged framework methods; draft guards; the direct **A** shortcut; exported copies; and touch-context taps at a 390px viewport. Touch emulation does not establish physical-phone behavior. The menu was also opened and inspected in the Codex in-app preview.

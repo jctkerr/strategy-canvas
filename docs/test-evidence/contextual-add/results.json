@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": [
+    "The editor is compact, anchored and nonmodal; one field opens by default, dirty Close keeps the draft, and Save returns focus with hidden metadata preserved.",
+    "Hover shows a short contextual nonmodal menu without stealing focus, selection or storage; pointer travel works and outside/Escape dismiss safely.",
+    "The first contextual choice opens an unsaved suitable child beneath its own card; saving preserves frameworks, while the separate chevron only collapses or expands.",
+    "Keyboard plus, arrows and Enter choose an option; A remains quick add, and another card cannot steal an unsaved draft or change its parent.",
+    "The branch chooser is anchored and nonmodal; Escape returns focus and outside dismissal writes nothing.",
+    "One click applies a type to the selected branch, closes the chooser and preserves deeper overrides.",
+    "A delayed type save pauses selection and editing; after it finishes, fresh wording saves with hidden notes preserved.",
+    "A same-node conflict blocks stale hidden fields; unrelated remote edits still merge safely.",
+    "Standalone export keeps direct editing and the complete state without changing the live session.",
+    "The direct controls and short chooser work at 390px without script errors."
+  ]
+}
