@@ -10,6 +10,7 @@ from pathlib import Path
 from state_store import (MAX_BYTES, Conflict, InvalidState, atomic_write, read_state,
                          session_lock, update, validate)
 from view_store import read_focus
+from session_server import open_session
 
 SET_FIELDS = {"title", "question", "context", "nextQuestion", "decision", "sources", "problem", "analysis"}
 NODE_FIELDS = {"parentId", "label", "kind", "status", "notes", "source", "sourceIds", "provenance", "method", "relation"}
@@ -114,6 +115,7 @@ def main():
     inputs.add_argument("--question", help="Starting question, up to 240 characters")
     inputs.add_argument("--from", dest="source", metavar="JSON", help="Exported state file, or - for stdin")
     commands.add_parser("show", help="Read the full current state, including its revision")
+    commands.add_parser("open", help="Start or reuse the same saved session and return its verified local URL")
     commands.add_parser("focus", help="Read the recent browser selection and its current branch; never changes the tree")
     apply = commands.add_parser("apply", help="Save a batch of partial edits against a revision you have read")
     apply.add_argument("--expected-revision", type=int, required=True)
@@ -123,6 +125,8 @@ def main():
     try:
         if args.command == "show":
             result = read_state(session)
+        elif args.command == "open":
+            result = open_session(session)
         elif args.command == "focus":
             result = read_focus(session)
         elif args.command == "init":

@@ -1,0 +1,36 @@
+{
+  "checkedAt": "2026-09-11T20:54:07.009799+00:00",
+  "assetSha256": "f3b2cd411ab53d1857f21d40455409aa2cc3ac7e773e4b07fb76a14e05b4bdf5",
+  "unchangedDuringFinalRun": true,
+  "exportedRuntimeMatchesAsset": true,
+  "test": "tests/analysis-recovery-smoke.cjs",
+  "testSha256": "d7eea9bc5dda0904bb33d136823e3c3326e843174721955239ddd660c8db52f4",
+  "passed": true,
+  "groups": 9,
+  "errors": [],
+  "regressions": [
+    {
+      "suite": "analysis",
+      "groups": 9,
+      "path": "/private/tmp/strategy-canvas-analysis-recovery-regression-20260911/results.json",
+      "scope": "Passed during this implementation; earlier than final unrelated Move styling."
+    },
+    {
+      "suite": "analysis-navigation",
+      "groups": 3,
+      "path": "/private/tmp/strategy-canvas-analysis-recovery-navigation-20260911/results.json",
+      "scope": "Passed during this implementation; earlier than final unrelated Move styling."
+    },
+    {
+      "suite": "work-selector",
+      "groups": 6,
+      "path": "/private/tmp/strategy-canvas-analysis-recovery-work-selector-20260911/results.json",
+      "scope": "Passed during this implementation; earlier than final unrelated Move styling."
+    }
+  ],
+  "screenshots": [
+    "recovered-conclusion.png",
+    "recovered-calculation-mobile.png"
+  ],
+  "scope": "Headless Chromium; mobile is viewport emulation. Fictional disposable loopback state only; external HTTP blocked. No external agent/provider test."
+}

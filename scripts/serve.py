@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """Serve one strategy canvas session on loopback only."""
 import argparse
+import errno
 import json
+import os
+import threading
+import uuid
 from http.server import BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlparse
@@ -11,6 +15,7 @@ from render_state import html_document
 from export_brief import pptx_document
 from state_store import Conflict, InvalidState, MAX_BYTES, initialise, read_state, update
 from view_store import MAX_VIEW_BYTES, read_focus, save_view, session_canvas_id
+from session_server import claim_server, runtime_id, write_receipt
 
 SKILL = Path(__file__).resolve().parent.parent
 
@@ -19,9 +24,17 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--session", type=Path, required=True)
     parser.add_argument("--port", type=int, default=8765, help="0 chooses an available port")
+    parser.add_argument("--existing", action="store_true", help="Require saved state; never initialise a demo")
+    parser.add_argument("--fallback-port", action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args()
     args.session = args.session.expanduser().resolve()
-    initialise(args.session, SKILL / "examples" / "demo.json")
+    if args.existing:
+        read_state(args.session)
+    else:
+        initialise(args.session, SKILL / "examples" / "demo.json")
+    owner = claim_server(args.session)
+    identity = {"protocol": 1, "sessionId": session_canvas_id(args.session),
+                "instanceId": uuid.uuid4().hex, "runtimeId": runtime_id(), "pid": os.getpid()}
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, fmt, *items):
@@ -60,6 +73,8 @@ def main():
             try:
                 if path == "/api/state":
                     self.json_reply(200, read_state(args.session))
+                elif path == "/api/server-info":
+                    self.json_reply(200, identity)
                 elif path == "/api/view":
                     self.json_reply(200, read_focus(args.session))
                 elif path == "/api/export/pptx":
@@ -118,6 +133,19 @@ def main():
         def do_POST(self):
             if not self.local_request():
                 return
+            if urlparse(self.path).path == "/api/server/stop":
+                try:
+                    size = int(self.headers.get("Content-Length", "0"))
+                    if self.headers.get_content_type() != "application/json" or not 0 < size <= 200:
+                        raise ValueError()
+                    if json.loads(self.rfile.read(size)) != {"instanceId": identity["instanceId"]}:
+                        raise ValueError()
+                except (ValueError, UnicodeError):
+                    self.json_reply(403, {"error": "Server identity did not match."})
+                    return
+                self.json_reply(200, {"stopping": True})
+                threading.Thread(target=self.server.shutdown, daemon=True).start()
+                return
             if urlparse(self.path).path != "/api/view":
                 self.json_reply(404, {"error": "Not found."})
                 return
@@ -135,7 +163,14 @@ def main():
             except OSError as error:
                 self.json_reply(500, {"error": str(error)})
 
-    server = LoopbackHTTPServer(("127.0.0.1", args.port), Handler)
+    try:
+        server = LoopbackHTTPServer(("127.0.0.1", args.port), Handler)
+    except OSError as error:
+        if not args.fallback_port or error.errno != errno.EADDRINUSE:
+            owner.close()
+            raise
+        server = LoopbackHTTPServer(("127.0.0.1", 0), Handler)
+    write_receipt(args.session, {**identity, "url": f"http://127.0.0.1:{server.server_port}"})
     print(f"Strategy Canvas ready: http://127.0.0.1:{server.server_port}", flush=True)
     print(f"Session: {args.session}", flush=True)
     try:
@@ -144,6 +179,8 @@ def main():
         pass
     finally:
         server.server_close()
+        # Keep the last address for reopening; callers must still verify identity.
+        owner.close()
 
 
 if __name__ == "__main__":

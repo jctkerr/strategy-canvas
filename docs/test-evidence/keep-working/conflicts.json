@@ -1,0 +1,12 @@
+{
+  "checks": [
+    "Different fields on the same thought merge without replacing either edit.",
+    "Same-field conflicts display both versions and survive reload without overwriting canonical state.",
+    "Keep mine resolves only the reviewed field and saves the retained human draft.",
+    "A newer revision during resolution requires review again; Use saved cannot apply an unseen version.",
+    "A delayed conflict-resolution read cannot roll the canvas back after a newer poll update.",
+    "Changed placement is acknowledged explicitly while retaining notes and the new parent.",
+    "A removed thought stays recoverable as a draft download and after reload; it is never silently recreated."
+  ],
+  "errors": []
+}

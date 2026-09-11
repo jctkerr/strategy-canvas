@@ -6,6 +6,10 @@ __pycache__/
 .env.*
 !.env.example
 .state.lock
+.open.lock
+.server.lock
+server.json
+server.log
 state.json
 sessions/
 exports/

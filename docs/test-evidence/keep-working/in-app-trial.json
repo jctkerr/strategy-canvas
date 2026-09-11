@@ -1,0 +1,15 @@
+{
+  "surface": "Codex desktop in-app browser, local macOS",
+  "fixture": "Separate fictional five-node workshop tree; no personal integrations",
+  "checks": [
+    "Reopened the same saved five-node tree after the independent agent trial.",
+    "Selected the paid-demand branch and read its exact saved note in the right panel.",
+    "Typed an extra note and immediately chose Focus branch; the note saved and the branch focused.",
+    "Reloaded and inspected the same selected branch: original and added text remained, all five nodes remained."
+  ],
+  "revisionBefore": 3,
+  "revisionAfter": 4,
+  "nodeId": "demand",
+  "verifiedNote": "My own note: interest is not paid demand. Check refundable bookings before choosing a date.In-app check: keep this decision open.\n",
+  "scope": "Actual Codex in-app checks. Does not establish novice, Claude, Cursor or physical-phone success."
+}

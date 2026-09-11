@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "type": "Agent-led clean-workspace README journey in local Chromium; not a novice study or Codex/Claude/Cursor native-client verification.",
+  "checks": [
+    "Clean copied skill and separate workspace build a fictional five-node tree: the supplied question, three cost-coverage inputs, and a paid-demand check. No demand, prices or costs are invented; open returns a responding loopback URL.",
+    "A manual browser note saves to the paid-demand branch with exact wording, preserving the root, other branches and nested check.",
+    "Returning with the stored session directory reuses the same server; the reopened tree contains the manual note and unchanged revision.",
+    "After the local server stops, the same open command restarts it at the previous address and shows the exact saved work."
+  ],
+  "errors": [],
+  "initialRevision": 1,
+  "savedRevision": 3,
+  "nodes": 5,
+  "hierarchy": [
+    {
+      "id": "root",
+      "parentId": null
+    },
+    {
+      "id": "demand",
+      "parentId": "root"
+    },
+    {
+      "id": "contribution",
+      "parentId": "root"
+    },
+    {
+      "id": "fixed_costs",
+      "parentId": "root"
+    },
+    {
+      "id": "booking_check",
+      "parentId": "demand"
+    }
+  ],
+  "portPreserved": true
+}

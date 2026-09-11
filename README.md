@@ -46,9 +46,13 @@ Your tree should appear beside the chat. Select a branch and say **“Let's expl
 
 Click a card to edit it or add notes. Changes save automatically. Click **+**, type and **Add** for a new branch—or **Add another** to keep going. Use **⌘/Ctrl K** to find a thought. **?** explains tree types.
 
-**Conclusion** keeps your decision—or what you need to check next—with the tree.
+Move a branch through **Details → Move to**. Its notes and smaller branches move with it.
+
+**Conclusion** keeps your decision—or what you need to check next—with the tree. Calculations and Conclusion use **Save**; unfinished drafts recover on reload when browser storage is available.
 
 Live sessions save on the computer running them. For a copy, ask: **“Give me a downloadable copy of this canvas.”**
+
+To return later, reopen this conversation and say **“Reopen my canvas.”** Your agent resumes the same saved session, including your edits.
 
 [What we've tested](docs/compatibility.md) · [Picture guide](docs/images/strategy-canvas-setup-guide.png)
 

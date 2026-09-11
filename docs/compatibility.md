@@ -1,5 +1,15 @@
 # Compatibility and test record
 
+## Keep working and return — 11 September 2026
+
+Unfinished calculations, investigations and Conclusion drafts recover in the same tab with their original revision checks. Switching between input and formula retains both drafts. **Details → Move to** moves an intact branch; Undo returns it. Conflicts show both versions in the notes panel, while edits to different fields merge safely. **Reopen my canvas** now reuses or restarts the same saved local session.
+
+**97 Python tests** pass, including [11 server-lifecycle checks](test-evidence/keep-working/reopen.json). Browser coverage includes [nine recovery groups](test-evidence/keep-working/draft-recovery.json), [seven conflict groups](test-evidence/keep-working/conflicts.json), [eight Move/focus groups](test-evidence/keep-working/move-focus.json), and regressions for [notes](test-evidence/keep-working/notes.json), [search](test-evidence/keep-working/find.json), [repeated additions](test-evidence/keep-working/repeated-add.json) and [the decision journey](test-evidence/keep-working/journey.json). [Receipt](test-evidence/keep-working/receipt.json).
+
+An independent agent followed the README in a clean copied workspace, built a fictional five-node tree, saved a note, closed and reopened it, then restarted the server: hierarchy, wording and revision stayed intact. [Trial](test-evidence/keep-working/readme-journey.json). In Codex's actual in-app browser, a further note saved through Focus branch and remained after reload. [In-app check](test-evidence/keep-working/in-app-trial.json).
+
+[Conflict choices](test-evidence/keep-working/conflicts.png) · [Move a branch](test-evidence/keep-working/move-desktop.png) · [Recovered conclusion](test-evidence/keep-working/recovered-conclusion.png). These are fictional tests, not a novice usability study or new Claude/Cursor verification. Narrow-screen checks use browser emulation. Draft recovery depends on available browser storage; **Keep draft** provides a downloadable fallback. Reopening restores saved session data, not cloud sync between standalone copies. Moving is supported; manual sibling reordering remains outside this update.
+
 ## Find and develop a branch — 11 September 2026
 
 Find searches thought titles, notes and sources. Selecting a result reveals its branch and opens its notes while retaining zoom. **Add another** saves a card and starts the next draft under the same parent. Investigations open one at a time, with a chooser when several belong to a branch.

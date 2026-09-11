@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": [
+    "Move changes only the parent, preserves the full subtree and references, explains inheritance, and supports exact Undo/export.",
+    "Move flushes valid notes first and serializes duplicate clicks without losing newer typing or its focus.",
+    "Find can supersede a move waiting on notes without moving the wrong thought or losing the draft.",
+    "A concurrent hierarchy change rejects a stale move, excludes the new descendant and never creates a cycle.",
+    "Focus and Whole tree save pending notes, keep the selected thought, and block explicit new-child and question drafts.",
+    "Failed notes cannot change focus; a later valid analysis save is awaited and an invalid analysis draft is kept.",
+    "An exported canvas starts with a clean Move chooser, keeps local moves across reload, and supports Undo without server writes.",
+    "The compact Move control is reachable on narrow touch screens and preserves explicit subtree methods."
+  ],
+  "errors": []
+}

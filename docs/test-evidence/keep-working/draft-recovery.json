@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": [
+    "Conclusion and brief drafts restore their exact wording, original revision, expanded section and caret without autosaving; explicit Save clears recovery.",
+    "An unfinished selected investigation, including an invalid blank title, survives reload; explicit Discard restores saved work and prevents resurrection.",
+    "Input and formula modes retain both representations through repeated switching and reload, keep focus, and save only the active canonical representation.",
+    "Originally calculated variables retain authored formula and new inputs in a draft; renaming a dependency updates the hidden formula too.",
+    "Newer canonical revisions keep recovered drafts in conflict, preserve their original base in Keep draft, block stale export and permit deliberate Discard.",
+    "New and opener-created tabs never adopt another tab’s analysis draft; closing a clean observer cannot erase same-tab recovery.",
+    "A failed save keeps the calculation draft recoverable, while an untouched new calculation can be dismissed after reload without creating a record.",
+    "Standalone recovery is isolated by exported canvas identity, retains both modes, and explicit save produces portable canonical data without touching the live session.",
+    "Unavailable browser storage is visible in live mode and Keep draft preserves the complete pending conclusion without claiming durable recovery."
+  ],
+  "errors": []
+}

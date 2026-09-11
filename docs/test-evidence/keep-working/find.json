@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "checks": [
+    "Find searches labels, notes and sources case-insensitively with distinguishing breadcrumbs; typing, hover and arrow navigation do not select, reveal, move or save anything.",
+    "Large result sets are bounded and counted honestly; authored markup remains literal text rather than being interpreted as HTML.",
+    "Click and Enter explicitly reveal collapsed ancestors or leave a focused subtree, show the chosen card and preserve zoom without changing canonical content.",
+    "An explicit new-child draft blocks search navigation before expansion or focus changes; cancel restores the exact notes position, and text shortcuts never become search or card actions.",
+    "Choosing a result safely finishes an existing edit on its original thought before opening the next card’s own notes.",
+    "One result click during an in-flight autosave waits for the successful response, then navigates without dropping the click or moving human notes to another thought.",
+    "Escape cancels pending Find navigation without cancelling the note save; its late response cannot switch cards or overwrite a newly opened search.",
+    "A conflicting saved revision blocks choosing another result without changing selection, camera, visibility or the preserved human draft.",
+    "Ctrl/Cmd+K works from the canvas; Escape restores its focused card, and a concurrently removed result cannot navigate to stale content.",
+    "Search queries and result UI are transient: no storage/URL leak, no HTML or JSON contamination, clean reload, and working search in a downloaded standalone copy.",
+    "At 390px Find, its results and close control are reachable, including reopening while Notes is active; touch selection and Escape preserve the editor."
+  ],
+  "errors": []
+}

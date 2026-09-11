@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "pythonTests": 97,
+  "reopenLifecycleTests": 11,
+  "readmeBrowserGroups": 4,
+  "testLog": "/tmp/strategy-canvas-reopen-python-tests-20260912.txt",
+  "readmeTrial": "/tmp/strategy-canvas-readme-reopen-trial-20260912/results.json",
+  "boundary": "Agent-led clean-workspace local Chromium test; not a novice study or external-client test.",
+  "sha256": {
+    "scripts/canvas.py": "e3cde900716a4a80d939c0d1546c79d4563077e5639c58a078c7fa9733a23cd5",
+    "scripts/serve.py": "6cdaccd8f7651c216768aa64c0337beb80ba1292e295c1a03d1df8c30857be3c",
+    "scripts/session_server.py": "e672e2a7c1950da6dfd2a2e71f191fdd669def6556bf8bf1413199a44adfdceb",
+    "tests/test_session_open.py": "69f0dfdf68421151193c037bf82c5ef828ef712a12a3db62ebf9595405fdbfea"
+  }
+}

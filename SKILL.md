@@ -36,16 +36,16 @@ These are starting preferences, not rigid limits. The user's request overrides t
 
 ## Open the canvas early
 
-Check the host's actual capabilities first: it needs access to this whole folder, Python 3.9+ on macOS/Linux/WSL, and a writable session directory. Keep the server in a persistent process when using live updates. If execution or file access is unavailable, explain the limit and use the setup guide in [README.md](README.md); do not claim that reading the instructions created a working canvas.
+Check the host's actual capabilities first: it needs access to this whole folder, Python 3.9+ on macOS/Linux/WSL, and a writable session directory. If execution or file access is unavailable, explain the limit and use the setup guide in [README.md](README.md); do not claim that reading the instructions created a working canvas.
 
-1. Read the [local CLI quick reference](references/schema.md#local-cli-quick-reference) and schema before creating or changing state. Resolve this skill's directory and choose a separate session directory for this conversation. Prefer `canvas.py init --question` for a new question, or `init --from` to adopt manually exported JSON. Keep the session location and running preview URL in the conversation context.
-2. Start the bundled local server with an available Python 3 runtime; port `0` chooses an available port:
+1. Read the [local CLI quick reference](references/schema.md#local-cli-quick-reference) and schema before creating or changing state. Recover this conversation's session directory first. Only for a new canvas, choose a separate directory and use `canvas.py init --question`, or `init --from` to adopt manually exported JSON. Keep the session location and preview URL in the conversation context; never initialise a replacement when asked to reopen.
+2. Open or resume that saved session:
 
    ```text
-   python3 <skill-directory>/scripts/serve.py --session <session-directory> --port <port>
+   python3 <skill-directory>/scripts/canvas.py --session <session-directory> open
    ```
 
-   It binds to the local machine and serves the session just created. Starting it without initialising a session first uses the fictional demo. Use the printed loopback URL exactly, without substituting the hostname. Check that it responds before describing the preview as running.
+   This requires existing state, reuses a verified matching server or starts one in the background, and returns its exact loopback `url`. Saved edits stay unchanged. Reuse the existing app pane with that URL; if the server was replaced after an update, reload the pane. The server needs no terminal kept open. If the session location is unresolved, recover it from this conversation or ask; do not guess from a different tab. Standalone HTML copies require their own JSON handoff, not this resume command.
 3. Read [references/method.md](references/method.md) before populating the first analytical map. If the user wants agent-led work on a real topic or decision, build a meaningful initial tree from recovered context and explicitly tentative useful possibilities before presenting it; do not leave a trunk of empty categories. Respect a request to start blank for manual thinking. Use the clearly labelled fictional demo only when an example is useful, and never carry its facts into the user's case.
 4. **Bring the canvas up inside the current app, beside the conversation.** In Codex desktop, Claude desktop and Cursor desktop, use the host's available embedded preview/browser tools rather than opening an external browser by default. Read [references/host-preview.md](references/host-preview.md) and inspect the actual tools in this session. In Codex, use `open_in_codex` with the exact URL when available. Reuse the same panel and keep the server alive as the person continues thinking. Verify that the populated canvas is visibly open; a URL in chat, a successful server request or a queued UI action is not proof it is showing. A CLI session is not its desktop app, and a remote agent's `127.0.0.1` address does not point to the user's computer. If this mode cannot embed a live canvas, deliver the populated HTML through its supported artifact/preview surface and explain the snapshot limitation. Do not claim unsupported in-app behaviour or expose a public port to work around preview access.
 

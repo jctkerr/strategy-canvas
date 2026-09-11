@@ -1,0 +1,25 @@
+{
+  "pythonTests": 97,
+  "newBrowserGroups": {
+    "draftRecovery": 9,
+    "nodeConflicts": 7,
+    "moveAndFocus": 8
+  },
+  "regressionGroups": {
+    "notes": 14,
+    "find": 11,
+    "repeatedAdd": 7,
+    "connectedJourney": 9,
+    "analysis": 9,
+    "analysisNavigation": 3,
+    "workSelector": 6
+  },
+  "independentReadmeJourneyGroups": 4,
+  "assetSha256": "c9eccce4cc09a31dd2af4587a44794ecac047fabd140cb3a6457e91dcef13411",
+  "boundaries": [
+    "Fictional fixtures only.",
+    "Readme journey is agent-led, not a novice study.",
+    "Native Codex checks are recorded separately; no new Claude/Cursor/physical-phone claim.",
+    "Recovery source receipt predates only the final focused-move correction; final Move groups cover that correction."
+  ]
+}

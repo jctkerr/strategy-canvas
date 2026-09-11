@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checks": [
+    "Add another saves one child, retains only its type and connection type, and focuses an explicit blank sibling draft.",
+    "Keyboard continuation supports Control and Command; ordinary Enter, IME, and ordinary Add retain their existing meaning.",
+    "An in-flight double click produces one saved node and one blank continuation.",
+    "Failed and conflicting saves retain the exact draft and never start another child.",
+    "Discarding the next empty draft preserves Undo for the latest explicit addition.",
+    "The 300th node saves successfully without opening an unusable continuation.",
+    "On narrow touch screens Add and Add another stay reachable together; continued metric drafts keep the right parent and inputs."
+  ],
+  "errors": []
+}

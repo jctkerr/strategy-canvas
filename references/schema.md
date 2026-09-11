@@ -7,12 +7,15 @@ The installed skill is a reusable template. Each conversation has a separate ses
 Requires Python 3.9+ on macOS or Linux. No pip packages, Node build, remote fonts, CDN or service are needed. Optional native LinkedIn previews contact LinkedIn only after a person opens a source; the canvas itself has no external runtime dependency. File locking uses the standard-library `fcntl` module and therefore does not support Windows directly; WSL is suitable.
 
 ```sh
-python3 /absolute/path/strategy-canvas/scripts/serve.py \
-  --session /absolute/path/to/session \
-  --port 0
+python3 /absolute/path/strategy-canvas/scripts/canvas.py \
+  --session /absolute/path/to/session init --question "What should we explore?"
+python3 /absolute/path/strategy-canvas/scripts/canvas.py \
+  --session /absolute/path/to/session open
 ```
 
-The server binds only to `127.0.0.1`. Port `0` selects an available port. Use the exact printed URL, including the numeric loopback hostname. Keep the process alive in a persistent terminal/exec session. The session directory is created if necessary; the fictional example initialises `state.json` only when no state exists. An existing session is validated and preserved. Open the URL in a browser on the same machine or a host preview that can reach it. A remote agent's loopback URL is not the user's local server. Use a downloadable standalone HTML export when the host cannot provide an accessible live preview. Reuse the same URL and session for later turns.
+Use `init` only for a new canvas. To return, run only `open` with the existing session directory; it verifies or starts the background server without changing saved work. Use its exact `url` in the same app pane. The server binds only to `127.0.0.1`; a remote agent's loopback address is not the user's local server. Use a standalone HTML export when the host cannot provide an accessible live preview. [CLI details](#local-cli-quick-reference).
+
+For a foreground development server, `serve.py --session DIR --port 0` remains available. It stays attached to its terminal and uses the fictional demo only when no state exists; add `--existing` to require a saved session.
 
 The HTML template and styling live in `assets/canvas.html`; edit the CSS variables for an intentional visual variation. The canonical state is independent of the template. Template changes need a browser reload; state changes appear through polling roughly every 1.4 seconds while connected.
 
@@ -182,14 +185,16 @@ python3 /absolute/path/strategy-canvas/scripts/canvas.py \
   --expected-revision 1 --changes /absolute/path/to/changes.json
 ```
 
-Start the live preview separately, keeping that process running:
+Open the saved session, or resume it later with the same command:
 
 ```sh
-python3 /absolute/path/strategy-canvas/scripts/serve.py \
-  --session /absolute/path/to/session --port 0
+python3 /absolute/path/strategy-canvas/scripts/canvas.py \
+  --session /absolute/path/to/session open
 ```
 
-Use the exact printed loopback URL. The browser sees subsequent accepted CLI edits in the same session. Creating or editing state alone does not start a server or open an in-app preview. Use the existing [export helper](#deterministic-file-export) to save populated HTML, SVG and JSON from this session.
+`open` requires existing valid state and leaves it unchanged. It returns `{session, url, status, revision, nodes}`, where `status` is `started`, `reused` or `restarted`. It verifies the responding session, server instance and runtime before reuse; a stopped or outdated server is restarted, retaining its port when available. Another session at an old address is never stopped. Startup is serialised per session and runs in the background, so the terminal can close.
+
+Use the exact returned `url` in the existing app pane, then inspect the visible canvas. Reopening a server does not itself reveal a preview. Keep the session directory in conversation context; `init` is not a resume command. `server.json`, `server.log` and server lock files belong only to that session and are not strategy state or portable exports. The receipt is a locator, not proof of a live server; `open` always verifies it. The browser sees subsequent accepted CLI edits in the same session. Use the [export helper](#deterministic-file-export) to save populated HTML, SVG and JSON from it.
 
 To continue a manually built standalone tree, adopt its exported JSON into a **new** session instead of using `--question`:
 

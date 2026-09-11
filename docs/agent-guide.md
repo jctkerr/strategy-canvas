@@ -12,6 +12,8 @@ Installation instructions below follow the linked vendor documentation. Our [tes
 
 Ask your agent: **“Show Strategy Canvas in this app's built-in preview, keep it open, and update the same canvas as we talk.”** The skill should handle this through the app's available tools. You should see your question and an editable tree before it says the preview is ready.
 
+To return later, reopen the same conversation and say **“Reopen my canvas.”** The agent uses the saved session directory and opens its latest state. It should reuse your preview, not create a fresh canvas.
+
 The agent should also help sharpen the question as you go. It should use your answers to revise the main question, relevant branches and next steps, preserving your edits. You can say **“That is not quite the problem”**, **“This constraint has changed”** or **“Let's explore this branch”**; there is no fixed sequence of questions to complete.
 
 | Where you are working | In-app route |
@@ -34,10 +36,10 @@ If you want to open it before connecting an agent:
 git clone https://github.com/jctkerr/strategy-canvas.git
 cd strategy-canvas
 python3 scripts/canvas.py --session ../strategy-canvas-session init --question "What should I focus on next?"
-python3 scripts/serve.py --session ../strategy-canvas-session --port 0
+python3 scripts/canvas.py --session ../strategy-canvas-session open
 ```
 
-Keep the terminal running and give the exact printed URL to your desktop agent to open in its built-in preview. You can also paste it into that pane yourself. This starts with your question; the agent can add useful branches as you talk. To reopen an existing session, run only the final command. `init` never replaces an existing session.
+Give the returned `url` to your desktop agent to show in its built-in preview, or paste it into that pane. To reopen, run only the final command. It reuses the matching local server or starts it again, without changing saved work. The terminal can close. `init` is only for a new session.
 
 Agents with local execution should use the [CLI quick reference](../references/schema.md#read-and-update) to read the latest canvas and save a batch of small changes. For “explore this”, `canvas.py --session DIR focus` supplies the recent live selection. Use it only when current and unambiguous; preserve any unsaved human draft. Missing or stale selection needs a fresh preview check or a brief clarification. No additional Python packages or Strategy Canvas MCP connection are needed. HTTP remains available when local files are inaccessible.
 
@@ -182,9 +184,9 @@ Agents should read the relevant recipe in [the tree-method guide](../references/
 | Python or `fcntl` error | Install Python 3.9+ from its official source; on Windows use WSL. |
 | The agent says “opened”, but no canvas appears | Ask it to reveal and inspect the built-in preview. A queued request, attachment or separate browser screenshot is not proof. |
 | Cursor has a running server but no visible canvas | Use Command Palette → **Open Browser Tab**, enter the exact numeric session URL, and press Return. |
-| Local URL will not open | Keep the server running; use the exact printed numeric URL in the app's preview on the same computer. For cloud execution use a verified host preview or a native HTML artifact. |
+| Local URL will not open | Ask your agent to reopen the same session with `canvas.py --session DIR open`, then use its returned URL. For cloud execution use a verified host preview or a native HTML artifact. |
 | Claude Code preview fails despite a running server | Ask the agent to attach a URL-only preview entry to the exact printed `127.0.0.1` URL; preserve existing launch configurations. |
 | Remote Bot returns an inaccessible local URL | Open its computer view or ask it to attach the standalone HTML export. |
 | Agent returns only prose | Ask it to run the bundled runtime and show a populated canvas; if it lacks execution, use another environment. |
 | Your direct edit disappeared | Confirm you edited the live session, not a standalone copy. Ask the agent to read the current state and reconcile before saving. |
-| Port is in use | Start with `--port 0` to select an available port. |
+| Old address belongs to another server | Reopen with the same session directory. The command checks identity and chooses an available address without stopping the other server. |
