@@ -186,7 +186,7 @@ def storyline(state):
                            'notes': continuation})
 
     add(state['question'], '\n\n'.join(x for x in [brief['situation'], brief['complication']] if x),
-        f'Strategy Canvas revision {state["revision"]}. Authored draft, not an independent strategy review.\n'+state['context'])
+        f'Strategy Tree revision {state["revision"]}. Authored draft, not an independent strategy review.\n'+state['context'])
     add('Current answer', brief['answer'] or 'The choice remains open.')
     for section in brief['sections']:
         numbers, notes = reference_notes(state, section, models, cache)
@@ -254,7 +254,7 @@ def pptx_document(state):
         if prop.tag.rsplit('}', 1)[-1] in {'Slides', 'Notes'}:
             prop.text = str(len(slides))
         elif prop.tag.rsplit('}', 1)[-1] == 'Application':
-            prop.text = 'Strategy Canvas'
+            prop.text = 'Strategy Tree'
     parts['docProps/app.xml'] = xml(properties)
     core = ET.fromstring(parts['docProps/core.xml'])
     for prop in core:
@@ -262,7 +262,7 @@ def pptx_document(state):
         if name == 'title':
             prop.text = clean_text(state['title'])
         elif name in {'creator', 'lastModifiedBy'}:
-            prop.text = 'Strategy Canvas'
+            prop.text = 'Strategy Tree'
     parts['docProps/core.xml'] = xml(core)
     # Retain the canonical snapshot alongside speaker notes for exact handoff.
     parts['strategy-canvas.json'] = json.dumps(state, ensure_ascii=False, indent=2).encode('utf-8')

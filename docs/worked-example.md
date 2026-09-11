@@ -43,7 +43,7 @@ The demand question becomes **“Would 10 people buy a £20 ticket?”** Staffin
 
 [See the updated tree](https://jctkerr.github.io/strategy-canvas/bookshop-updated.html)
 
-You can also click a card to edit, then **Save**; use **+** to add a branch. Card text does not recalculate itself. Update linked thoughts yourself or ask your agent. In the browser example, **Export → Interactive canvas** saves a copy; check that it downloaded.
+You can also click a card to edit; changes save automatically. Use **+**, type and **Add** for a new branch. Card text does not recalculate itself. Update linked thoughts yourself or ask your agent. In the browser example, **Export → Interactive canvas** saves a copy; check that it downloaded.
 
 ## Why these trees?
 

@@ -3,7 +3,7 @@ name: strategy-canvas
 description: Help people understand a problem, explore possibilities, analyse drivers and compare strategic choices in an editable visual tree. Use for conversational strategy work, issue or hypothesis trees, quantitative drivers, objectives, product discovery and recommendations, with persistent preview and portable exports.
 ---
 
-# Strategy Canvas
+# Strategy Tree
 
 Help the user explore possibilities, deepen useful branches and reach a clearer decision when ready through a concise conversation and a visible, evolving tree. The user leads the movement between exploration, focused deepening and comparison; these are not mandatory stages or a race to a recommendation. Keep dialogue and synthesis with the current conversational agent. Delegate bounded research, implementation or browser work when useful or required by the host environment.
 
@@ -32,7 +32,7 @@ These are starting preferences, not rigid limits. The user's request overrides t
 | Visible depth | Start with two levels below the root; populate useful deeper content and reveal it selectively. Visible depth limits presentation, not reasoning. |
 | Challenge style | Calm and proportionate: identify the consequential assumption and suggest a way to check it. |
 | Update timing | Refresh after each meaningful exchange, before the next substantive reply. |
-| Visual style | Keep Strategy Canvas’s minimal chrome, short labels, details in notes and small By CURN attribution; new cards ease in while existing cards and connectors move together, respecting reduced motion with no new controls. |
+| Visual style | Keep Strategy Tree’s minimal chrome, short labels, details in notes and small By CURN attribution; new cards ease in while existing cards and connectors move together, respecting reduced motion with no new controls. |
 
 ## Open the canvas early
 
@@ -88,7 +88,7 @@ If someone starts with the blank standalone canvas or **New**, use `canvas.py in
 
 When the person refers to their selection in a live session, read `canvas.py --session DIR focus`. Use its `selection` only when `status` is `current` and fits the request. The selection includes the canonical node, effective method, ancestors, descendants and sources. `missing`, `stale` or `ambiguous` means the intended card is unresolved: inspect the current preview or ask which card; never guess from an old tab. If `hasUnsavedDraft` is true, preserve the pending human work and do not overwrite that node. Selection supplies context, not permission to change it.
 
-Before each substantive answer or state update, read the latest state with `canvas.py show`, including direct canvas edits. Prefer a compact `canvas.py apply --expected-revision N --changes FILE` batch for local updates; follow the [CLI quick reference](references/schema.md#local-cli-quick-reference). Preserve stable IDs and unrelated changes. Use the revision just read and check the saved receipt. The CLI and HTTP API share the same lock and canonical state. When the session API is reachable but local file access is unavailable, use `GET /api/state` and `PUT /api/state` with `{expectedRevision, state}` instead. The bundled runtime has no dedicated Strategy Canvas MCP server; use the host's available tools for execution and preview.
+Before each substantive answer or state update, read the latest state with `canvas.py show`, including direct canvas edits. Prefer a compact `canvas.py apply --expected-revision N --changes FILE` batch for local updates; follow the [CLI quick reference](references/schema.md#local-cli-quick-reference). Preserve stable IDs and unrelated changes. Use the revision just read and check the saved receipt. The CLI and HTTP API share the same lock and canonical state. When the session API is reachable but local file access is unavailable, use `GET /api/state` and `PUT /api/state` with `{expectedRevision, state}` instead. The bundled runtime has no dedicated Strategy Tree MCP server; use the host's available tools for execution and preview.
 
 If the revision conflicts, reread and reconcile; never blindly retry or overwrite newer edits. Keep the same session, server and preview rather than generating a new page each exchange. The session state is canonical; do not maintain a competing tree in chat or overwrite the state file behind a running server.
 

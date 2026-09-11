@@ -1,8 +1,8 @@
-# Use Strategy Canvas with your agent
+# Use Strategy Tree with your agent
 
 Start with the [three steps in the README](../README.md#with-your-ai-tool). Use the same message in Codex, Claude Code, Cursor or another agent that can open files and run code. Use the instructions below for a reusable installation, another app mode or troubleshooting.
 
-Keep the complete folder: `SKILL.md` alone cannot run the canvas.
+Keep the complete folder: `SKILL.md` alone cannot run the canvas. The technical skill name stays `strategy-canvas`, so existing installations and links keep working.
 
 You need an existing agent account, Python 3.9+ on macOS, Linux or WSL, and permission for that agent to read the skill and save a separate session. The Python runtime has no additional packages to install. Agent subscriptions and model access are separate.
 
@@ -10,7 +10,7 @@ Installation instructions below follow the linked vendor documentation. Our [tes
 
 ## Keep the canvas beside the conversation
 
-Ask your agent: **“Show Strategy Canvas in this app's built-in preview, keep it open, and update the same canvas as we talk.”** The skill should handle this through the app's available tools. You should see your question and an editable tree before it says the preview is ready.
+Ask your agent: **“Show Strategy Tree in this app's built-in preview, keep it open, and update the same canvas as we talk.”** The skill should handle this through the app's available tools. You should see your question and an editable tree before it says the preview is ready.
 
 To return later, reopen the same conversation and say **“Reopen my canvas.”** The agent uses the saved session directory and opens its latest state. It should reuse your preview, not create a fresh canvas.
 
@@ -41,7 +41,7 @@ python3 scripts/canvas.py --session ../strategy-canvas-session open
 
 Give the returned `url` to your desktop agent to show in its built-in preview, or paste it into that pane. To reopen, run only the final command. It reuses the matching local server or starts it again, without changing saved work. The terminal can close. `init` is only for a new session.
 
-Agents with local execution should use the [CLI quick reference](../references/schema.md#read-and-update) to read the latest canvas and save a batch of small changes. For “explore this”, `canvas.py --session DIR focus` supplies the recent live selection. Use it only when current and unambiguous; preserve any unsaved human draft. Missing or stale selection needs a fresh preview check or a brief clarification. No additional Python packages or Strategy Canvas MCP connection are needed. HTTP remains available when local files are inaccessible.
+Agents with local execution should use the [CLI quick reference](../references/schema.md#read-and-update) to read the latest canvas and save a batch of small changes. For “explore this”, `canvas.py --session DIR focus` supplies the recent live selection. Use it only when current and unambiguous; preserve any unsaved human draft. Missing or stale selection needs a fresh preview check or a brief clarification. No additional Python packages or Strategy Tree MCP connection are needed. HTTP remains available when local files are inaccessible.
 
 For a standalone canvas, export **Editable state (JSON)** and supply that file to the agent. It can adopt the complete tree using `canvas.py --session NEW_DIRECTORY init --from exported.json`. Check that the file actually downloaded before closing the standalone tab. If the host cannot download files, keep that tab open; its edits have not reached any live session. In a live session, the agent can export directly with the bundled `export_state.py` helper.
 
@@ -69,7 +69,7 @@ In the desktop app, ask for **Browser** beside the conversation. If the pane is 
 Open a Bot conversation and paste this, replacing the final sentence with your question:
 
 ```text
-Download the complete Strategy Canvas skill from
+Download the complete Strategy Tree skill from
 https://github.com/jctkerr/strategy-canvas into /workspace/strategy-canvas
 on your computer. Read README.md, SKILL.md and its required references.
 Use the bundled runtime, keep my session in a separate /workspace folder,
@@ -110,7 +110,7 @@ For an in-app canvas, use Claude desktop's **Code** tab with a **local** session
 
 ## Claude desktop Cowork and Chat
 
-Use the complete skill ZIP through Claude's skill upload flow with code execution enabled; this is separate from the local `~/.claude/skills` installation. This upload route has not been tested with Strategy Canvas. [Official upload instructions](https://support.claude.com/en/articles/12512180-use-skills-in-claude).
+Use the complete skill ZIP through Claude's skill upload flow with code execution enabled; this is separate from the local `~/.claude/skills` installation. This upload route has not been tested with Strategy Tree. [Official upload instructions](https://support.claude.com/en/articles/12512180-use-skills-in-claude).
 
 In Cowork, ask for the **built-in browser**. If available, choose it under **Settings → Cowork → Preferred browser**. A cloud-run canvas needs a reachable host preview or a native HTML artifact: its local address will not reach the desktop browser. [Cowork browser](https://support.claude.com/en/articles/16607400-use-the-built-in-browser-in-claude-cowork).
 

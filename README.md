@@ -1,14 +1,18 @@
-<h1 id="strategy-canvas"><img src="docs/images/strategy-canvas-cover-product.png" alt="Strategy Canvas"></h1>
+<h1 id="strategy-canvas"><img src="docs/images/strategy-tree-cover-product.png" alt="Strategy Tree"></h1>
 
 By [CURN](https://www.curn.io/).
 
-**Turn a question into a tree you can edit.**
+**Turn a question into a tree you can work through.**
 
-See your options, assumptions and evidence together. Work with your AI tool or on your own.
+- Break a big problem into smaller questions.
+- Keep notes, assumptions and evidence beside each branch.
+- Reach a decision, or identify what to check next.
+
+Use it to evaluate an opportunity, find why something isn’t working, or explain a decision. Work manually or with your agent.
 
 [Explore the examples](https://jctkerr.github.io/strategy-canvas/examples.html) · [Try it in your browser](https://jctkerr.github.io/strategy-canvas/bookshop.html)
 
-[![Strategy Canvas showing a growth goal, three drivers, possible actions, a revenue calculation and a hypothesis to test.](docs/images/growth-overview.png)](https://jctkerr.github.io/strategy-canvas/growth.html)
+[![Strategy Tree showing a growth goal, three drivers, possible actions, a revenue calculation and a hypothesis to test.](docs/images/growth-overview.png)](https://jctkerr.github.io/strategy-canvas/growth.html)
 
 One canvas can hold different trees. Here, **drivers** describe ways to grow; deeper branches work through **numbers** and **tests**. This is a fictional example.
 
@@ -31,7 +35,7 @@ Prefer another tool? It needs to open files and run code. [Other setups & help](
 Replace the last line with your question, then press **Send**.
 
 ```text
-Install and use Strategy Canvas:
+Install and use Strategy Tree:
 https://github.com/jctkerr/strategy-canvas
 
 Read the skill and open the canvas beside our chat.
@@ -54,7 +58,7 @@ Live sessions save on the computer running them. For a copy, ask: **“Give me a
 
 To return later, reopen this conversation and say **“Reopen my canvas.”** Your agent resumes the same saved session, including your edits.
 
-[What we've tested](docs/compatibility.md) · [Picture guide](docs/images/strategy-canvas-setup-guide.png)
+[What we've tested](docs/compatibility.md) · [Picture guide](docs/images/strategy-tree-setup-guide.png)
 
 ## Without an agent
 

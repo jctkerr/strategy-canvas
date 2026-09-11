@@ -6,7 +6,7 @@ Agent instructions. Routes checked **10 September 2026**; the observations below
 | --- | --- |
 | Codex desktop | The existing in-app tab rendered the 15-node fictional bookshop canvas. The opener's placement request returned queued; that result alone did not prove visibility. |
 | Cursor desktop | Command Palette → **Open Browser Tab**, then the exact numeric URL and Return, opened the native Browser pane. The 15-node bookshop and **Analysis** dialog rendered; this check made no strategy-state mutation. |
-| Claude Code, Cowork and Chat | Official documentation checked; no Strategy Canvas execution or rendered desktop check performed. |
+| Claude Code, Cowork and Chat | Official documentation checked; no Strategy Tree execution or rendered desktop check performed. |
 
 ## Decision tree
 

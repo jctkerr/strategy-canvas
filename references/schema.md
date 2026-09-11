@@ -1,4 +1,4 @@
-# Strategy Canvas state and runtime
+# Strategy Tree state and runtime
 
 The installed skill is a reusable template. Each conversation has a separate session directory containing `state.json` and `.state.lock`. Do not put private session data into the shareable skill bundle. The bundled demo is explicitly fictional.
 
@@ -150,7 +150,7 @@ Opening a source keeps the editor and its draft in the same panel. **Back** or E
 
 ### Local CLI quick reference
 
-Prefer the bundled CLI when the agent can access the session's files. It saves compact changes through the same validated, revision-checked store as the live browser. It needs only the existing Python runtime; there is no dedicated Strategy Canvas MCP server to configure.
+Prefer the bundled CLI when the agent can access the session's files. It saves compact changes through the same validated, revision-checked store as the live browser. It needs only the existing Python runtime; there is no dedicated Strategy Tree MCP server to configure.
 
 Create a new session from the person's question, then read its full current state:
 

@@ -501,7 +501,7 @@ class HTTPTests(unittest.TestCase):
                           f"Exit code: {process.poll()!r}. Stderr: "
                           + log.read().decode("utf-8", errors="replace"))
             banner = process.stdout.readline().strip()
-        if not banner.startswith("Strategy Canvas ready: http://127.0.0.1:"):
+        if not banner.startswith("Strategy Tree ready: http://127.0.0.1:"):
             log.seek(0)
             self.fail(f"Unexpected server output: {banner!r}. Exit code: {process.poll()!r}. Stderr: "
                       + log.read().decode("utf-8", errors="replace"))

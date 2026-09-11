@@ -171,7 +171,7 @@ def main():
             raise
         server = LoopbackHTTPServer(("127.0.0.1", 0), Handler)
     write_receipt(args.session, {**identity, "url": f"http://127.0.0.1:{server.server_port}"})
-    print(f"Strategy Canvas ready: http://127.0.0.1:{server.server_port}", flush=True)
+    print(f"Strategy Tree ready: http://127.0.0.1:{server.server_port}", flush=True)
     print(f"Session: {args.session}", flush=True)
     try:
         server.serve_forever()

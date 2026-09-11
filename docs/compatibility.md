@@ -1,5 +1,7 @@
 # Compatibility and test record
 
+Strategy Tree was previously named Strategy Canvas. Earlier test records keep that name.
+
 ## Keep working and return — 11 September 2026
 
 Unfinished calculations, investigations and Conclusion drafts recover in the same tab with their original revision checks. Switching between input and formula retains both drafts. **Details → Move to** moves an intact branch; Undo returns it. Conflicts show both versions in the notes panel, while edits to different fields merge safely. **Reopen my canvas** now reuses or restarts the same saved local session.

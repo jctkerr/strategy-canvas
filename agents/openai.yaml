@@ -1,4 +1,4 @@
 interface:
-  display_name: "Strategy Canvas"
+  display_name: "Strategy Tree"
   short_description: "Think together in a live, editable strategy tree"
   default_prompt: "Use $strategy-canvas to help me work through a strategic decision in a concise visual conversation."
