@@ -2,6 +2,8 @@
 
 Read the relevant recipe when creating or changing a branch's method. These are useful families, not a universal taxonomy: teachers use overlapping names. A case subject such as growth, pricing, market entry or acquisition does not determine the tree. Choose by the question and the meaning of each connection.
 
+[Try all nine tree types](https://jctkerr.github.io/strategy-canvas/examples.html), each with a fictional example and source, or [see several working together](https://jctkerr.github.io/strategy-canvas/growth.html).
+
 ## Contents
 
 - [Choose from the person's problem](#choose-from-the-persons-problem)
@@ -108,6 +110,8 @@ This assumes the stated costs are relevant, prices remain constant and no capaci
 ## Solution or how tree
 
 **Purpose:** Explore mechanisms and interventions that could achieve a defined change. This is a practical prescriptive tree family, not a claim to a single proprietary framework.
+
+A **Driver card** can name a qualitative lever: grow revenue → win customers → refine entry-level pricing. Use `kind: driver` for the lever, then Solution or Action cards for interventions. These levers may interact. A numerical **Driver tree** instead uses Metric cards and equations; use a branch override when moving from a possible action into its arithmetic.
 
 **Build:** Define the desired change and constraints. Identify plausible levers, explain how each could affect the outcome, then develop concrete interventions. Separate means from the end they serve. Keep alternatives and useful combinations open; attach dependencies, trade-offs and evidence before ranking.
 

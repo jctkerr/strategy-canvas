@@ -52,7 +52,8 @@ Record candidate mechanisms, assumptions and supporting/challenging evidence in 
 }
 ```
 
-- `kind`: `question`, `option`, `criterion`, `evidence`, `assumption`, `action`, `hypothesis`, `metric`, `objective`, `solution`, `outcome`, `test`, `chance`, `claim`. These name the thought's role; they do not choose a method, establish truth or run a calculation.
+- `kind`: `question`, `option`, `criterion`, `evidence`, `assumption`, `action`, `hypothesis`, `driver`, `metric`, `objective`, `solution`, `outcome`, `test`, `chance`, `claim`. These name the thought's role; they do not choose a method, establish truth or run a calculation.
+- A `driver` card names a proposed qualitative lever, such as “Retain more customers”. Use `method: "solution"` and `could-achieve` links to explore how it might help. A numerical `method: "driver"` tree instead uses `metric` cards and explicit calculations. The card kind never switches the method automatically. Use the current runtime for states containing `kind: "driver"`; older versions reject this new kind.
 - `status`: `open`, `supported`, `uncertain`, `ruled-out`. A supported status is not an automatic verification: explain its basis in notes/source.
 - IDs: 1–80 ASCII letters, digits, underscores or hyphens; first character must be a letter or digit.
 - Labels: 1–240 characters, non-blank. Short labels of roughly 3–8 words work best. Cards display up to three lines with truncation; the full label is available in the inspector, SVG title and JSON/Markdown/HTML exports.

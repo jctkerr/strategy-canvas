@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "title": "Growth levers · fictional example",
+  "question": "How could we grow recurring revenue by 15% in 12 months?",
+  "context": "Fictional subscription business: £200k annual recurring revenue today, aiming for £230k in 12 months. Ideas are untested and figures are teaching assumptions. Growth levers can combine; their effects need checking.",
+  "nextQuestion": "Which lever is most promising, and what evidence would change your mind?",
+  "problem": {
+    "situation": "A fictional subscription business wants to grow its recurring revenue. No sales, customer or cancellation data have been supplied.",
+    "desiredChange": "Increase annual recurring revenue (ARR) from £200,000 now to £230,000 at the end of 12 months. ARR is the annualised recurring run-rate at that point, not revenue collected during the year.",
+    "constraints": "Protect profitable delivery. Budget, staff capacity, margins and customer demand remain unspecified."
+  },
+  "nodes": [
+    {
+      "id": "growth",
+      "parentId": null,
+      "label": "Grow ARR 15% in 12 months",
+      "kind": "objective",
+      "status": "open",
+      "notes": "Fictional target: annual recurring revenue (ARR) rises from £200,000 to £230,000 at the end of 12 months. This is a solution/how tree: three proposed revenue levers, followed by possible actions and selected analytical subtrees. The levers are acquisition, expansion and retention. They can combine; they are not mutually exclusive investment choices or an exhaustive validated strategy. Acquisition adds paying accounts; expansion increases what an active account pays; retention avoids losing recurring revenue. The same account can be acquired, retained and expanded over time, so these are levers rather than independent additive buckets. Pricing and product changes may affect more than one lever, and their effects must not be counted twice. Lost or reduced subscriptions, changing prices, acquisition cost and delivery capacity still need a complete financial model before choosing a plan. Method reference: references/tree-methods.md, Solution or how tree. Its Bain FashionCo case source explains moving from diagnosis to revenue interventions: https://www.bain.com/careers/hiring-process/interviewing/fashion-case-study/ . This is a teaching-method reference, not evidence for these fictional ideas.",
+      "method": "solution"
+    },
+    {
+      "id": "win_customers",
+      "parentId": "growth",
+      "label": "Win new customers",
+      "kind": "driver",
+      "status": "uncertain",
+      "notes": "Proposed qualitative growth lever: add paying accounts outside the starting customer cohort. Reach and conversion matter only if the resulting recurring revenue exceeds the costs and the customers stay. This DRIVER card names a strategic lever; it is not a numerical equation. The two child actions are possibilities, not a complete or ranked acquisition strategy.",
+      "relation": {
+        "type": "could-achieve"
+      }
+    },
+    {
+      "id": "entry_pricing",
+      "parentId": "win_customers",
+      "label": "Refine entry-level pricing",
+      "kind": "action",
+      "status": "open",
+      "notes": "Possible intervention: test an entry offer suited to the target buyer’s needs and willingness to pay. A better-fitting price or package might increase conversion, but a lower price can reduce revenue per account or attract customers who leave quickly. First inspect existing funnel, win/loss and pricing evidence. No conversion increase is assumed. This pricing action has its primary home under acquisition; any migration by existing customers must also be assessed under grow_accounts and retain_customers rather than counted again as new revenue.",
+      "relation": {
+        "type": "could-achieve"
+      }
+    },
+    {
+      "id": "adjacent_segment",
+      "parentId": "win_customers",
+      "label": "Reach an adjacent segment",
+      "kind": "action",
+      "status": "open",
+      "notes": "Possible intervention: reach a neighbouring customer segment whose job fits the existing product. It could add recurring revenue if the offer solves that segment’s need without disproportionate product, support or acquisition costs. Inspect available customer and sales evidence before choosing a segment. No particular audience or demand level has been invented.",
+      "relation": {
+        "type": "could-achieve"
+      }
+    },
+    {
+      "id": "grow_accounts",
+      "parentId": "growth",
+      "label": "Grow existing accounts",
+      "kind": "driver",
+      "status": "uncertain",
+      "notes": "Proposed qualitative growth lever: increase the recurring revenue of accounts present at the start of the period. Expansion depends on additional customer value; a nominal price rise or forced upgrade can be offset by downgrades or cancellations. The proposed premium tier below is one possible mechanism, not the only expansion option.",
+      "relation": {
+        "type": "could-achieve"
+      }
+    },
+    {
+      "id": "premium_tier",
+      "parentId": "grow_accounts",
+      "label": "Offer a premium tier",
+      "kind": "action",
+      "status": "open",
+      "notes": "Possible intervention: offer additional value that some existing accounts choose to pay for. The equation below illustrates a possible recurring-revenue contribution if 10 accounts each add £1,200 per year. It does not establish demand for the tier. Check willingness to pay, cannibalisation, delivery cost and cancellations before attributing net growth to it.",
+      "relation": {
+        "type": "could-achieve"
+      }
+    },
+    {
+      "id": "expansion_arr",
+      "parentId": "premium_tier",
+      "label": "Expansion ARR: 10 × £1,200 = £12k",
+      "kind": "metric",
+      "status": "uncertain",
+      "notes": "Illustrative base equation: incremental ARR = upgrading accounts × additional annual recurring revenue per upgrading account. 10 accounts × £1,200 per account per year = £12,000 per year. The possible outcome is gross expansion at the end of the 12-month horizon, not cash collected during that year and not net profit. It assumes all 10 upgrades are still active at that point, with no offsetting discounts, downgrades or cancellations. It accounts for £12k of the fictional £30k ARR increase only under these assumptions; no full target-achievement claim follows. The linked Numbers model provides a 5/10/15-account sensitivity illustration. Tree labels show the base illustration; editing Numbers does not rewrite the tree’s prose. Method reference: references/tree-methods.md, Driver or equation tree. Case source for explicit revenue-intervention arithmetic: https://www.bain.com/careers/hiring-process/interviewing/fashion-case-study/ . The inputs here are invented teaching assumptions, not figures from that case.",
+      "method": "driver",
+      "relation": {
+        "type": "outcome"
+      }
+    },
+    {
+      "id": "upgrading_accounts",
+      "parentId": "expansion_arr",
+      "label": "10 upgrading accounts",
+      "kind": "metric",
+      "status": "uncertain",
+      "notes": "Illustrative base input: 10 existing accounts have upgraded and remain active at the end of month 12. The Numbers model also illustrates 5 and 15 upgrades. These are stipulated cases, not forecasts, probabilities or observed customers. Each account is counted once.",
+      "relation": {
+        "type": "calculated-from"
+      }
+    },
+    {
+      "id": "annual_uplift",
+      "parentId": "expansion_arr",
+      "label": "£1,200 extra ARR per account",
+      "kind": "metric",
+      "status": "uncertain",
+      "notes": "Illustrative input: each upgrade adds £100 per month in recurring charges, annualised as £100 × 12 = £1,200 additional ARR per account. The same uplift applies to each assumed upgrade. This is incremental to the existing subscription and excludes one-off fees. Real margins, taxes and changes to other subscription charges are outside this example.",
+      "relation": {
+        "type": "calculated-from"
+      }
+    },
+    {
+      "id": "retain_customers",
+      "parentId": "growth",
+      "label": "Reduce customer churn",
+      "kind": "driver",
+      "status": "uncertain",
+      "notes": "Proposed qualitative growth lever: retain recurring revenue from active accounts that would otherwise be lost. Lower customer churn can support ARR, but accounts differ in value, so account retention and revenue retention are not interchangeable. The guided-setup hypothesis is one possible retention mechanism. Retention gains interact with pricing and expansion; do not add overlapping effects twice.",
+      "relation": {
+        "type": "could-achieve"
+      }
+    },
+    {
+      "id": "guided_setup",
+      "parentId": "retain_customers",
+      "label": "Guided setup may reduce cancellations",
+      "kind": "hypothesis",
+      "status": "uncertain",
+      "notes": "Untested intervention hypothesis: helping new customers complete a useful setup may lower cancellation within 90 days, compared with otherwise comparable customers receiving the current setup. The mechanism is that customers experience value before giving up. A competing explanation is that cancellations reflect poor product fit or price rather than setup friction; guided setup would not necessarily fix those causes. No customer observations or causal results have been supplied. This branch switches to a hypothesis tree to inspect the proposition, including possible disconfirmation. Its incoming connection remains could-achieve because the proposed guided setup could help the parent retention goal. Method reference: references/tree-methods.md, Hypothesis tree, and its issue-tree source: https://caseinterview.com/issue-tree . The source describes reasoning, not evidence that guided setup works here.",
+      "method": "hypothesis",
+      "relation": {
+        "type": "could-achieve"
+      }
+    },
+    {
+      "id": "renewal_comparison",
+      "parentId": "guided_setup",
+      "label": "Compare 90-day cancellation rates",
+      "kind": "test",
+      "status": "open",
+      "notes": "First inspect available cohort data: setup completion, starting segment, price, acquisition source and cancellation within the same 90-day window. A lower cancellation rate among customers offered guided setup would be consistent with the hypothesis, but selection bias or changed customer mix could explain it. No improvement, or worse cancellation, would challenge the hypothesis. If existing evidence cannot discriminate, consider a controlled comparison with an agreed decision threshold before running it; do not invent a threshold, sample size or result.",
+      "relation": {
+        "type": "tests"
+      }
+    },
+    {
+      "id": "cancellation_reasons",
+      "parentId": "guided_setup",
+      "label": "Check why customers cancel",
+      "kind": "test",
+      "status": "open",
+      "notes": "Inspect existing cancellation reasons and support records for both retained and lost accounts where available. Look for evidence of setup friction and competing explanations such as poor product fit or unaffordable price. If cancellations are mainly due to causes guided setup cannot address, the proposed mechanism becomes less plausible. Self-reported reasons alone do not establish causality or expected revenue impact; retain contradictory findings.",
+      "relation": {
+        "type": "tests"
+      }
+    }
+  ],
+  "decision": {
+    "recommendation": "",
+    "rationale": "Three possible growth levers are visible. The £12k expansion calculation is an illustration, and the retention hypothesis remains untested. No plan has been selected.",
+    "uncertainties": [
+      "Which acquisition, expansion and retention opportunities exist in the real business.",
+      "Whether enough customers want a premium tier at a profitable price.",
+      "Whether guided setup changes cancellations after accounting for other causes.",
+      "How costs and overlapping effects change the net contribution of combined actions."
+    ],
+    "nextSteps": [
+      "Inspect current revenue, funnel, customer and cancellation evidence.",
+      "Choose one promising branch and replace its teaching assumptions with grounded inputs."
+    ]
+  },
+  "analysis": {
+    "models": [
+      {
+        "id": "premium_expansion",
+        "title": "Premium tier · illustrative expansion ARR",
+        "nodeId": "expansion_arr",
+        "description": "Stipulated sensitivity cases, not forecasts. ARR is the annual recurring run-rate at month 12. This model does not include costs, downgrades or cancellations.",
+        "variables": [
+          {
+            "id": "upgrades",
+            "label": "Active upgrades at month 12",
+            "unit": "accounts",
+            "basis": "Fictional inputs: 5, 10 or 15 existing accounts upgrade and remain active at the end of the horizon. No customer evidence supplied.",
+            "values": {
+              "low": 5,
+              "base": 10,
+              "high": 15
+            }
+          },
+          {
+            "id": "annual_uplift",
+            "label": "Additional annual recurring charge",
+            "unit": "GBP/account/year",
+            "basis": "Fictional input: £100 extra recurring charge per month × 12 = £1,200 per account per year.",
+            "values": {
+              "low": 1200,
+              "base": 1200,
+              "high": 1200
+            }
+          },
+          {
+            "id": "expansion_arr",
+            "label": "Incremental ARR",
+            "unit": "GBP/year",
+            "basis": "Upgrading accounts × additional annual recurring charge per account. Gross run-rate contribution before offsetting losses or costs.",
+            "formula": "upgrades * annual_uplift"
+          }
+        ],
+        "outputId": "expansion_arr"
+      }
+    ]
+  }
+}

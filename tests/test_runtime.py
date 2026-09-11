@@ -337,6 +337,38 @@ class ExportTests(SessionFixture):
         self.state["nodes"][-1]["label"] = "Last branch with a complete label " * 5
         self.state = state_store.update(self.session, self.state, 1)
 
+    def test_qualitative_driver_roundtrip_keeps_its_solution_method_and_numeric_subtree(self):
+        state = example()
+        state["nodes"] = [
+            {"id": "root", "parentId": None, "label": "How could revenue grow?", "kind": "question",
+             "status": "open", "notes": "Fictional example.", "method": "solution"},
+            {"id": "retention", "parentId": "root", "label": "Retain more customers", "kind": "driver",
+             "status": "open", "notes": "Proposed lever; effect is unknown.", "relation": {"type": "could-achieve"}},
+            {"id": "onboarding", "parentId": "retention", "label": "Improve onboarding", "kind": "solution",
+             "status": "open", "notes": "A proposal, not an established effect.", "relation": {"type": "could-achieve"}},
+            {"id": "revenue", "parentId": "root", "label": "Revenue calculation", "kind": "metric",
+             "status": "open", "notes": "Explicit numerical subtree.", "method": "driver"},
+            {"id": "customers", "parentId": "revenue", "label": "Paying customers", "kind": "metric",
+             "status": "open", "notes": "Count per year.", "relation": {"type": "calculated-from"}},
+        ]
+        saved = state_store.update(self.session, state, self.state["revision"])
+        exported, files = export_state.export_session(self.session, self.folder / "drivers")
+        self.assertEqual(exported, saved)
+        self.assertEqual(json.loads(files["json"].read_text(encoding="utf-8")), saved)
+        parser = BootstrapParser()
+        parser.feed(files["html"].read_text(encoding="utf-8"))
+        self.assertEqual(json.loads(parser.boot)["state"], saved)
+        self.assertEqual(render_state.effective_methods(saved), {
+            "root": "solution", "retention": "solution", "onboarding": "solution",
+            "revenue": "driver", "customers": "driver",
+        })
+        svg = ET.fromstring(files["svg"].read_text(encoding="utf-8"))
+        ns = {"svg": render_state.NS}
+        self.assertEqual(json.loads(svg.find("svg:metadata", ns).text), saved)
+        card = svg.find(".//svg:g[@data-id='retention']", ns)
+        self.assertEqual(card.find("svg:text[@class='node-kind']", ns).text, "DRIVER")
+        self.assertEqual(state_store.read_state(self.session), saved)
+
     def test_all_export_formats_preserve_complete_state_and_revision(self):
         before = (self.session / "state.json").read_bytes()
         saved, files = export_state.export_session(self.session, self.folder / "exports" / "decision")

@@ -1,0 +1,51 @@
+{
+  "checkedAt": "2026-09-11T10:32:02+00:00",
+  "scope": "Qualitative Driver cards and integration with the existing canvas runtime.",
+  "python": {
+    "command": "python3 -m unittest discover -s tests -p 'test_*.py'",
+    "passed": 78,
+    "failed": 0
+  },
+  "generatedDemos": {
+    "command": "python3 scripts/build_demo.py --check",
+    "passed": true,
+    "result": "Fictional demos are current."
+  },
+  "browser": {
+    "test": "tests/direct-edit-smoke.cjs",
+    "completedAt": "2026-09-11T10:26:42+00:00",
+    "environment": "Headless Chromium, Playwright, disposable local session; desktop and 390px touch viewport.",
+    "passed": true,
+    "groups": 11,
+    "checks": [
+      "The editor is compact, anchored and nonmodal; one field opens by default, dirty Close keeps the draft, and Save returns focus with hidden metadata preserved.",
+      "Hover shows a short contextual nonmodal menu without stealing focus, selection or storage; pointer travel works and outside/Escape dismiss safely.",
+      "The first contextual choice opens an unsaved suitable child beneath its own card; saving preserves frameworks, while the separate chevron only collapses or expands.",
+      "Keyboard plus, arrows and Enter choose an option; A remains quick add, and another card cannot steal an unsaved draft or change its parent.",
+      "The branch chooser is anchored and nonmodal; Escape returns focus and outside dismissal writes nothing.",
+      "One click applies a type to the selected branch, closes the chooser and preserves deeper overrides.",
+      "A delayed type save pauses selection and editing; after it finishes, fresh wording saves with hidden notes preserved.",
+      "A same-node conflict blocks stale hidden fields; unrelated remote edits still merge safely.",
+      "Standalone export keeps direct editing and the complete state without changing the live session.",
+      "The direct controls and short chooser work at 390px without script errors.",
+      "Solution menus add qualitative Driver cards; A adds a proposed solution, Undo preserves the tree, exploration suggests Solution, and numerical Driver subtrees still add metrics."
+    ],
+    "boundary": "These browser checks do not establish separate Codex, Claude or Cursor app compatibility."
+  },
+  "review": {
+    "result": "No additional blocking regression found in the Driver diff.",
+    "checked": [
+      "Driver kind remains separate from numerical Driver method.",
+      "Explicit methods and deeper overrides remain unchanged by add suggestions.",
+      "Qualitative Driver defaults to Solution with could-achieve; numerical Driver keeps Metric with calculated-from.",
+      "Generic JSON, HTML, SVG and brief export paths preserve the kind."
+    ],
+    "compatibility": "Older runtime validators reject the newly supported driver kind; update the runtime before importing these states."
+  },
+  "fileSha256": {
+    "assets/canvas.html": "3147f802d7de4232f9c7cadc7f849c3531e6f251474b8d850070a06635d6f1d8",
+    "scripts/state_store.py": "8e03baacef3860e3402cc12718a8151b54f64c0660b29c565d2300cd19b443bf",
+    "tests/direct-edit-smoke.cjs": "08527c670d880a5312e21c47ef1f9b4747665ce0bb751f91019b6175e986501d",
+    "tests/test_runtime.py": "08fe96100808878a18b9ba9edde9da4141c3289649fe864792ee506c786440d8"
+  }
+}

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tree examples · Strategy Canvas</title>
+<style>
+:root{--paper:#f6f5f0;--panel:#fffefa;--ink:#24362f;--muted:#6c786e;--line:#d5dace;--accent:#2d6b59;--sage:#e8f0e9;--sans:"Avenir Next",Avenir,"Segoe UI",sans-serif;--serif:Georgia,serif}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 var(--sans)}a{color:var(--accent);text-underline-offset:4px}a:focus-visible{outline:2px solid var(--accent);outline-offset:5px;border-radius:4px}header{display:flex;justify-content:space-between;align-items:center;padding:20px 32px;border-bottom:1px solid var(--line)}header strong{font-size:13px;letter-spacing:.02em}header a{font-size:12px}main{max-width:1260px;padding:46px 32px 30px;margin:auto}h1,h2{font-family:var(--serif);font-weight:normal;letter-spacing:-.035em}h1{font-size:clamp(32px,4vw,50px);line-height:1.12;margin:0 0 12px}h2{font-size:30px;margin:0}p{margin:0}.intro{color:var(--muted);margin-bottom:28px}.overview{display:block;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink)}.overview img{display:block;width:100%;height:auto;background:var(--paper)}.overview-caption{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:19px 23px;border-top:1px solid var(--line)}.overview-caption strong{display:block;font-weight:600}.overview-caption span{color:var(--muted);font-size:12px}.overview-caption .go{color:var(--accent);white-space:nowrap;font-size:13px}.section-heading{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin:48px 0 20px}.section-heading p{font-size:12px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.example{border:1px solid var(--line);border-radius:12px;background:var(--panel);display:flex;flex-direction:column;min-width:0;overflow:hidden}.example-main{display:block;flex:1;padding:22px 21px 18px;color:inherit;text-decoration:none}.example-main:hover{background:var(--sage)}.example h3{font-size:15px;margin:0 0 5px;font-weight:600}.example p{color:var(--muted);font-size:12px;min-height:36px}.example pre{font:10.5px/1.65 ui-monospace,"SFMono-Regular",Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin:18px 0 0;min-height:90px}.example footer{display:flex;align-items:center;justify-content:space-between;padding:10px 21px;border-top:1px solid var(--line);font-size:10px;color:var(--muted)}.example footer a{color:var(--muted)}.page-footer{display:flex;gap:22px;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;padding-top:28px;margin-top:4px}.page-footer a{white-space:nowrap}@media(max-width:950px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:580px){header{padding:16px 20px}main{padding:30px 20px}.grid{grid-template-columns:1fr}.overview-caption{padding:15px;align-items:flex-start}.overview-caption .go{font-size:12px}.section-heading{align-items:flex-start;flex-direction:column;gap:5px}.page-footer{align-items:flex-start;flex-direction:column;gap:12px}.example p{min-height:0}}
+</style>
+</head>
+<body>
+<header><strong>Strategy Canvas</strong><a href="https://github.com/jctkerr/strategy-canvas#with-your-ai-tool">Use with your agent ↗</a></header>
+<main>
+<h1>Different trees. One canvas.</h1>
+<p class="intro">Explore what could work, test an explanation, or work through the numbers.</p>
+
+<section aria-labelledby="types-title">
+<div class="section-heading"><h2 id="types-title">Try a tree</h2><p>Each opens an editable example. All cases are fictional.</p></div>
+<div class="grid"><article class="example"><a class="example-main" href="example-exploration.html" aria-label="Open Explore example"><h3>Explore ↗</h3><p>Collect possibilities before choosing a direction.</p><pre>What could the spare room become?
+├─ Paid workshops
+│  └─ Beginner writing sessions
+├─ A quiet reading room
+└─ Keep it as storage</pre></a><footer><span>Fictional example</span><a href="https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/how-to-master-the-seven-step-problem-solving-process" target="_blank" rel="noopener noreferrer" aria-label="Source: McKinsey: seven-step problem solving">Source ↗</a></footer></article>
+<article class="example"><a class="example-main" href="example-issue.html" aria-label="Open Issue tree example"><h3>Issue tree ↗</h3><p>Break a question into answerable parts.</p><pre>Could paid workshops be viable?
+├─ Would enough people pay?
+│  └─ How many would book at £20?
+├─ Can we deliver it?
+│  └─ Will it fit five staff-hours?
+└─ Would it cover relevant costs?
+   └─ What attendance breaks even?</pre></a><footer><span>Fictional example</span><a href="https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/how-to-master-the-seven-step-problem-solving-process" target="_blank" rel="noopener noreferrer" aria-label="Source: McKinsey: seven-step problem solving">Source ↗</a></footer></article>
+<article class="example"><a class="example-main" href="example-hypothesis.html" aria-label="Open Hypothesis tree example"><h3>Hypothesis tree ↗</h3><p>Test an explanation, including what could disprove it.</p><pre>Later start reduced attendance?
+├─ Did the decline follow the change?
+├─ Do customers report time clashes?
+├─ Did old-time sessions hold up?
+└─ Could the topics be less appealing?</pre></a><footer><span>Fictional example</span><a href="https://caseinterview.com/issue-tree" target="_blank" rel="noopener noreferrer" aria-label="Source: Victor Cheng: issue trees">Source ↗</a></footer></article>
+<article class="example"><a class="example-main" href="example-driver.html" aria-label="Open Driver tree example"><h3>Driver tree ↗</h3><p>Show the arithmetic behind a number.</p><pre>Break-even: £120 ÷ £15 = 8 people
+├─ Fixed cost: £120 per event
+└─ Contribution: £20 − £5 = £15
+   ├─ Ticket price: £20 per person
+   └─ Variable cost: £5 per person</pre></a><footer><span>Fictional example</span><a href="https://www.mckinsey.com/careers/interviewing/electrolight" target="_blank" rel="noopener noreferrer" aria-label="Source: McKinsey: Electro-Light teaching case">Source ↗</a></footer></article>
+<article class="example"><a class="example-main" href="example-solution.html" aria-label="Open Solution tree example"><h3>Solution tree ↗</h3><p>Connect an improvement to levers and possible actions.</p><pre>Reduce Saturday queue time
+├─ Fewer arrivals at peak time
+│  └─ Offer quieter collection windows
+├─ More peak service capacity
+│  └─ Staff a second till
+└─ Shorter transactions
+   └─ Prepare collection orders early</pre></a><footer><span>Fictional example</span><a href="https://www.bain.com/careers/hiring-process/interviewing/fashion-case-study/" target="_blank" rel="noopener noreferrer" aria-label="Source: Bain: FashionCo. teaching case">Source ↗</a></footer></article>
+<article class="example"><a class="example-main" href="example-objectives.html" aria-label="Open Objectives tree example"><h3>Objectives tree ↗</h3><p>Clarify what a good choice should provide.</p><pre>What makes a suitable job?
+├─ Financial security
+│  └─ Reliable income covers commitments
+├─ Autonomy
+│  └─ Control over how work is done
+└─ Learning
+   └─ Regular practice and useful feedback</pre></a><footer><span>Fictional example</span><a href="https://scholars.duke.edu/publication/780189" target="_blank" rel="noopener noreferrer" aria-label="Source: Keeney and colleagues: value-focused planning">Source ↗</a></footer></article>
+<article class="example"><a class="example-main" href="example-decision.html" aria-label="Open Decision tree example"><h3>Decision tree ↗</h3><p>Compare choices when outcomes are uncertain.</p><pre>Hold or cancel the event?
+├─ Hold the event
+│  └─ Attendance is uncertain
+│     ├─ Strong: 60% → +£200 net
+│     └─ Weak: 40% → −£100 net
+└─ Cancel the event
+   └─ Net payoff: £0</pre></a><footer><span>Fictional example</span><a href="https://www.open.edu/openlearn/money-business/decision-trees-and-dealing-uncertainty/content-section-4.1" target="_blank" rel="noopener noreferrer" aria-label="Source: Open University: decision trees and expected value">Source ↗</a></footer></article>
+<article class="example"><a class="example-main" href="example-opportunity.html" aria-label="Open Opportunity tree example"><h3>Opportunity tree ↗</h3><p>Connect customer needs to solutions and assumption tests.</p><pre>Increase completed bookings
+└─ Find a time that fits
+   ├─ Flexible-date search
+   │  └─ Can users find an acceptable slot?
+   └─ Availability alerts
+      └─ Does the alert arrive in time?</pre></a><footer><span>Fictional example</span><a href="https://www.producttalk.org/opportunity-solution-trees/" target="_blank" rel="noopener noreferrer" aria-label="Source: Teresa Torres: opportunity solution trees">Source ↗</a></footer></article>
+<article class="example"><a class="example-main" href="example-argument.html" aria-label="Open Argument tree example"><h3>Argument tree ↗</h3><p>Show a conclusion, its reasons and the counterargument.</p><pre>Try one workshop first (provisional)
+├─ Recurring demand is unproven
+│  └─ Interest is non-binding (assumed)
+├─ A pilot can test paid uptake
+├─ One event limits commitment
+│  └─ No ongoing contract (assumed)
+└─ One event may not predict repeats</pre></a><footer><span>Fictional example</span><a href="https://www.mckinsey.com/alumni/news-and-events/global-news/alumni-news/barbara-minto-mece-i-invented-it-so-i-get-to-say-how-to-pronounce-it" target="_blank" rel="noopener noreferrer" aria-label="Source: Barbara Minto: the Pyramid Principle">Source ↗</a></footer></article></div>
+</section>
+<div class="section-heading"><h2>See them work together</h2><p>A fictional growth question, explored with several tree types.</p></div>
+<a class="overview" href="growth.html" aria-label="Open the mixed growth example">
+<img src="images/growth-overview.png" alt="A growth question branches into three strategic drivers, possible actions, a hypothesis and a numerical driver tree.">
+<div class="overview-caption"><div><strong>See how they work together</strong><span>Growth drivers, proposed actions, questions and numbers.</span></div><span class="go">Open tree ↗</span></div>
+</a>
+<footer class="page-footer"><p>Click a card to edit. Export from the canvas to keep your changes.</p><a href="new.html">Start with your question ↗</a></footer>
+</main>
+</body>
+</html>

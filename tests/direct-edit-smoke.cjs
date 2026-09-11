@@ -276,6 +276,51 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     await card(page,'a').click(); await card(page,'a').locator('.node-type').click();
     await page.screenshot({path:path.join(output,'tree-types.png')});
     assert.deepEqual(errors,[]); checks.push('The direct controls and short chooser work at 390px without script errors.');
+
+    await page.keyboard.press('Escape'); await closeEditor(page);
+    const growth=structuredClone(fixture);
+    growth.nodes=[
+      {id:'root',parentId:null,label:'How could revenue grow?',kind:'question',method:'solution',status:'open',notes:'Fictional growth example.'},
+      {id:'economics',parentId:'root',label:'Revenue calculation',kind:'metric',method:'driver',status:'open',notes:'Preserve this numerical branch.'},
+      {id:'customers',parentId:'economics',label:'Paying customers',kind:'metric',status:'open',notes:'Count per year.',relation:{type:'calculated-from'}},
+      {id:'explore-driver',parentId:'root',label:'Explore customer retention',kind:'driver',method:'exploration',status:'open',notes:'No automatic method change.'},
+      {id:'inherited-driver',parentId:'explore-driver',label:'Improve first-month retention',kind:'driver',status:'open',notes:'Inherited exploration stays unchanged.'}
+    ];
+    const beforeDriver=await put(growth); await page.reload(); await card(page,'root').waitFor();
+    await card(page,'root').locator('.node-add').click();
+    assert.ok((await choices(page).allTextContents()).includes('Solution'));
+    await page.getByRole('menuitem',{name:'Driver',exact:true}).click();
+    assert.equal(await page.locator('#kind').inputValue(),'driver');
+    assert.equal(await page.locator('#relation-type').inputValue(),'could-achieve');
+    assert.deepEqual(await read(),beforeDriver,'Choosing Driver opens a draft without changing the method');
+    await page.locator('#label').fill('Retain more customers');
+    const withDriver=await saved(page),driver=withDriver.nodes.find(n=>n.label==='Retain more customers');
+    assert.equal(driver.kind,'driver'); assert.equal(driver.method,undefined); assert.equal(driver.status,'open');
+    assert.equal(await card(page,driver.id).locator('.node-kind').textContent(),'DRIVER');
+    await card(page,driver.id).focus(); await page.keyboard.press('a');
+    assert.equal(await page.locator('#kind').inputValue(),'solution','A qualitative driver suggests a solution, not an input metric or hypothesis');
+    assert.equal(await page.locator('#relation-type').inputValue(),'could-achieve');
+    await page.locator('#label').fill('Improve onboarding');
+    const withSolution=await saved(page),solution=withSolution.nodes.find(n=>n.label==='Improve onboarding');
+    assert.equal(solution.parentId,driver.id); assert.equal(solution.method,undefined);
+    assert.deepEqual(withSolution.nodes.find(n=>n.id==='economics'),beforeDriver.nodes.find(n=>n.id==='economics'));
+    assert.deepEqual(withSolution.nodes.find(n=>n.id==='customers'),beforeDriver.nodes.find(n=>n.id==='customers'));
+    const undone=await saved(page,'#undo');
+    assert.deepEqual(undone.nodes,withDriver.nodes,'Undo removes the new solution while preserving the driver and numerical subtree');
+    await page.locator('#expand').click(); await page.locator('#fit').click();
+    for(const id of ['explore-driver','inherited-driver']){
+      await card(page,id).focus(); await page.keyboard.press('t');
+      assert.equal(await page.locator('#method-tasks [data-suggested="true"]').getAttribute('data-method'),'solution');
+      await page.keyboard.press('Escape');
+    }
+    assert.deepEqual(await read(),undone,'Suggestions do not apply tree types');
+    await card(page,'economics').locator('.node-add').click();
+    assert.equal(await choices(page).first().textContent(),'Input metric','Numerical Driver trees retain input metrics');
+    assert.ok(!(await choices(page).allTextContents()).includes('Driver'));
+    await page.keyboard.press('Escape');
+    await page.screenshot({path:path.join(output,'qualitative-drivers.png')});
+    checks.push('Solution menus add qualitative Driver cards; A adds a proposed solution, Undo preserves the tree, exploration suggests Solution, and numerical Driver subtrees still add metrics.');
+    assert.deepEqual(errors,[]);
     await fs.writeFile(path.join(output,'results.json'),JSON.stringify({passed:true,checks},null,2)+'\n');
     console.log(JSON.stringify({passed:true,checks},null,2));
   } finally { await browser.close(); }

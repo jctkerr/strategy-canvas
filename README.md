@@ -4,7 +4,11 @@
 
 See your options, assumptions and evidence together. Work with your AI tool or on your own.
 
-[See an example](#a-worked-example) · [Try it in your browser](https://jctkerr.github.io/strategy-canvas/bookshop.html)
+[Explore the examples](https://jctkerr.github.io/strategy-canvas/examples.html) · [Try it in your browser](https://jctkerr.github.io/strategy-canvas/bookshop.html)
+
+[![Strategy Canvas showing a growth goal, three drivers, possible actions, a revenue calculation and a hypothesis to test.](docs/images/growth-overview.png)](https://jctkerr.github.io/strategy-canvas/growth.html)
+
+One canvas can hold different trees. Here, **drivers** describe ways to grow; deeper branches work through **numbers** and **tests**. This is a fictional example.
 
 ## With your AI tool
 
@@ -55,8 +59,6 @@ To continue with an agent, choose **Export → Editable state (JSON)** and attac
 ## A worked example
 
 **Could a bookshop run a workshop without losing money?**
-
-[![A real canvas showing demand, delivery and a cost calculation: £120 divided by £15 per ticket means eight paying attendees.](docs/images/bookshop-tree.png)](https://jctkerr.github.io/strategy-canvas/bookshop.html)
 
 1. **Break it down:** would people pay, can we run it, and what covers costs?
 2. **Work one branch:** £20 tickets − £5 materials leaves £15 each. £120 fixed costs ÷ £15 = **8 paying attendees**.

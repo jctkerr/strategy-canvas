@@ -6,6 +6,7 @@ from pathlib import Path
 
 from render_state import html_document
 from state_store import validate
+from build_examples import build_examples
 
 
 def main():
@@ -27,6 +28,7 @@ def main():
         else:
             destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_text(expected, encoding="utf-8")
+    build_examples(root, check=args.check)
     print("Fictional demos are current." if args.check else "Built fictional demos in docs/.")
 
 

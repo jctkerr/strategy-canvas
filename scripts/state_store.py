@@ -12,7 +12,7 @@ from urllib.parse import urlsplit
 from analysis import InvalidAnalysis, validate_analysis
 
 KINDS = {"question", "option", "criterion", "evidence", "assumption", "action",
-         "hypothesis", "metric", "objective", "solution", "outcome", "test", "chance", "claim"}
+         "hypothesis", "driver", "metric", "objective", "solution", "outcome", "test", "chance", "claim"}
 METHODS = {"exploration", "issue", "hypothesis", "driver", "solution", "objectives",
            "decision", "opportunity", "argument"}
 RELATIONS = {"part-of", "possible-cause", "calculated-from", "could-achieve", "refines",

@@ -1,5 +1,11 @@
 # Compatibility and test record
 
+## Driver cards and examples — 11 September 2026
+
+All **78 Python tests** and **11 direct-edit browser check groups** passed. These cover adding qualitative Driver cards, keyboard additions, Undo, branch inheritance, numerical Metric defaults and complete exports. [Test receipt](test-evidence/driver-overview/checks.json).
+
+The [examples gallery](https://jctkerr.github.io/strategy-canvas/examples.html) contains all nine methods with sources. A mixed growth example combines qualitative levers, arithmetic and hypothesis testing. Both rendered in Codex's in-app browser; the qualitative Driver's contextual **+** menu was inspected there. The case and figures are fictional. These checks do not establish new Claude or Cursor execution coverage. Older runtime versions cannot import the new Driver card kind; update the skill before importing these examples.
+
 **Checked 10 September 2026.** Strategy Canvas needs an agent environment that can read the full skill folder, run Python and save files. The [setup guide](agent-guide.md) gives instructions for each host. A supported skill format alone does not prove the complete workflow works.
 
 | Environment | Evidence |
