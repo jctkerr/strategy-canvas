@@ -1,5 +1,7 @@
 <h1 id="strategy-canvas"><img src="docs/images/strategy-canvas-cover-product.png" alt="Strategy Canvas"></h1>
 
+By [CURN](https://www.curn.io/).
+
 **Turn a question into a tree you can edit.**
 
 See your options, assumptions and evidence together. Work with your AI tool or on your own.

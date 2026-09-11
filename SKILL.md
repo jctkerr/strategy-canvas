@@ -32,7 +32,7 @@ These are starting preferences, not rigid limits. The user's request overrides t
 | Visible depth | Start with two levels below the root; populate useful deeper content and reveal it selectively. Visible depth limits presentation, not reasoning. |
 | Challenge style | Calm and proportionate: identify the consequential assumption and suggest a way to check it. |
 | Update timing | Refresh after each meaningful exchange, before the next substantive reply. |
-| Visual style | Reuse the bundled canvas with minimal chrome; short labels, details in notes and brief transitions, with reduced motion respected. |
+| Visual style | Reuse the bundled canvas with minimal chrome; short labels, details in notes and brief transitions, with reduced motion respected. Keep the Strategy Canvas name and its small By CURN attribution. |
 
 ## Open the canvas early
 
