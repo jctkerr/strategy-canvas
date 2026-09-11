@@ -13,7 +13,7 @@ const fixture = {
   question: 'How could a fictional shop improve its service?', context: 'Disposable interaction fixture.', nextQuestion: '',
   nodes: [
     {id:'root',parentId:null,label:'Improve service',kind:'question',method:'issue',status:'open',notes:'Preserve root notes.'},
-    {id:'a',parentId:'root',label:'Understand waiting',kind:'question',status:'uncertain',notes:'Important hidden notes.',source:'Fictional supplied context.',relation:{type:'part-of'}},
+    {id:'a',parentId:'root',label:'Understand waiting',kind:'question',status:'uncertain',notes:'Important hidden notes.',source:'\n  Fictional supplied context.\n',relation:{type:'part-of'}},
     {id:'b',parentId:'root',label:'Understand delivery',kind:'question',status:'open',notes:'Another branch.',relation:{type:'part-of'}},
     {id:'child',parentId:'a',label:'Waiting-time calculation',kind:'metric',method:'driver',status:'open',notes:'Keep this override.',relation:{type:'part-of'}}
   ],
@@ -38,27 +38,45 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     assert.equal(await page.locator('#quick-start').isHidden(),true);
     await card(page,'a').click();
     assert.equal(await page.locator('#label').isVisible(),true,'A card opens its editor directly');
-    assert.equal(await page.locator('#notes').isVisible(),false,'Metadata stays behind Details');
+    assert.equal(await page.getByLabel('Working notes',{exact:true}).isVisible(),true,'A card exposes its working notes immediately');
+    assert.equal(await page.locator('#notes').inputValue(),'Important hidden notes.','The visible notes belong to the selected card');
     assert.equal(await page.locator('#kind').isVisible(),false,'Routine editing shows no card-kind selector');
-    assert.equal(await page.locator('.inspector textarea:visible, .inspector input:visible, .inspector select:visible').count(),1,'Routine editing presents only the thought field');
-    const editor=await page.locator('.inspector').boundingBox(), selectedCard=await card(page,'a').locator('rect.card').boundingBox();
-    assert.ok(editor.width<=360&&editor.height<340,'The initial editor is a compact card rather than a tall drawer');
+    assert.equal(await page.locator('#source').isVisible(),false,'Source details do not compete with working notes');
+    assert.equal(await page.locator('.inspector textarea:visible, .inspector input:visible, .inspector select:visible').count(),2,'Routine editing exposes the thought and working notes');
+    const editor=await page.locator('.inspector').boundingBox(), mainArea=await page.locator('#main').boundingBox();
+    assert.ok(editor.width<=420&&editor.width>=300,'The notes panel leaves most of the desktop canvas available');
     assert.ok(editor.x>=0&&editor.y>=0&&editor.x+editor.width<=1401&&editor.y+editor.height<=951,'The editor remains within the viewport');
-    const gapX=Math.max(0,editor.x-(selectedCard.x+selectedCard.width),selectedCard.x-(editor.x+editor.width));
-    const gapY=Math.max(0,editor.y-(selectedCard.y+selectedCard.height),selectedCard.y-(editor.y+editor.height));
-    assert.ok(gapX<=32&&gapY<=32,'The editor is anchored next to the selected card');
+    assert.ok(1400-(editor.x+editor.width)<=16,'Working notes dock at the right edge');
+    assert.ok(Math.abs(editor.y-mainArea.y)<=16&&Math.abs(editor.height-mainArea.height)<=32,'The desktop notes panel uses the available height below the header');
     assert.equal(await page.locator('dialog[open], [aria-modal="true"]:visible').count(),0,'Editing keeps the canvas nonmodal');
-    await page.screenshot({path:path.join(output,'compact-editor-desktop.png')});
+    await page.screenshot({path:path.join(output,'working-notes-desktop.png')});
     await page.locator('#label').fill('Understand queueing');
     await page.locator('#close-details').click();
     assert.equal(await page.locator('#label').isVisible(),true,'Close keeps an unsaved editor available');
     assert.equal(await page.locator('#label').inputValue(),'Understand queueing','Close preserves the unsaved wording');
     assert.deepEqual(await read(),initial,'Closing a dirty editor never saves or discards implicitly');
-    const renamed=await saved(page);
-    const actual=renamed.nodes.find(n=>n.id==='a'), expected={...initial.nodes.find(n=>n.id==='a'),label:'Understand queueing'};
+    let renamed=await saved(page);
+    let actual=renamed.nodes.find(n=>n.id==='a');
+    const expected={...initial.nodes.find(n=>n.id==='a'),label:'Understand queueing'};
     assert.deepEqual(actual,expected,'A label-only edit must retain hidden metadata');
+    assert.equal(actual.source,'\n  Fictional supplied context.\n','Saving the thought preserves source formatting exactly');
     assert.equal(await card(page,'a').evaluate(el=>el===document.activeElement),true,'Saving an edit returns keyboard focus to its card');
-    checks.push('The editor is compact, anchored and nonmodal; one field opens by default, dirty Close keeps the draft, and Save returns focus with hidden metadata preserved.');
+    await card(page,'a').click();
+    const workingNote='\n  Check Saturday queues at the packing station.\nCompare counter time with packing time.  \n\n';
+    await page.locator('#notes').fill(workingNote);
+    await card(page,'b').click();
+    assert.equal(await page.locator('.tree-node[aria-pressed="true"]').getAttribute('data-id'),'a','Another card cannot steal the target of unsaved working notes');
+    assert.equal(await page.locator('#notes').inputValue(),workingNote,'Switching branches preserves the note draft');
+    assert.equal(await page.locator('#notes').evaluate(el=>el===document.activeElement),true,'A blocked switch returns to the working notes being edited');
+    assert.deepEqual(await read(),renamed,'A blocked switch neither saves nor discards notes');
+    await page.locator('#close-details').click();
+    assert.equal(await page.locator('#notes').inputValue(),workingNote,'Closing preserves the note draft');
+    assert.equal(await page.locator('#notes').evaluate(el=>el===document.activeElement),true,'A blocked close returns to the working notes being edited');
+    const notesSaved=await saved(page);
+    assert.deepEqual(notesSaved.nodes.find(n=>n.id==='a'),{...actual,notes:workingNote},'Saving notes changes only the intended node field');
+    assert.deepEqual(notesSaved.nodes.filter(n=>n.id!=='a'),renamed.nodes.filter(n=>n.id!=='a'),'Saving notes preserves every other branch');
+    renamed=notesSaved; actual=renamed.nodes.find(n=>n.id==='a');
+    checks.push('Working notes open immediately in a nonmodal right panel; label-only edits preserve metadata, dirty notes survive switching and Close, and Save updates only their card.');
 
     await closeEditor(page); await page.locator('#fit').click();
     await card(page,'a').focus();
@@ -207,25 +225,28 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
       releaseResponse();
       await page.unroute('**/api/state',holdTypeSave);
     }
-    checks.push('A delayed type save pauses selection and editing; after it finishes, fresh wording saves with hidden notes preserved.');
+    checks.push('A delayed type save pauses selection and editing; after it finishes, fresh wording saves with working notes preserved.');
 
     await card(page,'a').click();
     await page.locator('#label').fill('Unsaved local wording');
+    await page.locator('#notes').fill('Unsaved local working notes.');
     const external=await read(); external.nodes.find(n=>n.id==='a').notes='New notes from another editor.'; await put(external);
     await page.locator('#conflict').waitFor({state:'visible'});
     assert.equal(await page.locator('#save').isDisabled(),true);
     assert.equal(await page.locator('#label').inputValue(),'Unsaved local wording');
+    assert.equal(await page.locator('#notes').inputValue(),'Unsaved local working notes.','A concurrent same-node edit preserves the human note draft');
     assert.equal((await read()).nodes.find(n=>n.id==='a').notes,'New notes from another editor.');
     await page.locator('#discard').click();
     assert.equal(await page.locator('#notes').inputValue(),'New notes from another editor.');
     await page.locator('#label').fill('Latest local wording');
+    await page.locator('#notes').fill('New notes from another editor.\nLocal follow-up: check the packing queue.');
     const unrelated=await read(); unrelated.nodes.find(n=>n.id==='b').notes='Unrelated update.'; await put(unrelated);
     await page.waitForFunction(()=>document.querySelector('#save').disabled===false);
     await page.waitForTimeout(2200);
     const merged=await saved(page);
-    assert.equal(merged.nodes.find(n=>n.id==='a').notes,'New notes from another editor.');
+    assert.equal(merged.nodes.find(n=>n.id==='a').notes,'New notes from another editor.\nLocal follow-up: check the packing queue.');
     assert.equal(merged.nodes.find(n=>n.id==='b').notes,'Unrelated update.');
-    checks.push('A same-node conflict blocks stale hidden fields; unrelated remote edits still merge safely.');
+    checks.push('An agent edit to the same card preserves unsaved human notes and blocks stale saves; a deliberate fresh edit merges with unrelated agent changes.');
 
     await closeEditor(page);
     await page.locator('details.export summary').click(); const pending=page.waitForEvent('download');
@@ -235,18 +256,31 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     assert.equal(await offline.locator('dialog[open]').count(),0);
     assert.equal(await offline.locator('#quick-start').isHidden(),true);
     await chooseDefault(offline,'b'); await offline.locator('#label').fill('Offline thought');
+    await offline.getByLabel('Working notes',{exact:true}).fill('Portable working notes.');
     await offline.locator('#save').click(); await offline.locator('#discard').waitFor({state:'hidden'});
     const exported=await exportJSON(offline,'offline.json');
     assert.equal(exported.nodes.find(n=>n.label==='Offline thought').parentId,'b');
+    assert.equal(exported.nodes.find(n=>n.label==='Offline thought').notes,'Portable working notes.');
     assert.deepEqual(await read(),merged,'Offline edits must not change the live session');
     checks.push('Standalone export keeps direct editing and the complete state without changing the live session.');
 
     await page.setViewportSize({width:390,height:844}); await page.locator('#fit').click();
     await card(page,'a').click();
     const mobileEditor=await page.locator('.inspector').boundingBox();
-    assert.ok(mobileEditor.x>=0&&mobileEditor.y>=0&&mobileEditor.x+mobileEditor.width<=391&&mobileEditor.y+mobileEditor.height<=845,'The compact editor fits a phone-width viewport');
-    assert.ok(mobileEditor.height<340&&mobileEditor.y>400,'The phone editor occupies a compact area at the bottom');
-    await page.screenshot({path:path.join(output,'compact-editor-mobile.png')});
+    const mobileMain=await page.locator('#main').boundingBox();
+    assert.ok(mobileEditor.x>=0&&mobileEditor.y>=0&&mobileEditor.x+mobileEditor.width<=391&&mobileEditor.y+mobileEditor.height<=845,'The notes editor fits a phone-width viewport');
+    assert.ok(mobileEditor.width>=365&&mobileEditor.height<=844*.6,'The phone editor is a bounded full-width sheet');
+    assert.ok(Math.abs(mobileEditor.y+mobileEditor.height-(mobileMain.y+mobileMain.height))<=16,'The phone notes sheet docks at the bottom of the workspace');
+    assert.equal(await page.getByLabel('Working notes',{exact:true}).isVisible(),true,'Phone users can reach working notes without opening Details');
+    const phoneNote='Mobile note: inspect the actual queue before adding another till.';
+    await page.locator('#notes').fill(phoneNote);
+    await page.locator('#notes').press('End');
+    const mobileSave=await page.locator('#save').boundingBox();
+    assert.ok(mobileSave.x>=0&&mobileSave.y>=mobileEditor.y&&mobileSave.x+mobileSave.width<=391&&mobileSave.y+mobileSave.height<=845,'Save remains reachable while editing notes on a phone');
+    assert.equal(await page.locator('#save').isVisible(),true);
+    await page.screenshot({path:path.join(output,'working-notes-mobile.png')});
+    const mobileSaved=await saved(page);
+    assert.equal(mobileSaved.nodes.find(n=>n.id==='a').notes,phoneNote,'A phone note saves to the selected card');
     await card(page,'a').locator('.node-type').click();
     const box=await page.locator('#approach-panel').boundingBox();
     assert.ok(box.x>=0&&box.y>=0&&box.x+box.width<=391&&box.y+box.height<=845);

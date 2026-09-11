@@ -1,5 +1,11 @@
 # Compatibility and test record
 
+## Working notes panel — 11 September 2026
+
+All **78 Python tests**, **11 direct-edit browser check groups** and [five keyboard check groups](test-evidence/working-notes/keyboard-checks.json) passed. Working notes open directly in a right-hand desktop panel or a bottom sheet at 390px. Checks cover saving to the correct card, preserving unsaved notes on Close or card switches, blocking stale saves after conflicting agent updates, merging unrelated updates, and retaining notes in complete offline exports. [Test receipt](test-evidence/working-notes/checks.json).
+
+[Desktop](test-evidence/working-notes/working-notes-desktop.png) · [Narrow screen](test-evidence/working-notes/working-notes-mobile.png). These are fictional browser fixtures. The Paid workshops panel was also opened and inspected in Codex’s in-app browser. No new Claude or Cursor execution coverage is claimed.
+
 ## Driver cards and examples — 11 September 2026
 
 All **78 Python tests** and **11 direct-edit browser check groups** passed. These cover adding qualitative Driver cards, keyboard additions, Undo, branch inheritance, numerical Metric defaults and complete exports. [Test receipt](test-evidence/driver-overview/checks.json).
