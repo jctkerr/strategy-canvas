@@ -36,7 +36,7 @@ Start from the available situation, desired change and constraints. If the user 
 
 Offer a brief rationale: “I'll separate demand, delivery and economics so we can see which questions would change the launch decision.” Keep the structure editable. An unstructured idea can be added immediately; organise it later without presenting it as analysed. Follow [method.md](method.md) for evidence, scoped MECE and review freshness.
 
-Use `method`, `relation` and the available node kinds as documented in [schema.md](schema.md). These fields describe reasoning; they do not make it correct. Keep formulas, probability assumptions, trade-offs and cross-references explicit in notes. The canvas stores one parent per node: it does not calculate models, represent a causal network, or infer the meaning of an unlabelled connection.
+Use `method`, `relation` and node kinds as documented in [schema.md](schema.md). These describe reasoning; they do not make it correct. Use an explicit [calculation model](analysis-schema.md) for arithmetic and scenarios. Keep probability assumptions, trade-offs and cross-references in notes. A tree has one parent per node; it does not represent a causal network, infer an unlabelled connection or automatically evaluate a decision tree.
 
 ## Issue tree
 

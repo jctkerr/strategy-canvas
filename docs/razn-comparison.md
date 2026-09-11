@@ -1,5 +1,17 @@
 # Razn comparison and acceptance cases
 
+## Observed onboarding and current canvas — 11 September 2026
+
+**Observed in [Razn](https://razn.app/):** five screens—Welcome; Start with problem; Or try template; Your workspace; Work with agent. Each offered Skip, with Back after the first, Next/Done and replay. This shows the orientation flow, not the capabilities described within it.
+
+On the inspected account, submitting the starting prompt, creating a project manually or choosing a framework led to a subscription screen. The working editors, agent results, calculations and deck output were not exercised. The [advertised feature list](https://razn.app/#features) remains a separate evidence category; these observations do not establish parity.
+
+**Current Strategy Canvas:** nine tree methods with mixed subtrees; direct notes and sources; branch-linked calculations and investigations; editable Conclusion; an optional referenced brief and basic editable PowerPoint export. The [current journey](user-journey.md) connects these in one canvas, and the [compatibility record](compatibility.md#one-canvas-from-question-to-conclusion--11-september-2026) identifies exercised checks. The historical gaps below must not be read as today's feature inventory.
+
+The useful onboarding lesson is to explain the next action briefly, keep guidance skippable and make it easy to replay. Wider framework coverage, sophisticated modelling, a rich document editor, learning history and hosted collaboration remain distinct scope; adding a tour does not supply them.
+
+## Historical baseline — 10 September 2026
+
 Public-source audit: **10 September 2026**. Strategy Canvas baseline: **`492d6bf`**, before the work prompted by this comparison. This is a dated gap assessment, not a parity claim or a test result for subsequent changes.
 
 ## Evidence boundary

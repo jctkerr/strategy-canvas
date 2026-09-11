@@ -1,5 +1,11 @@
 # Compatibility and test record
 
+## Optional canvas tour — 11 September 2026
+
+**86 Python tests** and **32 browser groups** pass: [10 tour checks](test-evidence/canvas-tour/tour.json), [five controls](test-evidence/canvas-tour/controls.json), [nine connected-journey checks](test-evidence/canvas-tour/journey.json) and [eight mixed-method checks](test-evidence/canvas-tour/methods.json). The five-step tour points to real controls without opening editors or changing content, selection or camera. Skip, replay, keyboard use, exact draft/caret preservation, recovered drafts, agent-driven motion and complete exports were exercised.
+
+[Desktop](test-evidence/canvas-tour/desktop.png) · [Narrow screen with an open draft](test-evidence/canvas-tour/mobile.png) · [Receipt](test-evidence/canvas-tour/receipt.json). Worked examples open separately so the current question is kept. Mobile checks use 390px browser emulation. These tests add no new Claude or Cursor execution claim; Razn’s subscription-gated editors remain untested.
+
 ## Smooth tree motion — 11 September 2026
 
 **86 Python tests**, [seven motion check groups](test-evidence/tree-motion/motion-results.json), [14 notes/recovery groups](test-evidence/tree-motion/seamless-results.json) and [five keyboard groups](test-evidence/tree-motion/keyboard-results.json) passed. New cards ease in while existing cards and connectors move together. Checks cover manual and agent additions, interrupted movement, stable selection and notes saves, exports during motion, reduced motion and narrow screens.

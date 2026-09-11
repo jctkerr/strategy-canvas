@@ -1,0 +1,8 @@
+{
+  "date": "2026-09-11",
+  "python_tests": 86,
+  "browser_groups": 32,
+  "canvas_sha256": "d5ccdb1c327336cc2e429f841bceec5f49dfc69ce030f9186983ec10bc7733d8",
+  "environment": "Local fictional sessions; Chromium with desktop and 390px mobile emulation. Also inspected in Codex in-app browser.",
+  "scope": "Onboarding, editing preservation, mixed methods, agent updates, conclusion and exports. No new Claude/Cursor client execution or Razn editor parity claim."
+}

@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "checks": [
+    "Five optional nonmodal steps cover question, branch, notes, agent and conclusion; Back and Done leave canonical content, selection and camera unchanged.",
+    "Skip, help replay and Take a tour restart cleanly; Tab escapes the coach and Escape closes it without a keyboard trap.",
+    "An unsaved child keeps its exact title, Notes, type, parent, caret, scroll and camera across all steps; typing remains typing and the tour never adds it.",
+    "The governing question can remain an unfinished human draft while the tour opens and closes.",
+    "Both Go straight to canvas and one-question Start reach an editable tree without a mandatory tour or invented branches.",
+    "The explicit guided-example URL opens a tour; ordinary live updates do not restart it, and a recovered draft is never interrupted.",
+    "Downloaded HTML starts with a closed tour and complete state; static guidance explains JSON handoff and local recovery rather than claiming a connected agent.",
+    "Unavailable browser storage does not break optional help, tour dismissal or drafting.",
+    "At 390px every step and its controls fit without covering an active editor; Notes remain editable and the camera and draft survive exit.",
+    "Agent-added content updates the same canvas during a tour, and the teaching ring follows the settled animated control rather than staying at its old position."
+  ],
+  "errors": []
+}

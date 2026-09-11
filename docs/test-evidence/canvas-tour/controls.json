@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "checks": [
+    "One visible help entry opens shortcuts, optional quick start and the existing controls guide; dismissal restores focus.",
+    "Only root and explicit overrides show method badges; Details and T can change an inherited method without changing a deeper override.",
+    "Prompts preserve the saved root question, show genuinely linked open work or a relevant kind question, and dismiss per card without saving content.",
+    "Completed linked work stops being shown as the next open task.",
+    "The single help entry and compact heading remain usable on a narrow screen."
+  ]
+}

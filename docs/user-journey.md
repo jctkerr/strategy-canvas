@@ -13,6 +13,8 @@ A useful ending is either a **supported decision** with reasons, uncertainty and
 5. **Pause or decide.** **Conclusion** opens the canvas’s side panel: **Current position**, **Why**, **Still unknown**, **Next steps**. A deferral is valid. The agent uses these same canonical decision fields. A longer brief is optional.
 6. **Keep and return.** Confirm the save. Export HTML, check the actual download and reopen it. For agent continuation, export JSON and adopt it into a new live session; the original session remains unchanged.
 
+**Optional tour:** **? → Take a tour** covers question, branch, notes, agent and conclusion. A small tip highlights existing controls; it does not open editors or change the work, selection or view. Use **Skip tour**, **Back** and **Next/Done**; replay from **?** or Controls & saving. Agent and saving guidance reflects live versus standalone use. **See a worked example** opens a separate fictional bookshop. Its tour opens unless that canvas has an unsaved draft. Tree descriptions stay under **Which tree?** in help.
+
 ## Friction and the smallest useful response
 
 Review started from `ed88885` on 11 September 2026. The changes below are implemented. The compatibility record links the exercised acceptance paths. [Runtime](../assets/canvas.html) · [storage contract](../references/schema.md).

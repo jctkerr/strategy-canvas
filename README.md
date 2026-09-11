@@ -72,6 +72,6 @@ To continue with an agent, choose **Export → Editable state (JSON)** and attac
 
 These are fictional figures. If materials rise to £8, the threshold becomes **10 attendees** and the demand question changes too.
 
-[Try the tree](https://jctkerr.github.io/strategy-canvas/bookshop.html) · [Follow the example step by step](docs/worked-example.md) · [Tree types & sources](references/tree-methods.md)
+[Try the guided example](https://jctkerr.github.io/strategy-canvas/bookshop.html?tour=1) · [Follow the example step by step](docs/worked-example.md) · [Tree types & sources](references/tree-methods.md)
 
 Free and open source · [MIT licence](LICENSE)
