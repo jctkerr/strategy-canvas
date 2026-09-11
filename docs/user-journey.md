@@ -24,8 +24,11 @@ Review started from `ed88885` on 11 September 2026. The changes below are implem
 | Heading, help entrances and footer reduce tree space. | Compact heading; one **?**; short, dismissible contextual hints. |
 | **+** requires a kind before writing. | Open the suggested draft immediately; offer another kind inside the panel. |
 | A deep addition can slip behind the side panel. | Pan only as far as needed to keep the new card and its **+** reachable; preserve zoom. |
+| Adding several ideas repeats the same steps. | **Add another** saves the card and opens the next draft under the same parent. **⌘/Ctrl Shift Enter** does the same. |
+| A thought is hard to find in a larger tree. | Use the magnifier or **⌘/Ctrl K** to search titles, notes and sources. Choosing a result reveals it and opens its notes, preserving zoom. |
 | Full method controls repeat on cards. | Short labels only where a method starts or changes; inherited types stay reachable through selection or **T**. |
 | Numbers and work exist behind a separate Analysis dialog. | Show the selected branch’s linked result and next work in its panel, with direct open/add. |
+| Opening one investigation shows every work item on the branch. | Show one at a time; a **Next step** chooser appears when there are several. Switching keeps unsaved edits in the same draft. |
 | Manual users lack an editable stopping point. | One **Conclusion** entry opens the canvas summary; retain an open decision without duplicating it in Brief. |
 | Recovery and file export can be confused. | Keep save/error state visible. Browser recovery is local; verify the exported file before treating it as a portable backup. |
 

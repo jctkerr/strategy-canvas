@@ -44,7 +44,7 @@ Your agent handles setup. The **skill** teaches it how to help; the **canvas** s
 
 Your tree should appear beside the chat. Select a branch and say **“Let's explore this.”** In a live session, your agent can use your selection and update the tree as you go.
 
-Click a card to edit it or add notes. Changes save automatically. Click **+**, type and **Add** for a new branch. **?** explains tree types; different branches can use different types.
+Click a card to edit it or add notes. Changes save automatically. Click **+**, type and **Add** for a new branch—or **Add another** to keep going. Use **⌘/Ctrl K** to find a thought. **?** explains tree types.
 
 **Conclusion** keeps your decision—or what you need to check next—with the tree.
 

@@ -1,0 +1,12 @@
+{
+  "scope": "Separate fictional local session in the Codex in-app browser",
+  "actions": [
+    "Searched booking in notes and chose the booking-evidence thought",
+    "Opened a child draft and used Add another",
+    "Verified a blank next draft under the same parent, focused and marked New thought"
+  ],
+  "verifiedRevision": 2,
+  "verifiedThoughtCount": 9,
+  "addedThought": "Which bookings are refundable?",
+  "personalStateUsed": false
+}

@@ -1,5 +1,13 @@
 # Compatibility and test record
 
+## Find and develop a branch — 11 September 2026
+
+Find searches thought titles, notes and sources. Selecting a result reveals its branch and opens its notes while retaining zoom. **Add another** saves a card and starts the next draft under the same parent. Investigations open one at a time, with a chooser when several belong to a branch.
+
+[Search checks](test-evidence/easier-branches/find.json), [seven repeated-add groups](test-evidence/easier-branches/repeated-add.json), [six investigation groups](test-evidence/easier-branches/work-selector.json), [ten tour groups](test-evidence/easier-branches/tour.json), [nine journey groups](test-evidence/easier-branches/journey.json) and [three navigation groups](test-evidence/easier-branches/navigation.json) cover drafts, save failures, conflicting agent edits, cancellation, keyboard use and complete exports. **86 Python tests** pass. [Receipt](test-evidence/easier-branches/receipt.json).
+
+The search and repeated-add flow were also used in Codex's in-app browser on a separate fictional bookshop session. Small-screen checks use 390px browser emulation; they are not a physical-phone or new Claude/Cursor client test. [Search](test-evidence/easier-branches/find-desktop.png) · [Small screen](test-evidence/easier-branches/find-mobile.png) · [Add another](test-evidence/easier-branches/add-another.png).
+
 ## Optional canvas tour — 11 September 2026
 
 **86 Python tests** and **32 browser groups** pass: [10 tour checks](test-evidence/canvas-tour/tour.json), [five controls](test-evidence/canvas-tour/controls.json), [nine connected-journey checks](test-evidence/canvas-tour/journey.json) and [eight mixed-method checks](test-evidence/canvas-tour/methods.json). The five-step tour points to real controls without opening editors or changing content, selection or camera. Skip, replay, keyboard use, exact draft/caret preservation, recovered drafts, agent-driven motion and complete exports were exercised.

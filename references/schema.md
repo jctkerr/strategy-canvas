@@ -250,7 +250,7 @@ The browser sends `POST /api/view` with JSON fields `clientId`, `sequence`, `sel
 
 ## Canvas controls and persistence
 
-Guidance starts collapsed. **?** opens the single help menu, including tree types, agent guidance, controls and a skippable three-step **Quick start**. The walkthrough is nonmodal and can be dismissed. Context scrolls within a bounded area. Guidance never mutates canonical reasoning. A short contextual prompt follows the selected branch; dismissing it affects this browser view only.
+Guidance starts collapsed. **? → Take a tour** offers five optional steps: question, branch, notes, agent and conclusion. Skip, go back or replay from help; the nonmodal tour leaves editors, content, selection and camera unchanged. An explicit worked-example link opens a separate bookshop with its tour unless that canvas has an unsaved draft; the tour request is consumed so reload does not restart it. Tree descriptions sit under **Which tree?**. Context scrolls within a bounded area. Dismissing a contextual branch prompt affects this browser view only.
 
 Dismissal is a local browser preference, not a session field. If browser storage is unavailable, the canvas remains usable and the introduction may appear again. Standalone exports reset transient onboarding/help UI and do not embed the exporting person's dismissal preference; the recipient's browser controls its own preference. The help distinguishes live saves from standalone exports and makes clear that conversation continues in the user's agent, not inside the canvas.
 

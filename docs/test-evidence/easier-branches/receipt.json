@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "date": "2026-09-11",
+  "baseCommit": "86d00db0cf372fad428761abeb0386382fd4fe3a",
+  "runtimeSha256": "ce39f49843c41d11251a08dcdeb6dee65ef8a42eb3e94560935bf7fac86b1182",
+  "pythonTests": 86,
+  "browserGroups": 46,
+  "suites": {
+    "find": {
+      "passed": true,
+      "groups": 11,
+      "receipt": "find.json"
+    },
+    "repeated-add": {
+      "passed": true,
+      "groups": 7,
+      "receipt": "repeated-add.json"
+    },
+    "work-selector": {
+      "passed": true,
+      "groups": 6,
+      "receipt": "work-selector.json"
+    },
+    "tour": {
+      "passed": true,
+      "groups": 10,
+      "receipt": "tour.json"
+    },
+    "journey": {
+      "passed": true,
+      "groups": 9,
+      "receipt": "journey.json"
+    },
+    "navigation": {
+      "passed": true,
+      "groups": 3,
+      "receipt": "navigation.json"
+    }
+  },
+  "inAppTrial": "in-app-trial.json",
+  "scope": "Fictional disposable sessions only. Narrow screens use browser emulation. No new Claude or Cursor execution claim."
+}

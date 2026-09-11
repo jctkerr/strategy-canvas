@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "checks": [
+    "Only the requested investigation opens; the native chooser lists the same branch, retains keyboard focus and Tab navigation, and changes no saved content.",
+    "Title and multiline findings survive switching; one Save preserves every other field, branch, conclusion and brief.",
+    "An invalid hidden investigation stays in the draft and blocks saving until corrected.",
+    "Switching investigations retains conflict protection and human wording; explicit discard adopts the newer saved finding.",
+    "Removing the selected item falls back to a remaining item, a single item hides the chooser, Add selects the new draft, and Undo restores the prior work.",
+    "Complete HTML/JSON exports retain every investigation; the reopened selector and save controls fit a 390px panel."
+  ]
+}

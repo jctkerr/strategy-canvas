@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": [
+    "Typing notes then opening a calculation saves the exact notes, keeps the tree visible, and links its result to the selected branch.",
+    "A next evidence check stays attached to its branch; unrelated branches do not inherit its work or numbers.",
+    "A deferral, reason, unresolved question and concrete next check save through the Conclusion panel and keyboard shortcut without requiring a winner.",
+    "A concurrent agent update cannot overwrite a dirty conclusion; the draft stays visible and explicit discard adopts the latest record.",
+    "Changing an assumption leaves authored brief wording visibly stale; saving a conclusion does not certify the reasoning.",
+    "A decision can be recorded and undone back to the prior deferral, preserving the earlier reasoning.",
+    "The branch calculation remains a bounded bottom panel on a narrow screen, with the Notes return control visible.",
+    "Long conclusion text expands fully, preserves exact keyboard edits and caret through field switches and resizing, and saves/reopens with scrollable content and visible mobile footer controls.",
+    "Downloaded HTML reopens with all notes, calculations, work and conclusion; downloaded JSON adopts into a separate CLI session without losing data."
+  ]
+}
