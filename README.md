@@ -103,4 +103,3 @@ Mix tree types as needed: an **issue tree** splits the question; a **driver tree
 [Growth example](https://jctkerr.github.io/strategy-canvas/growth.html): ways to grow, calculations and tests.
 
 [MIT licence](LICENSE)
-
