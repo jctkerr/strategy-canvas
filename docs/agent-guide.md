@@ -149,7 +149,7 @@ For an ordinary web chat without file execution, use the method conversationally
 
 The top-right **?** gives a one-line guide to the nine tree types. **Work through it with your agent** explains how to continue in conversation, including the JSON handoff for standalone canvases. Reading the guide never changes the tree.
 
-The canvas starts with guidance collapsed. **Quick start** and **How to use** are available when needed. Keep discussing the problem with your agent; it can choose a suitable structure and update the same tree. You do not need to learn or select a framework first.
+The canvas starts with guidance collapsed. **?** includes controls, tree types and an optional **Quick start**. Keep discussing the problem with your agent; it can choose a suitable structure and update the same tree. You do not need to learn or select a framework first.
 
 1. Type a question into [a blank canvas](https://jctkerr.github.io/strategy-canvas/new.html), or give your agent a question, relevant constraints and what remains unknown.
 2. Check that the canvas contains your situation, rather than the fictional sales demo.

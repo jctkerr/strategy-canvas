@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "checks": [
+    "Existing-card notes autosave once after a pause, preserve formatting and unrelated branches, show saved state, and leave the panel and tree in place.",
+    "Typing continues during an in-flight save; the newer generation is subsequently saved without being replaced by the older response.",
+    "Changing cards flushes to the original target; the next card uses its own notes and Ctrl+Enter saves without closing.",
+    "An unrelated agent edit merges with the human’s pending note without losing either change.",
+    "Failed saves remain visibly unsent and survive reload; a later same-node agent edit preserves the recovered draft and blocks overwriting until deliberately resolved.",
+    "Source reading uses the same dock; Back restores the exact note text, caret and scroll without moving the tree.",
+    "Opener-related live tabs retain separate focus reports; different visible selections are reported as ambiguous to the agent.",
+    "Standalone notes survive reload, remain isolated between two exported canvases, export correctly and never change the live session.",
+    "Two tabs of the same offline canvas save different cards concurrently and retain both notes.",
+    "Same-card offline races keep one accepted note and a recoverable conflicting draft; a clean tab’s pagehide cannot erase it.",
+    "A cyclic browser recovery record is ignored safely and the usable embedded canvas stays visible without a Saved claim.",
+    "Two separately started blank canvases retain their own questions when the earlier tab reloads.",
+    "Blocked browser storage never claims Saved; the human note remains visible and can still be exported.",
+    "Mobile notes autosave with the panel open and the action row within the viewport."
+  ]
+}

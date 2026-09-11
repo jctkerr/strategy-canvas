@@ -123,7 +123,8 @@ async function fresh(p,state=fixture){await put(structuredClone(state));await p.
     before=await fresh(page);
     await focusCard(page,'metric');await page.keyboard.press('a');
     assert.equal(await page.locator('#kind').inputValue(),'metric');
-    assert.equal(await page.locator('#kind').isVisible(),false,'The suggested card kind stays behind optional Details');
+    assert.equal(await page.locator('#kind').isVisible(),false,'The draft chooser replaces the duplicate Type control');
+    assert.equal(await page.locator('#draft-choice').isVisible(),true,'The suggested card kind can be changed beside the draft');
     assert.equal(await page.locator('#thought-details').evaluate(el=>el.open),false);
     assert.equal(await page.locator('#label').inputValue(),'');
     assert.equal(await page.locator('#save').isDisabled(),true);
@@ -173,9 +174,8 @@ async function fresh(p,state=fixture){await put(structuredClone(state));await p.
     await page.locator('#discard').click();await focusCard(page,'inherited');await page.keyboard.press('a');
     assert.equal(await page.locator('#kind').inputValue(),'question','The inherited issue method governs its next step');
     assert.equal(await page.locator('#relation-type').inputValue(),'part-of');
-    await page.locator('#thought-details > summary').click();
-    await page.locator('#kind').selectOption('evidence');
-    assert.equal(await page.locator('#kind').inputValue(),'evidence','Optional Details lets the user change the proposed card kind');
+    await page.locator('#draft-choice').selectOption('evidence:supports');
+    assert.equal(await page.locator('#kind').inputValue(),'evidence','The draft chooser lets the user change the proposed card kind');
     await page.locator('#label').fill('Observed staff-hour record');after=await save(page,()=>page.locator('#label').press('Control+Enter'));
     const changed=after.nodes.find(n=>n.label==='Observed staff-hour record');assert.equal(changed.parentId,'inherited');assert.equal(changed.kind,'evidence');
     assert.equal(after.nodes.find(n=>n.id==='issue').method,'issue');assert.equal(after.nodes.find(n=>n.id==='inherited').method,undefined);

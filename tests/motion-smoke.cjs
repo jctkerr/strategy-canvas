@@ -119,12 +119,15 @@ async function positions(p){await startTrace(p);return finalPositions(await fini
     assert.deepEqual((await page.locator('.edge').evaluateAll(edges=>edges.map(e=>e.dataset.childId))).sort(),replaced.nodes.filter(n=>n.parentId).map(n=>n.id).sort(),'Every remaining node has exactly its expected connector');
     checks.push('Rapid additions retarget from painted positions; later canonical replacement settles with exactly the current cards and edges.');
 
-    await startTrace(page);await card(page,'b').click();await card(page,'a').click();await page.locator('#notes').fill('A settled note-only edit.');
+    await startTrace(page);await card(page,'b').click();
+    await page.waitForFunction(()=>{const el=document.querySelector('.tree-node[aria-pressed="true"] .node-add'),area=document.querySelector('#canvas').getBoundingClientRect(),r=el.getBoundingClientRect();return r.left>=area.left&&r.right<=area.right&&r.top>=area.top&&r.bottom<=area.bottom&&el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));},null,{timeout:2000});
+    await card(page,'a').click();await page.locator('#notes').fill('A settled note-only edit.');
     await until(async()=>(await read()).nodes.find(n=>n.id==='a').notes==='A settled note-only edit.','The note edit should autosave.');
     const noteTrace=await finishTrace(page,'selection-and-autosave'),stable=noteTrace[0].nodes;
     for(const frame of noteTrace)samePositions(frame.nodes,stable,'Selection and note-only autosave do not restart motion');
-    assert.equal(new Set(noteTrace.map(f=>f.camera)).size,1);
-    checks.push('Selection and notes autosave produce no position reset, fade restart or camera movement.');
+    assert.equal(new Set(noteTrace.map(f=>f.camera.match(/scale\(([^)]+)\)/)?.[1])).size,1,'Explicit selection may pan an obscured card into reach without changing zoom');
+    const typingFrames=noteTrace.filter(f=>f.focus==='notes'&&f.notes==='A settled note-only edit.');assert.ok(typingFrames.length>5,'Several frames cover typing through autosave');assert.equal(new Set(typingFrames.map(f=>f.camera)).size,1,'Typing and autosave never move the camera');
+    checks.push('Selection preserves node geometry and zoom while keeping its + reachable; notes autosave neither restarts motion nor moves the camera.');
 
     const exported=await context.newPage();exported.setDefaultTimeout(10000);exported.on('pageerror',e=>errors.push(e.message));await exported.emulateMedia({reducedMotion:'reduce'});await exported.goto(pathToFileURL(html).href);await card(exported,'b').waitFor();
     samePositions(await positions(exported),finalPositions(rapidTrace),'An export taken during motion opens at the correct complete final layout');

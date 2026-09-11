@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "checks": [
+    "Export refreshes the whole analysis/conclusion snapshot; a later manual edit preserves the agent’s newer conclusion.",
+    "Saving and selecting a branch share one pending save; the editor stays locked until completion and the conclusion is written once.",
+    "Explicitly saving an untouched new calculation serializes immediate card navigation and preserves exactly the intended record once."
+  ]
+}

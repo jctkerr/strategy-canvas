@@ -10,12 +10,15 @@ if (!url || !output || !/^http:\/\/127\.0\.0\.1:\d+\/?$/.test(url)) throw Error(
 const origin = url.replace(/\/$/, '');
 const results = [];
 const copy = value => JSON.parse(JSON.stringify(value));
+async function assertCardAddReachable(page){await page.waitForFunction(()=>{const control=document.querySelector('.tree-node[aria-pressed="true"] .node-add'),canvas=document.querySelector('#canvas');if(!control||!canvas)return false;const r=control.getBoundingClientRect(),area=canvas.getBoundingClientRect(),hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return r.left>=area.left&&r.right<=area.right&&r.top>=area.top&&r.bottom<=area.bottom&&control.contains(hit);},null,{timeout:2000});}
+async function assertAddAvailable(page,message){const before=await read();await page.locator('.tree-node[aria-pressed="true"] .node-add').click();assert.equal(await page.locator('#label').isVisible(),true,message);assert.equal(await page.locator('#save').getAttribute('aria-label'),'Add thought');await page.locator('#label').fill('Temporary availability check');await page.locator('#discard').click();assert.deepEqual(await read(),before,'Checking the card action must not create a placeholder');}
 async function chooseMethod(page, method) {
   const pending=page.waitForResponse(r=>r.url().endsWith('/api/state') && r.request().method()==='PUT');
   await page.locator('#method-tasks button[data-method="' + method + '"]').click();
   assert.equal((await pending).status(),200);
   await page.locator('#approach-panel').waitFor({state:'hidden'});
 }
+async function openType(page){const node=page.locator('.tree-node[aria-pressed="true"]'),badge=node.locator('.node-type');if(await badge.count())await badge.click();else{await node.focus();await page.keyboard.press('t');}await page.locator('#approach-panel').waitFor({state:'visible'});}
 async function showMethodHelp(page) {
   const details = page.locator('#method-help');
   if (!await details.evaluate(element => element.open)) await details.locator('summary').first().click();
@@ -48,7 +51,7 @@ async function download(page, format, name) {
     assert.equal(await page.locator('#main').evaluate(el=>el.classList.contains('inspect-open')), true, 'Clicking a card must open its editor');
     assert.equal(await page.locator('#thought-details').evaluate(element=>element.open), false, 'Metadata stays collapsed until requested');
     const original = await read();
-    await page.locator('#add-primary').click();
+    await page.locator('.tree-node[aria-pressed="true"] .node-add').click();
     assert.equal((await read()).nodes.length, original.nodes.length, 'Opening Add must not save a placeholder');
     await page.locator('#label').fill('Possible poetry evenings');
     await page.locator('#discard').click();
@@ -65,7 +68,7 @@ async function download(page, format, name) {
       assert.ok((await page.locator('#approach-panel').innerText()).length > 150);
       assert.ok(await page.locator('#approach-panel a[href^="https://"]').count());
       await page.keyboard.press('Escape');
-      await page.locator('#add-primary').click();
+      await page.locator('.tree-node[aria-pressed="true"] .node-add').click();
       await page.locator('#label').fill('A ' + method + ' addition');
       const response=page.waitForResponse(r=>r.url().endsWith('/api/state') && r.request().method()==='PUT');
       await page.locator('#save').click(); assert.equal((await response).status(),200);
@@ -91,26 +94,27 @@ async function download(page, format, name) {
       await load(fixture(method,rootKind));
       let parent='root';
       for(const kind of sequence) {
-        await page.locator('#add-primary').click();
+        await page.locator('.tree-node[aria-pressed="true"] .node-add').click();
         assert.equal(await page.locator('#kind').inputValue(),kind,method+' should offer a suitable component under this parent');
         await page.locator('#label').fill(method+' '+kind);
         const response=page.waitForResponse(r=>r.url().endsWith('/api/state') && r.request().method()==='PUT');
         await page.locator('#save').click(); assert.equal((await response).status(),200);
         const child=(await read()).nodes.find(n=>n.label===method+' '+kind);
         assert.equal(child.parentId,parent); assert.notEqual(child.status,'supported'); parent=child.id;
+        await assertCardAddReachable(page);
       }
     }
     results.push('Hypothesis, product-discovery, decision and argument branches offer the correct successive component roles.');
 
     await load(fixture('issue'));
     const beforeMethod=await read();
-    await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
+    await openType(page);
     await chooseMethod(page, 'driver');
     await page.locator('#approach-panel').waitFor({state:'hidden'});
     const changedMethod=await read();
     const expectedMethod=copy(beforeMethod);expectedMethod.nodes[0].method='driver';expectedMethod.revision+=1;
     assert.deepEqual(changedMethod,expectedMethod);
-    assert.equal(await page.locator('#add-primary').isEnabled(),true,'Add remains available after changing the approach');
+    await assertAddAvailable(page,'Add remains available after changing the approach');
     results.push('Changing an approach preserves all existing content and child metadata.');
 
     await page.locator('#problem-open').click();
@@ -118,7 +122,7 @@ async function download(page, format, name) {
     await page.locator('#problem-save').click();
     await page.locator('#problem-panel').waitFor({state:'hidden'});
     assert.equal((await read()).problem.desiredChange,'Make better use of the room without adding staff.');
-    assert.equal(await page.locator('#add-primary').isEnabled(),true,'Add remains available after saving the problem');
+    await assertAddAvailable(page,'Add remains available after saving the problem');
     const saved=await read();
     const jsonPath=await download(page,'json','complete.json');
     assert.deepEqual(JSON.parse(await fs.readFile(jsonPath,'utf8')),saved);
@@ -131,7 +135,7 @@ async function download(page, format, name) {
     const standalone=await browser.newPage(); await standalone.goto('file://'+htmlPath);
     assert.equal(await standalone.locator('dialog[open]').count(),0);
     await standalone.locator('.tree-node[data-id="root"]').click();
-    await standalone.locator('.tree-node[aria-pressed="true"] .node-type').click();
+    await openType(standalone);
     assert.equal(await standalone.locator('#method-tasks button[aria-pressed="true"]').getAttribute('data-method'),'driver');
     assert.equal(await standalone.locator('#method-tasks button[data-method]:visible').count(),9,'Standalone export must show nine distinct tree choices');
     await standalone.close();
@@ -151,12 +155,12 @@ async function download(page, format, name) {
     results.push('Concurrent external edits keep a local draft and expose the conflict.');
     await page.locator('#close-details').click();
     await page.setViewportSize({width:390,height:844});
-    await page.locator('.tree-node[aria-pressed="true"] .node-type').click();
+    await openType(page);
     const rect=await page.locator('#approach-panel').boundingBox();
     assert.ok(rect.x>=0 && rect.x+rect.width<=391 && rect.y>=0 && rect.y+rect.height<=845,'Approach must fit mobile viewport');
     await page.screenshot({path:path.join(output,'mobile-approach.png')});
     await page.keyboard.press('Escape');
-    await page.locator('#add-primary').click();
+    await page.locator('.tree-node[aria-pressed="true"] .node-add').click();
     assert.ok(await page.locator('#label').isVisible());
     await page.locator('#discard').click();
     await page.locator('#close-details').click();

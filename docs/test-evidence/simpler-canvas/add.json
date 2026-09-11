@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "checks": [
+    "Hover is passive; one + click opens and focuses the suggested draft without a menu or saved node.",
+    "Optional contextual type changes preserve human text, use a fitting relationship, and remain unsaved until explicit Add.",
+    "Undo removes the explicit addition; A uses numerical-driver defaults, typing stays text, and discard creates no node.",
+    "Clicking + on another card safely flushes an existing edit to its original node before opening the new draft.",
+    "Space on + opens the draft; a concurrent parent edit keeps text intact and blocks conflicting Add/type changes.",
+    "Touch + opens the same direct draft on narrow screens with its optional type and Add action reachable."
+  ],
+  "errors": []
+}

@@ -73,7 +73,7 @@ If the agent's direct Browser opener is unavailable, the following desktop route
 
 1. Open Cursor's **Command Palette** and choose **Open Browser Tab**.
 2. Enter the exact printed numeric session URL and press **Return**.
-3. Inspect the native Browser pane for the correct question and tree; open **Analysis** to check the shared workspace without changing saved content.
+3. Inspect the native Browser pane for the correct question and tree; click a card to inspect its notes, or **Conclusion** to inspect the current position without changing saved content.
 
 Use available host UI controls for these steps, or give the user these exact steps if the agent cannot operate the desktop. Do not substitute an external browser or describe a CLI-created URL as an opened pane.
 
@@ -83,4 +83,4 @@ For a Cursor Cloud Agent, use its actual remote desktop/preview route or the nat
 
 Keep the session directory, server URL and preview tab together. Before agent edits, read the latest saved revision and preserve user changes. After saving, inspect the update in the same pane; reload only if needed, after resolving any unsaved draft. Conversation belongs in the agent chat, while the canvas displays the shared work.
 
-For standalone HTML, explain that direct edits need a fresh HTML/JSON export before reload. A host saving an artifact version does not prove it saved the canvas's in-memory edits. Ask the user to return exported JSON when continuing from a separately edited copy, then reconcile it with the existing session.
+For standalone HTML, browser recovery can retain saved edits in that browser when storage is available; a fresh HTML/JSON export is needed for a portable copy. A host saving an artifact version does not prove it saved the canvas's in-memory edits. Ask the user to return exported JSON when continuing from a separately edited copy, then reconcile it with the existing session.

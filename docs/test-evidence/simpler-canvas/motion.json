@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "checks": [
+    "Manual Add paints intermediate existing-card positions, a visible entrance and connected edges without moving the camera.",
+    "An agent’s branch addition moves the existing tree smoothly while human typing, focus and camera stay intact.",
+    "Rapid additions retarget from painted positions; later canonical replacement settles with exactly the current cards and edges.",
+    "Selection preserves node geometry and zoom while keeping its + reachable; notes autosave neither restarts motion nor moves the camera.",
+    "An export made during motion contains the complete canonical snapshot and opens at its final layout.",
+    "Reduced motion shows final card and connector geometry immediately, matching a fresh render.",
+    "Mobile additions animate with attached connectors while the notes panel and bottom controls remain usable."
+  ]
+}

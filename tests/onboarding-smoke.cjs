@@ -25,6 +25,7 @@ const fixture = {
   decision: {recommendation: '', rationale: '', uncertainties: [], nextSteps: []}
 };
 async function read() { const r = await fetch(origin + '/api/state'); assert.equal(r.status, 200); return r.json(); }
+async function helpAction(page,id){if(await page.locator('#tree-guide').isHidden())await page.locator('#tree-guide-open').click();await page.locator(id).click();}
 async function frames(page) { await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))); }
 async function exportFile(page, format, name) {
   await page.locator('details.export summary').click();
@@ -48,18 +49,19 @@ async function visibleWithin(page, selector, container) {
     const page = await context.newPage(); page.on('pageerror', e => errors.push(e.message));
     await page.goto(origin);
     assert.ok(await page.locator('#quick-start').isHidden(), 'Guidance starts collapsed so the tree gets the space');
-    await page.locator('#tour-toggle').click();
+    for(const id of ['#add-primary','#add-child','#collapse-branch'])assert.equal(await page.locator(id).isVisible(),false,'Card actions have one visible home');
+    await helpAction(page,'#tour-toggle');
     assert.ok(await page.locator('#quick-start').isVisible());
     assert.match(await page.locator('#tour-count').innerText(), /1 of 3/i);
     assert.ok(await page.locator('#tour-back').isHidden());
     await page.locator('#tour-next').click();
     assert.match(await page.locator('#tour-title').innerText(), /Develop/);
     await frames(page); const expandedHeight = (await page.locator('#canvas').boundingBox()).height;
-    await page.locator('#tour-toggle').click(); await frames(page);
+    await helpAction(page,'#tour-toggle'); await frames(page);
     assert.ok(await page.locator('#quick-start').isHidden());
     assert.equal(await page.locator('#tour-toggle').getAttribute('aria-expanded'), 'false');
     assert.ok((await page.locator('#canvas').boundingBox()).height > expandedHeight + 100, 'Collapsing must return space to the tree');
-    await page.locator('#tour-toggle').click();
+    await helpAction(page,'#tour-toggle');
     assert.equal(await page.locator('#tour-toggle').getAttribute('aria-expanded'), 'true');
     assert.match(await page.locator('#tour-count').innerText(), /2 of 3/i, 'Reopening should retain the current step');
     assert.deepEqual(await read(), original);
@@ -74,19 +76,19 @@ async function visibleWithin(page, selector, container) {
     results.push('Guidance starts collapsed, opens on request, restores its step and returns space to the tree without changing canonical state.');
 
     await page.locator('.tree-node[data-id="workshops"]').click();
-    await page.locator('#add-primary').click();
+    await page.locator('.tree-node[aria-pressed="true"] .node-add').click();
     assert.match(await page.locator('#new-child-hint').innerText(), /Paid workshops/);
     await page.locator('#label').fill('Would people book in advance?');
     await page.locator('#thought-details > summary').click();
     await page.locator('#evidence-details > summary').click();
     await page.locator('#notes').fill('Unfinished reasoning to keep.');
     const draft = await page.locator('#kind').inputValue();
-    await page.locator('#help-open').click();
+    await helpAction(page,'#help-open');
     assert.match(await page.locator('#help-saving').innerText(), /computer running it/);
     await page.locator('#tour-replay').click();
     assert.match(await page.locator('#tour-count').innerText(), /1 of 3/i);
     await page.locator('#tour-skip').click();
-    await page.locator('#help-open').click(); await page.keyboard.press('Escape');
+    await helpAction(page,'#help-open'); await page.keyboard.press('Escape');
     assert.equal(await page.locator('#label').inputValue(), 'Would people book in advance?');
     assert.equal(await page.locator('#notes').inputValue(), 'Unfinished reasoning to keep.');
     assert.equal(await page.locator('#kind').inputValue(), draft);
@@ -96,7 +98,7 @@ async function visibleWithin(page, selector, container) {
     await page.locator('#discard').click(); await page.locator('#close-details').click();
     results.push('Add identifies its parent. Help, replay, skip and Escape preserve the selected card and unsaved draft.');
 
-    await page.locator('#help-open').click(); await page.locator('#tour-replay').click();
+    await helpAction(page,'#help-open'); await page.locator('#tour-replay').click();
     await page.locator('#tour-next').click();
     const html = await exportFile(page, 'html', 'onboarding.html');
     const json = await exportFile(page, 'json', 'onboarding.json');
@@ -106,13 +108,13 @@ async function visibleWithin(page, selector, container) {
     await standalone.goto(pathToFileURL(html).href);
     assert.equal(await standalone.locator('dialog[open]').count(), 0);
     assert.ok(await standalone.locator('#quick-start').isHidden());
-    await standalone.locator('#tour-toggle').click();
+    await helpAction(standalone,'#tour-toggle');
     assert.ok(await standalone.locator('#quick-start').isVisible());
     assert.match(await standalone.locator('#tour-count').innerText(), /1 of 3/i);
-    assert.match(await standalone.locator('#tour-save-hint').innerText(), /Export before closing/);
+    assert.match(await standalone.locator('#tour-save-hint').innerText(), /Export a portable copy/);
     assert.deepEqual(await standalone.locator('#boot-data').evaluate(el => JSON.parse(el.textContent).state), original);
-    await standalone.locator('#help-open').click();
-    assert.match(await standalone.locator('#help-saving').innerText(), /open page only/);
+    await helpAction(standalone,'#help-open');
+    assert.match(await standalone.locator('#help-saving').innerText(), /browser when storage is available/);
     assert.match(await standalone.locator('#help-saving').innerText(), /Editable state \(JSON\)/);
     await standalone.locator('#help-done').click();
     results.push('HTML export starts fresh for its recipient, closes help, preserves exact state and explains standalone saving and agent handoff.');
@@ -122,9 +124,9 @@ async function visibleWithin(page, selector, container) {
     await denied.addInitScript(() => Object.defineProperty(window, 'localStorage', {get() { throw new DOMException('Storage disabled', 'SecurityError'); }}));
     const blocked = await denied.newPage(); blocked.on('pageerror', e => errors.push(e.message));
     await blocked.goto(origin); assert.ok(await blocked.locator('#quick-start').isHidden());
-    await blocked.locator('#tour-toggle').click(); await blocked.locator('#tour-skip').click();
-    await blocked.locator('#help-open').click(); await blocked.locator('#help-done').click();
-    await blocked.locator('#add-primary').click(); await blocked.locator('#label').fill('Still works without storage');
+    await helpAction(blocked,'#tour-toggle'); await blocked.locator('#tour-skip').click();
+    await helpAction(blocked,'#help-open'); await blocked.locator('#help-done').click();
+    await blocked.locator('.tree-node[aria-pressed="true"] .node-add').click(); await blocked.locator('#label').fill('Still works without storage');
     assert.ok(await blocked.locator('#save').isEnabled()); await blocked.locator('#discard').click();
     assert.deepEqual(await read(), original);
     results.push('Disabled browser storage does not break the canvas, help, dismissal or drafting.');
@@ -132,29 +134,29 @@ async function visibleWithin(page, selector, container) {
     const mobileContext = await browser.newContext({viewport: {width: 390, height: 844}, reducedMotion: 'reduce'});
     const mobile = await mobileContext.newPage(); mobile.on('pageerror', e => errors.push(e.message));
     await mobile.goto(origin); assert.ok(await mobile.locator('#quick-start').isHidden());
-    await mobile.locator('#tour-toggle').click(); await mobile.locator('.context-disclosure summary').click();
+    await helpAction(mobile,'#tour-toggle'); await mobile.locator('.context-disclosure summary').click();
     await frames(mobile);
     assert.ok((await mobile.locator('#canvas').boundingBox()).height >= 240, 'Long context and tutorial must leave working canvas space');
     assert.ok((await mobile.locator('.context-body').boundingBox()).height <= 131);
     assert.ok(await mobile.locator('.context-body').evaluate(el => el.scrollHeight > el.clientHeight));
     assert.ok(await mobile.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-    await visibleWithin(mobile, '#add-primary', '#canvas');
+    await visibleWithin(mobile, '.tree-node[aria-pressed="true"] .node-add', '#canvas');
     await mobile.locator('#tour-next').click(); assert.match(await mobile.locator('#tour-count').innerText(), /2 of 3/i);
     await mobile.locator('#tour-skip').click();
     await mobile.locator('.context-disclosure summary').click();
     await visibleWithin(mobile, '.tree-node[aria-pressed="true"]', '#canvas');
-    await mobile.locator('#help-open').click();
+    await helpAction(mobile,'#help-open');
     const rect = await mobile.locator('#help-panel').boundingBox();
     assert.ok(rect.x >= 0 && rect.y >= 0 && rect.x + rect.width <= 391 && rect.y + rect.height <= 845);
     await mobile.screenshot({path: path.join(output, 'mobile-help.png')});
     await mobile.locator('#help-done').click();
-    await mobile.locator('#add-primary').click(); assert.ok(await mobile.locator('#label').isVisible());
+    await mobile.locator('.tree-node[aria-pressed="true"] .node-add').click(); assert.ok(await mobile.locator('#label').isVisible());
     await mobile.locator('#discard').click(); await mobile.locator('#close-details').click();
-    await mobile.locator('#help-open').click(); await mobile.locator('#tour-replay').click();
+    await helpAction(mobile,'#help-open'); await mobile.locator('#tour-replay').click();
     await mobile.screenshot({path: path.join(output, 'mobile-quick-start.png')});
     results.push('At 390px, long context scrolls separately, tutorial controls remain reachable, tree refits, and help and Add work.');
 
-    await page.locator('#help-open').click(); await page.locator('#tour-replay').click(); await frames(page);
+    await helpAction(page,'#help-open'); await page.locator('#tour-replay').click(); await frames(page);
     await page.screenshot({path: path.join(output, 'quick-start.png')});
     assert.deepEqual(await read(), original); assert.deepEqual(errors, []);
     const report = {passed: true, checks: results};
