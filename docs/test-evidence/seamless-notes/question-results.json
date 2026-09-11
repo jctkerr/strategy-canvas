@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": [
+    "A blank standalone canvas rejects whitespace and starts with exactly the supplied question, no framework or invented children.",
+    "The main question edits in place and saves by keyboard; only an unchanged matching root label follows its wording.",
+    "Concurrent question changes keep the local draft and block stale saves; unrelated agent edits merge without loss.",
+    "E/Enter edits, T chooses a tree, modified Enter saves while keeping the panel open; Close returns card focus, and Tab moves naturally into Notes.",
+    "A adds a child to the focused card; Shift+A adds at the same parent, inherits useful editable defaults, and cannot create a second root.",
+    "Arrow keys collapse, expand and move between parents, children and siblings without changing the saved tree.",
+    "Metric and hypothesis cards suggest suitable trees only in open exploration; existing analytical choices remain authoritative and suggestions write nothing.",
+    "Add follows card kind and the inherited method, while users can change the proposed card type before saving.",
+    "The new question and keyboard flows render without script errors, including a 390px question editor."
+  ]
+}

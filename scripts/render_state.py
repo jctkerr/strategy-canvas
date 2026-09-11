@@ -1,5 +1,6 @@
 """Portable renderers for the same canonical tree used by the canvas."""
 import json
+import hashlib
 import math
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -53,13 +54,16 @@ def source_text(source):
     ) if part)
 
 
-def html_document(state, offline=True):
+def html_document(state, offline=True, canvas_id=None):
     """Reuse the complete canvas; its boot-data is the only injected content."""
     template = (SKILL / "assets" / "canvas.html").read_text(encoding="utf-8")
     marker = '{"state":null,"offline":true}'
     if template.count(marker) != 1:
         raise ValueError("The canvas bootstrap marker is missing or ambiguous.")
-    boot = json.dumps({"state": state, "offline": offline}, ensure_ascii=False).replace("<", "\\u003c")
+    if canvas_id is None:
+        snapshot = json.dumps(state, sort_keys=True, ensure_ascii=False).encode("utf-8")
+        canvas_id = "snapshot-" + hashlib.sha256(snapshot).hexdigest()[:32] if state else "blank"
+    boot = json.dumps({"state": state, "offline": offline, "canvasId": canvas_id}, ensure_ascii=False).replace("<", "\\u003c")
     return template.replace(marker, boot, 1)
 
 

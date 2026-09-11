@@ -1,5 +1,13 @@
 # Compatibility and test record
 
+## Seamless notes and agent selection — 11 September 2026
+
+**86 Python tests** and **66 browser check groups** passed: [14 seamless editing](test-evidence/seamless-notes/seamless-results.json), [10 direct controls](test-evidence/seamless-notes/direct-results.json), and regression checks for [keyboard](test-evidence/seamless-notes/keyboard-results.json), [questions](test-evidence/seamless-notes/question-results.json), [methods](test-evidence/seamless-notes/methods-results.json), [onboarding](test-evidence/seamless-notes/onboarding-results.json) and [analysis](test-evidence/seamless-notes/analysis-results.json).
+
+Checks cover autosave while typing, saving to the right card, same-panel sources, current selection and ambiguous tabs, draft/conflict recovery, separate canvases, and exporting when browser storage fails. Recovery is local to the browser, not cloud sync. [Desktop](test-evidence/seamless-notes/seamless-notes-desktop.png) · [Narrow screen](test-evidence/seamless-notes/seamless-notes-mobile.png). These are fictional fixtures; the 390px checks use browser emulation.
+
+In Codex’s actual in-app panel, a manual note was saved, CLI `focus` identified the selected demand branch, and an agent appended a note while preserving the original text. Both appeared in the panel. [Trial receipt](test-evidence/seamless-notes/codex-agent-trial.json). This adds no new Claude or Cursor execution claim.
+
 ## Working notes panel — 11 September 2026
 
 All **78 Python tests**, **11 direct-edit browser check groups** and [five keyboard check groups](test-evidence/working-notes/keyboard-checks.json) passed. Working notes open directly in a right-hand desktop panel or a bottom sheet at 390px. Checks cover saving to the correct card, preserving unsaved notes on Close or card switches, blocking stale saves after conflicting agent updates, merging unrelated updates, and retaining notes in complete offline exports. [Test receipt](test-evidence/working-notes/checks.json).

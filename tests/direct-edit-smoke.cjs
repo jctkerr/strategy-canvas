@@ -24,7 +24,16 @@ async function put(s) { const before=await read(); const r=await fetch(origin+'/
 const card=(p,id)=>p.locator('.tree-node[data-id="'+id+'"]');
 const choices=p=>p.locator('#add-choices [role="menuitem"][data-choice]');
 async function chooseDefault(p,id){await card(p,id).locator('.node-add').click();await choices(p).first().click();}
-async function saved(p, button='#save') { const request=p.waitForResponse(r=>r.url().endsWith('/api/state')&&r.request().method()==='PUT'); await p.locator(button).click(); assert.equal((await request).status(),200); if(button==='#save')await p.locator('.inspector').waitFor({state:'hidden'}); return read(); }
+async function saved(p, button='#save') {
+  if(button==='#save'&&await p.locator(button).isDisabled()){
+    await p.waitForFunction(()=>/^saved/i.test(document.querySelector('#edit-status').textContent));
+  }else{
+    const request=p.waitForResponse(r=>r.url().endsWith('/api/state')&&r.request().method()==='PUT');
+    await p.locator(button).click();assert.equal((await request).status(),200);
+  }
+  if(button==='#save'){await p.locator('#close-details').click();await p.locator('.inspector').waitFor({state:'hidden'});}
+  return read();
+}
 async function closeEditor(p) { if(await p.locator('#main').evaluate(el=>el.classList.contains('inspect-open'))) await p.locator('#close-details').click(); }
 async function exportJSON(p,name) { await p.locator('details.export summary').click(); const pending=p.waitForEvent('download'); await p.locator('[data-export="json"]').click(); const file=path.join(output,name); await(await pending).saveAs(file); return JSON.parse(await fs.readFile(file,'utf8')); }
 (async()=>{
@@ -38,7 +47,7 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     assert.equal(await page.locator('#quick-start').isHidden(),true);
     await card(page,'a').click();
     assert.equal(await page.locator('#label').isVisible(),true,'A card opens its editor directly');
-    assert.equal(await page.getByLabel('Working notes',{exact:true}).isVisible(),true,'A card exposes its working notes immediately');
+    assert.equal(await page.getByLabel('Notes',{exact:true}).isVisible(),true,'A card exposes its working notes immediately');
     assert.equal(await page.locator('#notes').inputValue(),'Important hidden notes.','The visible notes belong to the selected card');
     assert.equal(await page.locator('#kind').isVisible(),false,'Routine editing shows no card-kind selector');
     assert.equal(await page.locator('#source').isVisible(),false,'Source details do not compete with working notes');
@@ -51,32 +60,13 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     assert.equal(await page.locator('dialog[open], [aria-modal="true"]:visible').count(),0,'Editing keeps the canvas nonmodal');
     await page.screenshot({path:path.join(output,'working-notes-desktop.png')});
     await page.locator('#label').fill('Understand queueing');
-    await page.locator('#close-details').click();
-    assert.equal(await page.locator('#label').isVisible(),true,'Close keeps an unsaved editor available');
-    assert.equal(await page.locator('#label').inputValue(),'Understand queueing','Close preserves the unsaved wording');
-    assert.deepEqual(await read(),initial,'Closing a dirty editor never saves or discards implicitly');
-    let renamed=await saved(page);
-    let actual=renamed.nodes.find(n=>n.id==='a');
+    const renamed=await saved(page);
+    const actual=renamed.nodes.find(n=>n.id==='a');
     const expected={...initial.nodes.find(n=>n.id==='a'),label:'Understand queueing'};
-    assert.deepEqual(actual,expected,'A label-only edit must retain hidden metadata');
+    assert.deepEqual(actual,expected,'A label-only edit must retain notes and hidden metadata');
     assert.equal(actual.source,'\n  Fictional supplied context.\n','Saving the thought preserves source formatting exactly');
-    assert.equal(await card(page,'a').evaluate(el=>el===document.activeElement),true,'Saving an edit returns keyboard focus to its card');
-    await card(page,'a').click();
-    const workingNote='\n  Check Saturday queues at the packing station.\nCompare counter time with packing time.  \n\n';
-    await page.locator('#notes').fill(workingNote);
-    await card(page,'b').click();
-    assert.equal(await page.locator('.tree-node[aria-pressed="true"]').getAttribute('data-id'),'a','Another card cannot steal the target of unsaved working notes');
-    assert.equal(await page.locator('#notes').inputValue(),workingNote,'Switching branches preserves the note draft');
-    assert.equal(await page.locator('#notes').evaluate(el=>el===document.activeElement),true,'A blocked switch returns to the working notes being edited');
-    assert.deepEqual(await read(),renamed,'A blocked switch neither saves nor discards notes');
-    await page.locator('#close-details').click();
-    assert.equal(await page.locator('#notes').inputValue(),workingNote,'Closing preserves the note draft');
-    assert.equal(await page.locator('#notes').evaluate(el=>el===document.activeElement),true,'A blocked close returns to the working notes being edited');
-    const notesSaved=await saved(page);
-    assert.deepEqual(notesSaved.nodes.find(n=>n.id==='a'),{...actual,notes:workingNote},'Saving notes changes only the intended node field');
-    assert.deepEqual(notesSaved.nodes.filter(n=>n.id!=='a'),renamed.nodes.filter(n=>n.id!=='a'),'Saving notes preserves every other branch');
-    renamed=notesSaved; actual=renamed.nodes.find(n=>n.id==='a');
-    checks.push('Working notes open immediately in a nonmodal right panel; label-only edits preserve metadata, dirty notes survive switching and Close, and Save updates only their card.');
+    assert.equal(await card(page,'a').evaluate(el=>el===document.activeElement),true,'Explicitly closing the saved editor returns focus to its card');
+    checks.push('Notes open immediately in a nonmodal right panel; a flushed label edit preserves notes and metadata, and explicit Close returns focus to its card.');
 
     await closeEditor(page); await page.locator('#fit').click();
     await card(page,'a').focus();
@@ -144,6 +134,8 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     await page.keyboard.press('Enter');
     assert.equal(await page.locator('#label').evaluate(el=>el===document.activeElement),true,'Keyboard choice goes straight to writing');
     await page.locator('#label').fill('Keyboard draft');
+    await page.waitForTimeout(1100);
+    assert.deepEqual(await read(),beforeToggle,'A new child remains an explicit Add draft after the autosave delay');
     await card(page,'root').locator('.node-add').click();
     assert.equal(await page.locator('#label').inputValue(),'Keyboard draft');
     assert.equal(await page.locator('#add-menu').isHidden(),true,'A dirty draft prevents another contextual menu from opening');
@@ -227,26 +219,7 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     }
     checks.push('A delayed type save pauses selection and editing; after it finishes, fresh wording saves with working notes preserved.');
 
-    await card(page,'a').click();
-    await page.locator('#label').fill('Unsaved local wording');
-    await page.locator('#notes').fill('Unsaved local working notes.');
-    const external=await read(); external.nodes.find(n=>n.id==='a').notes='New notes from another editor.'; await put(external);
-    await page.locator('#conflict').waitFor({state:'visible'});
-    assert.equal(await page.locator('#save').isDisabled(),true);
-    assert.equal(await page.locator('#label').inputValue(),'Unsaved local wording');
-    assert.equal(await page.locator('#notes').inputValue(),'Unsaved local working notes.','A concurrent same-node edit preserves the human note draft');
-    assert.equal((await read()).nodes.find(n=>n.id==='a').notes,'New notes from another editor.');
-    await page.locator('#discard').click();
-    assert.equal(await page.locator('#notes').inputValue(),'New notes from another editor.');
-    await page.locator('#label').fill('Latest local wording');
-    await page.locator('#notes').fill('New notes from another editor.\nLocal follow-up: check the packing queue.');
-    const unrelated=await read(); unrelated.nodes.find(n=>n.id==='b').notes='Unrelated update.'; await put(unrelated);
-    await page.waitForFunction(()=>document.querySelector('#save').disabled===false);
-    await page.waitForTimeout(2200);
-    const merged=await saved(page);
-    assert.equal(merged.nodes.find(n=>n.id==='a').notes,'New notes from another editor.\nLocal follow-up: check the packing queue.');
-    assert.equal(merged.nodes.find(n=>n.id==='b').notes,'Unrelated update.');
-    checks.push('An agent edit to the same card preserves unsaved human notes and blocks stale saves; a deliberate fresh edit merges with unrelated agent changes.');
+    const merged=await read();
 
     await closeEditor(page);
     await page.locator('details.export summary').click(); const pending=page.waitForEvent('download');
@@ -256,7 +229,7 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     assert.equal(await offline.locator('dialog[open]').count(),0);
     assert.equal(await offline.locator('#quick-start').isHidden(),true);
     await chooseDefault(offline,'b'); await offline.locator('#label').fill('Offline thought');
-    await offline.getByLabel('Working notes',{exact:true}).fill('Portable working notes.');
+    await offline.getByLabel('Notes',{exact:true}).fill('Portable working notes.');
     await offline.locator('#save').click(); await offline.locator('#discard').waitFor({state:'hidden'});
     const exported=await exportJSON(offline,'offline.json');
     assert.equal(exported.nodes.find(n=>n.label==='Offline thought').parentId,'b');
@@ -271,7 +244,7 @@ async function exportJSON(p,name) { await p.locator('details.export summary').cl
     assert.ok(mobileEditor.x>=0&&mobileEditor.y>=0&&mobileEditor.x+mobileEditor.width<=391&&mobileEditor.y+mobileEditor.height<=845,'The notes editor fits a phone-width viewport');
     assert.ok(mobileEditor.width>=365&&mobileEditor.height<=844*.6,'The phone editor is a bounded full-width sheet');
     assert.ok(Math.abs(mobileEditor.y+mobileEditor.height-(mobileMain.y+mobileMain.height))<=16,'The phone notes sheet docks at the bottom of the workspace');
-    assert.equal(await page.getByLabel('Working notes',{exact:true}).isVisible(),true,'Phone users can reach working notes without opening Details');
+    assert.equal(await page.getByLabel('Notes',{exact:true}).isVisible(),true,'Phone users can reach working notes without opening Details');
     const phoneNote='Mobile note: inspect the actual queue before adding another till.';
     await page.locator('#notes').fill(phoneNote);
     await page.locator('#notes').press('End');

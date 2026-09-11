@@ -7,8 +7,8 @@ from render_state import html_document
 from state_store import METHODS, validate
 
 
-def example_html(state):
-    document = html_document(state, offline=True)
+def example_html(state, canvas_id):
+    document = html_document(state, offline=True, canvas_id=canvas_id)
     marker = '<div class="top-actions">'
     if document.count(marker) != 1:
         raise ValueError("The canvas examples navigation marker changed.")
@@ -44,13 +44,13 @@ def build_examples(root=None, check=False):
         raise ValueError('The gallery must include each tree method exactly once.')
     outputs = {}
     growth = validate(json.loads((root / 'examples/growth-overview.json').read_text(encoding='utf-8')))
-    outputs['growth.html'] = example_html(growth)
+    outputs['growth.html'] = example_html(growth, 'demo-growth.html')
     cards = []
     for entry in catalogue:
         state = validate(entry['state'])
         ident = entry['id']
         destination = 'example-' + ident + '.html'
-        outputs[destination] = example_html(state)
+        outputs[destination] = example_html(state, 'demo-' + destination)
         name = html.escape(entry['name'])
         source_url = entry['source']['url']
         if not source_url.startswith('https://'):

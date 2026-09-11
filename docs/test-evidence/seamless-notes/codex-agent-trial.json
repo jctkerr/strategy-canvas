@@ -1,0 +1,62 @@
+{
+  "focusBeforeAgentEdit": {
+    "status": "current",
+    "stateRevision": 2,
+    "selection": {
+      "selectedNodeId": "demand",
+      "focusedNodeId": null,
+      "editingNodeId": "demand",
+      "hasUnsavedDraft": false,
+      "observedRevision": 2,
+      "ageSeconds": 15.71,
+      "node": {
+        "id": "demand",
+        "parentId": "workshop",
+        "label": "Would 8 people buy a £20 ticket?",
+        "kind": "question",
+        "status": "uncertain",
+        "notes": "Eight is the calculated threshold under the fictional cost assumptions, not a forecast. No customer or booking evidence has been supplied. Revisit this threshold if price or costs change.\n\nManual interface check: look for existing bookings before assuming demand.",
+        "relation": {
+          "type": "part-of",
+          "label": "Demand"
+        }
+      },
+      "effectiveMethod": "issue",
+      "ancestors": [
+        {
+          "id": "workshop",
+          "parentId": null,
+          "label": "Run a workshop without a loss?",
+          "kind": "question",
+          "method": "issue",
+          "status": "open",
+          "notes": "An initial viability inquiry for one workshop, with three answerable subquestions: paying demand at the stated price, delivery within the assumed resources, and the attendance threshold implied by those costs. Demand and delivery remain open. These questions interact: delivery can change costs, and price can change demand. This is not an exhaustive event-launch checklist or a comparison with other uses of the room."
+        }
+      ],
+      "descendantNodeIds": [
+        "bookings"
+      ],
+      "sources": []
+    }
+  },
+  "agentReceipt": {
+    "revision": 3,
+    "nodes": 8
+  },
+  "afterAgentEdit": {
+    "revision": 3,
+    "node": {
+      "id": "demand",
+      "parentId": "workshop",
+      "label": "Would 8 people buy a £20 ticket?",
+      "kind": "question",
+      "status": "uncertain",
+      "notes": "Eight is the calculated threshold under the fictional cost assumptions, not a forecast. No customer or booking evidence has been supplied. Revisit this threshold if price or costs change.\n\nManual interface check: look for existing bookings before assuming demand.\nAgent interface check: the canvas and CLI are using this same selected branch.",
+      "relation": {
+        "type": "part-of",
+        "label": "Demand"
+      }
+    },
+    "originalNotesPreserved": true
+  }
+}

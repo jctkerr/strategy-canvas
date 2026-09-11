@@ -20,7 +20,7 @@ def main():
                            ("bookshop-walkthrough-updated.json", "bookshop-updated.html"),
                            (None, "new.html")):
         state = validate(json.loads((root / "examples" / source).read_text(encoding="utf-8"))) if source else None
-        expected = html_document(state, offline=True)
+        expected = html_document(state, offline=True, canvas_id="demo-" + output)
         destination = root / "docs" / output
         if args.check:
             if not destination.exists() or destination.read_text(encoding="utf-8") != expected:

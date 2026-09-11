@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Save a canonical session as a populated HTML tree, SVG tree and JSON."""
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -36,7 +37,9 @@ def export_session(session, stem):
         raise InvalidState("Export would overwrite the session state. Choose a separate output folder or stem.")
     with session_lock(session):
         state = read_state(session)
-    outputs = {"html": html_document(state, offline=True), "svg": svg_document(state),
+    identity = json.dumps(state, sort_keys=True, ensure_ascii=False) + "\n" + str(stem)
+    canvas_id = "snapshot-" + hashlib.sha256(identity.encode("utf-8")).hexdigest()[:32]
+    outputs = {"html": html_document(state, offline=True, canvas_id=canvas_id), "svg": svg_document(state),
                "json": json.dumps(state, ensure_ascii=False, indent=2) + "\n"}
     stem.parent.mkdir(parents=True, exist_ok=True)
     for ext, contents in outputs.items():

@@ -10,6 +10,7 @@ from loopback_server import LoopbackHTTPServer
 from render_state import html_document
 from export_brief import pptx_document
 from state_store import Conflict, InvalidState, MAX_BYTES, initialise, read_state, update
+from view_store import MAX_VIEW_BYTES, read_focus, save_view, session_canvas_id
 
 SKILL = Path(__file__).resolve().parent.parent
 
@@ -59,6 +60,8 @@ def main():
             try:
                 if path == "/api/state":
                     self.json_reply(200, read_state(args.session))
+                elif path == "/api/view":
+                    self.json_reply(200, read_focus(args.session))
                 elif path == "/api/export/pptx":
                     try:
                         data = pptx_document(read_state(args.session))
@@ -74,7 +77,8 @@ def main():
                     self.end_headers()
                     self.wfile.write(data)
                 elif path in {"/", "/index.html"}:
-                    template = html_document(read_state(args.session), offline=False)
+                    template = html_document(read_state(args.session), offline=False,
+                                             canvas_id=session_canvas_id(args.session))
                     self.reply(200, template, "text/html; charset=utf-8")
                 elif path == "/new.html":
                     # A separate portable canvas never replaces the live session.
@@ -106,6 +110,26 @@ def main():
                 self.json_reply(200, update(args.session, payload["state"], payload["expectedRevision"]))
             except Conflict as error:
                 self.json_reply(409, {"error": str(error), "current": error.current})
+            except (InvalidState, ValueError, UnicodeError) as error:
+                self.json_reply(400, {"error": str(error)})
+            except OSError as error:
+                self.json_reply(500, {"error": str(error)})
+
+        def do_POST(self):
+            if not self.local_request():
+                return
+            if urlparse(self.path).path != "/api/view":
+                self.json_reply(404, {"error": "Not found."})
+                return
+            if self.headers.get_content_type() != "application/json":
+                self.json_reply(415, {"error": "Use application/json."})
+                return
+            try:
+                size = int(self.headers.get("Content-Length", "0"))
+                if not 0 < size <= MAX_VIEW_BYTES:
+                    self.json_reply(413, {"error": "View request is empty or too large."})
+                    return
+                self.json_reply(200, save_view(args.session, json.loads(self.rfile.read(size))))
             except (InvalidState, ValueError, UnicodeError) as error:
                 self.json_reply(400, {"error": str(error)})
             except OSError as error:

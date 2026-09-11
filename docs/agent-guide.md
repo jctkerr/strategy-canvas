@@ -39,7 +39,7 @@ python3 scripts/serve.py --session ../strategy-canvas-session --port 0
 
 Keep the terminal running and give the exact printed URL to your desktop agent to open in its built-in preview. You can also paste it into that pane yourself. This starts with your question; the agent can add useful branches as you talk. To reopen an existing session, run only the final command. `init` never replaces an existing session.
 
-Agents with local execution should use the [CLI quick reference](../references/schema.md#read-and-update) to read the latest canvas and save a batch of small changes. No additional Python packages or Strategy Canvas MCP connection are needed. The preview reads the same saved session. HTTP remains available when the agent cannot access the session directory directly.
+Agents with local execution should use the [CLI quick reference](../references/schema.md#read-and-update) to read the latest canvas and save a batch of small changes. For “explore this”, `canvas.py --session DIR focus` supplies the recent live selection. Use it only when current and unambiguous; preserve any unsaved human draft. Missing or stale selection needs a fresh preview check or a brief clarification. No additional Python packages or Strategy Canvas MCP connection are needed. HTTP remains available when local files are inaccessible.
 
 For a standalone canvas, export **Editable state (JSON)** and supply that file to the agent. It can adopt the complete tree using `canvas.py --session NEW_DIRECTORY init --from exported.json`. Check that the file actually downloaded before closing the standalone tab. If the host cannot download files, keep that tab open; its edits have not reached any live session. In a live session, the agent can export directly with the bundled `export_state.py` helper.
 
@@ -153,15 +153,15 @@ The canvas starts with guidance collapsed. **Quick start** and **How to use** ar
 
 1. Type a question into [a blank canvas](https://jctkerr.github.io/strategy-canvas/new.html), or give your agent a question, relevant constraints and what remains unknown.
 2. Check that the canvas contains your situation, rather than the fictional sales demo.
-3. Ask it to explore one branch. Keep alternatives visible and ask what would change the choice.
-4. Use **Edit** beside the heading to refine the main question. Click a thought to open its right-hand panel (a bottom sheet on narrow screens). Edit the thought and its notes directly; sources are available there too. **Details** holds card type, status and connection settings. Hover or click **+** to choose a child; nothing is added until you **Save**. The chevron expands or collapses children. Ask your agent to continue from your saved edits and add useful findings to the notes, preserving your words and recording its sources and uncertainty. It should read the latest saved revision first.
+3. Select a branch and say **“Let's explore this.”** In a live session, your agent can see your recent selection. Keep alternatives visible and ask what would change the choice.
+4. Use **Edit** beside the heading to refine the question. Click a card or its notes icon to open the right-hand panel (a bottom sheet on narrow screens). Edit the thought and **Notes** directly; changes save automatically. Click another card to continue. Sources stay in the same panel; **Details** holds secondary settings. Use **+**, then **Add**, for a new child. Ask your agent to add useful findings to your notes, preserving your words and recording sources and uncertainty.
 5. Ask it to export the complete tree as HTML, SVG and JSON. Open the HTML before sharing it.
 
-Focus a card to use **A** for a child, **Shift+A** for a sibling, **Enter/E** to edit or **T** for tree types. **Cmd/Ctrl+Enter** saves the current edit. Arrow keys navigate or expand/collapse; **Keyboard shortcuts** explains the controls. Letter shortcuts never run while typing in a field.
+Focus a card to use **A** for a child, **Shift+A** for a sibling, **Enter/E** to edit or **T** for tree types. **Cmd/Ctrl+Enter** saves immediately or adds a new card; existing-card edits also save automatically. Arrow keys navigate or expand/collapse; **Keyboard shortcuts** explains the controls. Letter shortcuts never run while typing in a field.
 
-The **New** link opens a separate standalone canvas and keeps the original tab. Export its HTML before closing. To continue that new tree with an agent, attach its JSON; it is not the original live session.
+The **New** link opens a separate standalone canvas and keeps the original tab. Export its HTML for backup or sharing. To continue it with an agent, attach its JSON; it is not the original live session.
 
-**Live session:** edits are saved on the machine running the server. **Standalone HTML:** edits last until reload unless you export them again. **GitHub demo:** a fictional standalone example, not an AI conversation.
+**Live session:** edits save on the machine running it. **Browser recovery:** saved state stays in this browser; pending card drafts return on same-tab reload when storage is available. New tabs do not take another tab’s drafts. **Export:** a portable backup, including a valid current card edit if browser storage fails. Check the download. This is not device sync. The GitHub examples contain fictional data and no AI conversation.
 
 ## Choose an approach when useful
 

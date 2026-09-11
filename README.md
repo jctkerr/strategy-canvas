@@ -42,9 +42,9 @@ Your agent handles setup. The **skill** teaches it how to help; the **canvas** s
 
 ### 3. Think it through
 
-Your tree should appear beside the chat. Keep talking: **“Let's explore this branch.”** Your agent can suggest tree types and update the tree as you go.
+Your tree should appear beside the chat. Select a branch and say **“Let's explore this.”** In a live session, your agent can use your selection and update the tree as you go.
 
-Click a card to edit it or add notes, then **Save**. Use **+** to add a branch. **?** explains tree types; different branches can use different types.
+Click a card to edit it or add notes. Changes save automatically. Use **+**, then **Add**, for a new branch. **?** explains tree types; different branches can use different types.
 
 Live sessions save on the computer running them. For a copy, ask: **“Give me a downloadable copy of this canvas.”**
 
@@ -53,8 +53,10 @@ Live sessions save on the computer running them. For a copy, ask: **“Give me a
 ## Without an agent
 
 1. [Open a blank canvas](https://jctkerr.github.io/strategy-canvas/new.html) and type your question.
-2. Click a card to edit it or add notes; use **+** to add a branch.
-3. Before closing or reloading, choose **Export → Interactive canvas**. Check that the file downloaded.
+2. Click a card to edit it or add notes. Edits save automatically; use **+**, then **Add**, for a new branch.
+3. For a portable backup or sharing, choose **Export → Interactive canvas**. Check that the file downloaded.
+
+Your browser keeps a recovery copy when storage is available. It stays in that browser.
 
 To continue with an agent, choose **Export → Editable state (JSON)** and attach the downloaded file.
 

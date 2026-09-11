@@ -376,7 +376,9 @@ class ExportTests(SessionFixture):
         self.assertEqual(json.loads(files["json"].read_text(encoding="utf-8")), self.state)
         parser = BootstrapParser()
         parser.feed(files["html"].read_text(encoding="utf-8"))
-        self.assertEqual(json.loads(parser.boot), {"state": self.state, "offline": True})
+        boot = json.loads(parser.boot)
+        self.assertTrue(boot.pop("canvasId").startswith("snapshot-"))
+        self.assertEqual(boot, {"state": self.state, "offline": True})
         self.assertFalse(any(tag == "img" and attrs.get("onerror") for tag, attrs in parser.tags))
         svg = ET.fromstring(files["svg"].read_text(encoding="utf-8"))
         ns = {"svg": render_state.NS}
@@ -393,7 +395,22 @@ class ExportTests(SessionFixture):
     def test_live_html_embeds_same_state_with_live_mode(self):
         parser = BootstrapParser()
         parser.feed(render_state.html_document(self.state, offline=False))
-        self.assertEqual(json.loads(parser.boot), {"state": self.state, "offline": False})
+        boot = json.loads(parser.boot)
+        self.assertTrue(boot.pop("canvasId").startswith("snapshot-"))
+        self.assertEqual(boot, {"state": self.state, "offline": False})
+
+    def test_separate_export_files_do_not_share_browser_recovery(self):
+        _, first = export_state.export_session(self.session, self.folder / "first-copy")
+        _, second = export_state.export_session(self.session, self.folder / "second-copy")
+        def boot_of(path):
+            parser = BootstrapParser()
+            parser.feed(path.read_text(encoding="utf-8"))
+            return json.loads(parser.boot)
+        first_boot, second_boot = boot_of(first["html"]), boot_of(second["html"])
+        self.assertEqual(first_boot["state"], second_boot["state"])
+        self.assertNotEqual(first_boot["canvasId"], second_boot["canvasId"])
+        _, repeat = export_state.export_session(self.session, self.folder / "first-copy")
+        self.assertEqual(boot_of(repeat["html"]), first_boot)
 
     def test_semantic_exports_preserve_safe_complete_metadata_and_grow_for_text(self):
         state = semantic_example()
@@ -525,9 +542,28 @@ class HTTPTests(unittest.TestCase):
         self.assertIn("text/html", headers["Content-Type"])
         parser = BootstrapParser()
         parser.feed(body.decode("utf-8"))
-        self.assertEqual(json.loads(parser.boot), {"state": None, "offline": True})
+        self.assertEqual(json.loads(parser.boot), {"state": None, "offline": True, "canvasId": "blank"})
         self.assertTrue(any(attrs.get("id") == "start-form" for _, attrs in parser.tags))
         self.assertEqual(state_store.read_state(self.session), before)
+
+    def test_browser_selection_api_and_cli_keep_strategy_state_unchanged(self):
+        before = state_store.read_state(self.session)
+        chosen = before["nodes"][-1]["id"]
+        payload = json.dumps({"clientId": "test-browser", "sequence": 1, "selectedNodeId": chosen,
+                              "focusedNodeId": None, "editingNodeId": chosen,
+                              "hasUnsavedDraft": True, "revision": before["revision"]})
+        headers = {"Content-Type": "application/json", "Origin": self.origin}
+        code, _, body = self.request("POST", "/api/view", payload, headers)
+        self.assertEqual(code, 200, body)
+        code, _, body = self.request(path="/api/view")
+        result = json.loads(body)
+        self.assertEqual(result["status"], "current")
+        self.assertEqual(result["selection"]["selectedNodeId"], chosen)
+        self.assertTrue(result["selection"]["hasUnsavedDraft"])
+        self.assertEqual(state_store.read_state(self.session), before)
+        headers["Origin"] = "https://example.org"
+        self.assertEqual(self.request("POST", "/api/view", payload, headers)[0], 403)
+        self.assertEqual(self.request("GET", "/api/view", headers={"Host": "example.org"})[0], 403)
         self.assertEqual(self.request(path="/new.html", headers={"Origin": "https://attacker.example"})[0], 403)
 
     def test_semantic_metadata_round_trips_and_invalid_metadata_is_rejected(self):

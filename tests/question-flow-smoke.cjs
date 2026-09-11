@@ -103,23 +103,22 @@ async function fresh(p,state=fixture){await put(structuredClone(state));await p.
     assert.equal(await page.locator('#label').inputValue(),'AT is ordinary draft text\n','Plain Enter remains a textarea newline');
     assert.equal(await page.locator('#approach-panel').isHidden(),true,'Typing tree shortcut letters cannot open the picker');
     assert.deepEqual(await read(),before,'Typing or pressing plain Enter does not save');
-    await page.keyboard.press('Escape');
-    assert.equal(await page.locator('#label').inputValue(),'AT is ordinary draft text\n','Escape keeps an unsaved draft');
-    assert.equal(await page.locator('#label').isVisible(),true);
+    await save(page,()=>page.locator('#label').press('Control+Enter'));
+    assert.equal(await page.locator('#label').isVisible(),true,'Saving keeps the panel open');
     await page.locator('#label').press('Tab');
-    assert.equal(await page.locator('#save').evaluate(el=>el===document.activeElement),true,'Native Tab reaches the next action without trapping focus');
+    assert.equal(await page.locator('#notes').evaluate(el=>el===document.activeElement),true,'Native Tab reaches Notes without trapping focus');
     await page.locator('#label').focus();await page.locator('#label').fill('Keyboard-edited contribution');
     after=await save(page,()=>page.locator('#label').press('Control+Enter'));
     assert.equal(after.nodes.find(n=>n.id==='metric').label,'Keyboard-edited contribution');
     assert.equal(after.nodes.find(n=>n.id==='metric').notes,before.nodes.find(n=>n.id==='metric').notes);
-    await page.locator('.inspector').waitFor({state:'hidden'});await isFocused(page,'metric');
+    assert.equal(await page.locator('.inspector').isVisible(),true);await closeEditor(page);await page.locator('.inspector').waitFor({state:'hidden'});await isFocused(page,'metric');
     assert.equal(await page.locator('#main').evaluate(el=>el.classList.contains('inspect-open')),false);
     await page.keyboard.press('Enter');assert.equal(await page.locator('#label').isVisible(),true);
     await page.keyboard.press('Escape');await isFocused(page,'metric');
     await page.keyboard.press('t');assert.equal(await page.locator('#approach-panel').isVisible(),true);
     await page.keyboard.press('Escape');assert.equal(await page.locator('#approach-panel').isHidden(),true);
     assert.equal(await page.locator('.tree-node[data-id="metric"]').evaluate(el=>el.contains(document.activeElement)),true,'Closing the picker returns keyboard access to its card');
-    checks.push('E/Enter edits, T chooses a tree, modified Enter saves and returns focus to the card; Escape retains dirty text, and Tab keeps native form navigation.');
+    checks.push('E/Enter edits, T chooses a tree, modified Enter saves while keeping the panel open; Close returns card focus, and Tab moves naturally into Notes.');
 
     before=await fresh(page);
     await focusCard(page,'metric');await page.keyboard.press('a');
@@ -132,7 +131,7 @@ async function fresh(p,state=fixture){await put(structuredClone(state));await p.
     const child=after.nodes.find(n=>n.label==='Ticket receipts');assert.equal(child.parentId,'metric');
     assert.equal(child.kind,'metric');assert.equal(child.relation.type,'calculated-from');
     assert.equal(child.method,undefined,'The default does not pin a framework');
-    await page.locator('.inspector').waitFor({state:'hidden'});await isFocused(page,child.id);
+    assert.equal(await page.locator('.inspector').isVisible(),true);await closeEditor(page);await page.locator('.inspector').waitFor({state:'hidden'});await isFocused(page,child.id);
     await page.keyboard.press('Shift+A');
     assert.equal(await page.locator('#kind').inputValue(),'metric');
     await page.locator('#label').fill('Direct workshop costs');after=await save(page,()=>page.locator('#label').press('Meta+Enter'));

@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": [
+    "Explicit fictional example stays a draft until save, links to the selected branch, and recalculates the affected scenario.",
+    "Missing inputs, division by zero, absent names, cycles and executable-looking formulas show errors rather than zero; discard restores saved values.",
+    "The standalone browser evaluator matches backend scenario values and error presence on arithmetic, rounding, missing inputs and division.",
+    "An external revision blocks stale analysis saves without losing inputs; explicit discard loads the other editor’s analysis and preserves tree edits.",
+    "A completed, branch-linked work item keeps blank owner/date and leaves the tree’s uncertain claim unchanged.",
+    "Brief wording stays literal; number edits update referenced values and mark the old brief stale without refreshing its basis. An explicit wording check records a fresh revision.",
+    "Referenced models and tree branches cannot be deleted until their analysis references are deliberately removed or relinked.",
+    "HTML and Markdown retain models, workplan and brief; offline calculations match, local edits export and never change the live session.",
+    "The printable brief preserves saved wording, and the workspace remains bounded and usable at phone width."
+  ]
+}
