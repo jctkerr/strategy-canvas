@@ -1,5 +1,11 @@
 # Compatibility and test record
 
+## Smooth tree motion — 11 September 2026
+
+**86 Python tests**, [seven motion check groups](test-evidence/tree-motion/motion-results.json), [14 notes/recovery groups](test-evidence/tree-motion/seamless-results.json) and [five keyboard groups](test-evidence/tree-motion/keyboard-results.json) passed. New cards ease in while existing cards and connectors move together. Checks cover manual and agent additions, interrupted movement, stable selection and notes saves, exports during motion, reduced motion and narrow screens.
+
+[Before](test-evidence/tree-motion/01-before-add.png) · [During](test-evidence/tree-motion/02-during-add.png) · [After](test-evidence/tree-motion/03-after-add.png) · [Narrow screen](test-evidence/tree-motion/04-mobile-add.png). [Frame samples](test-evidence/tree-motion/samples.json) record the painted geometry. These are fictional browser fixtures; the 390px checks use emulation. No new Claude or Cursor execution is claimed.
+
 ## Seamless notes and agent selection — 11 September 2026
 
 **86 Python tests** and **66 browser check groups** passed: [14 seamless editing](test-evidence/seamless-notes/seamless-results.json), [10 direct controls](test-evidence/seamless-notes/direct-results.json), and regression checks for [keyboard](test-evidence/seamless-notes/keyboard-results.json), [questions](test-evidence/seamless-notes/question-results.json), [methods](test-evidence/seamless-notes/methods-results.json), [onboarding](test-evidence/seamless-notes/onboarding-results.json) and [analysis](test-evidence/seamless-notes/analysis-results.json).

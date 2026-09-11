@@ -1,0 +1,12 @@
+{
+  "source": "assets/canvas.html",
+  "sourceSha256": "664fd1294857495c3511cb7c57a61f4ee8fa6d3b3dc0fe75bbffa2a621d88e57",
+  "seamlessNotesGroups": 14,
+  "cardControlKeyGroups": 5,
+  "pageErrors": [],
+  "exportedRuntimeMatchesCurrent": {
+    "recovery-b.html": true,
+    "recovery-a.html": true
+  },
+  "scope": "Read-only motion review plus existing notes and keyboard regression suites. Dedicated motion checks owned by another agent."
+}
