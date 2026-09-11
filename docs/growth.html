@@ -74,6 +74,46 @@
 @media(max-width:560px){.analysis-scroll{padding:18px 20px 10px}.analysis-sheet .analysis-footer{padding:8px 16px}}
 /* Add and collapse live on their cards. Keep legacy hooks out of the UI. */
 #add-primary,#add-child,#collapse-branch{display:none!important}
+
+/* A working margin: text first, controls only where they help. */
+.inspector{box-shadow:none;border-left-color:#dedfd7}
+.analysis-scroll{padding:28px 26px 24px}
+.analysis-sheet h2{font:normal 26px/1.15 var(--serif);letter-spacing:-.025em;margin:0 0 10px}
+.analysis-sheet #analysis-branch{font-size:11px;line-height:1.55;margin:0;color:var(--muted)}
+.analysis-sheet .analysis-section{margin-top:28px}
+.analysis-sheet .field{margin-bottom:24px}
+.analysis-sheet .field label{font-size:11px;font-weight:600;text-transform:none;letter-spacing:0;color:#647168;margin-bottom:8px;line-height:1.4}
+.analysis-sheet textarea{display:block;border:0;border-radius:0;padding:0;min-height:44px;resize:none;overflow:hidden;background:transparent;font-size:13px;line-height:1.7;caret-color:var(--accent);box-shadow:none}
+.analysis-sheet textarea:focus{outline:none}
+.analysis-sheet textarea::placeholder{color:#90958b;opacity:1}
+.analysis-sheet .field:focus-within>label{color:var(--accent)}
+#decision-body .field:first-child{padding-bottom:23px;margin-bottom:25px;border-bottom:1px solid #e5e7df}
+#decision-body #decision-recommendation{font:normal 21px/1.45 var(--serif);letter-spacing:-.012em;min-height:60px}
+#decision-body #decision-recommendation::placeholder{color:#878f84}
+#brief-detail{border-top:1px solid #e5e7df;margin-top:28px;padding-top:10px}
+#brief-detail>summary{font-size:11px;padding:10px 0}
+.analysis-sheet .analysis-footer,.inspector .edit-actions{border-top-color:#e7e8e1}
+.analysis-sheet .analysis-footer{padding:11px 20px}
+.inspector .notes-field>label{font-size:11px;font-weight:600;color:#647168}
+.branch-work .branch-record{border-top-color:#e3e5dc;padding-top:14px;padding-bottom:14px}
+.branch-record small{line-height:1.6;color:#758075}
+.tree-node rect.card{stroke:#dee1d7;stroke-width:1;fill:#fffefa}
+.tree-node.path rect.card{stroke:#b2c3b5}
+.tree-node.active rect.card{fill:#edf2eb;stroke:#598471;stroke-width:1.5}
+.tree-node .node-label{font-weight:550}
+.tree-node .node-kind{font-size:8px;letter-spacing:1px;fill:#818a7d}
+.tree-node .node-relation{fill:#8a9285}
+.tree-node .node-type rect{fill:#edf1e9}
+.tree-node.active .node-type rect{fill:#e3ebe0}
+.tree-node .node-add circle{fill:var(--panel);stroke:#b6c7b8;stroke-width:1.3}
+.tree-node .node-add path{stroke:#4e7a65;stroke-width:1.5}
+.tree-node .node-add:hover circle,.tree-node .node-add:focus-visible circle{fill:var(--accent);stroke:var(--accent)}
+.tree-node .node-add:hover path,.tree-node .node-add:focus-visible path{stroke:white}
+.tree-node .node-add:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:50%}
+.edge{stroke:#d5dbcf;stroke-width:1.4}.edge.active{stroke:#8eaa95;stroke-width:1.7}
+.canvas-tools{border-color:#e1e3da;box-shadow:0 2px 8px #24362f04}
+.next{background:#f0f1e9;border-top-color:#e0e3d7}
+@media(max-width:560px){.analysis-scroll{padding:22px 22px 16px}.analysis-sheet h2{font-size:24px}.analysis-sheet .analysis-section{margin-top:22px}.analysis-sheet textarea{font-size:16px;line-height:1.6}#decision-body #decision-recommendation{font-size:21px}.analysis-sheet .analysis-footer{padding:8px 16px}}
 </style>
 </head>
 <body>
@@ -557,7 +597,12 @@ function markAnalysis(brief=false){analysisDirty=true;if(brief)analysisBriefDirt
 function checkAnalysis(){if(!analysisIsOpen())return;const stale=analysisChanged();$('analysis-conflict').hidden=!stale;$('analysis-refresh').hidden=!stale;$('analysis-copy-draft').hidden=!analysisDirty;$('analysis-discard').hidden=!analysisDirty;$('analysis-save').disabled=busy||stale||!analysisDirty;$('analysis-save-hint').textContent=stale?'Needs review':analysisDirty?'Unsaved':'Saved';renderBriefFreshness();}
 function analysisElement(tag,text,className){const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(className)el.className=className;return el}
 function analysisButton(label,fn,className='quiet'){const el=analysisElement('button',label,className);el.type='button';el.addEventListener('click',fn);return el}
-function analysisField(label,value,onInput,options={}){const wrap=analysisElement('div',undefined,'field'),id=options.id||analysisId('field'),lab=analysisElement('label',label);lab.htmlFor=id;let input;if(options.options){input=document.createElement('select');for(const [value,text]of options.options){const option=analysisElement('option',text);option.value=value;input.append(option)}}else input=document.createElement(options.multiline?'textarea':'input');input.id=id;if(options.type)input.type=options.type;if(options.type==='number')input.step='any';input.value=value??'';if(options.max)input.maxLength=options.max;if(options.placeholder)input.placeholder=options.placeholder;if(options.className)input.className=options.className;if(options.readOnly)input.readOnly=true;input.addEventListener(options.change?'change':'input',()=>onInput(input.value,input));wrap.append(lab,input);return wrap}
+let analysisFieldFrame;
+function sizeAnalysisFields(){const pane=document.querySelector('.analysis-scroll'),scroll=pane.scrollTop;for(const input of pane.querySelectorAll('textarea')){if(!input.getClientRects().length)continue;input.style.height='0px';input.style.height=input.scrollHeight+'px'}pane.scrollTop=scroll}
+function scheduleAnalysisFieldSize(){cancelAnimationFrame(analysisFieldFrame);analysisFieldFrame=requestAnimationFrame(sizeAnalysisFields)}
+document.querySelector('.analysis-scroll').addEventListener('toggle',scheduleAnalysisFieldSize,true);
+let analysisPaneWidth=0;const analysisFieldObserver=new ResizeObserver(entries=>{const width=entries[0].contentRect.width;if(width&&width!==analysisPaneWidth){analysisPaneWidth=width;scheduleAnalysisFieldSize()}});analysisFieldObserver.observe(document.querySelector('.analysis-scroll'));
+function analysisField(label,value,onInput,options={}){const wrap=analysisElement('div',undefined,'field'),id=options.id||analysisId('field'),lab=analysisElement('label',label);lab.htmlFor=id;let input;if(options.options){input=document.createElement('select');for(const [value,text]of options.options){const option=analysisElement('option',text);option.value=value;input.append(option)}}else input=document.createElement(options.multiline?'textarea':'input');input.id=id;if(options.type)input.type=options.type;if(options.type==='number')input.step='any';input.value=value??'';if(options.max)input.maxLength=options.max;if(options.placeholder)input.placeholder=options.placeholder;if(options.className)input.className=options.className;if(options.readOnly)input.readOnly=true;input.addEventListener(options.change?'change':'input',()=>onInput(input.value,input));if(options.multiline){input.rows=1;input.addEventListener('input',scheduleAnalysisFieldSize);scheduleAnalysisFieldSize()}wrap.append(lab,input);return wrap}
 function analysisCard(title){const card=analysisElement('div',undefined,'analysis-card'),head=analysisElement('div',undefined,'analysis-card-head');head.append(analysisElement('h3',title));card.append(head);return{card,head}}
 function analysisRefSummary(nodeId){return state.nodes.find(n=>n.id===nodeId)?.label||'Unlinked'}
 async function openAnalysis({tab='numbers',modelId=null,workId=null,create=false}={}){
@@ -604,8 +649,8 @@ function renderBranchWork(){const body=$('branch-work');body.replaceChildren();i
  for(const item of work){const button=analysisButton(item.title,()=>openAnalysis({tab:'workplan',workId:item.id}),'branch-record');button.append(analysisElement('small',item.finding||({'open':'Next step','in-progress':'In progress','done':'Work completed'})[item.status]));body.append(button)}
  const actions=analysisElement('div',undefined,'branch-work-actions');actions.append(analysisButton('+ Calculation',()=>openAnalysis({tab:'numbers',create:true})),analysisButton('+ Next step',()=>openAnalysis({tab:'workplan',create:true})));body.append(actions);
 }
-function renderDecision(){const body=$('decision-body');body.replaceChildren();if(!analysisDecisionDraft)analysisDecisionDraft=copy(state.decision);body.append(analysisElement('p','Record a decision, or what you need to find out next.','dialog-scope'));
- for(const [field,label,placeholder]of [['recommendation','Current position','What have you decided, or why are you holding off?'],['rationale','Why','Which evidence or trade-off matters?'],['uncertainties','Still unknown','One uncertainty per line'],['nextSteps','Next steps','One next step per line']])body.append(analysisField(label,Array.isArray(analysisDecisionDraft[field])?analysisDecisionDraft[field].join('\n'):analysisDecisionDraft[field],value=>{analysisDecisionDraft[field]=['uncertainties','nextSteps'].includes(field)?value.split('\n').map(s=>s.trim()).filter(Boolean):value;markAnalysis()},{id:'decision-'+field,multiline:true,max:20000,placeholder}));
+function renderDecision(){const body=$('decision-body');body.replaceChildren();if(!analysisDecisionDraft)analysisDecisionDraft=copy(state.decision);
+ for(const [field,label,placeholder]of [['recommendation','Current position','Your decision, or why you’re waiting…'],['rationale','Why','Which evidence or trade-off matters?'],['uncertainties','Still unknown','One uncertainty per line'],['nextSteps','Next steps','One next step per line']])body.append(analysisField(label,Array.isArray(analysisDecisionDraft[field])?analysisDecisionDraft[field].join('\n'):analysisDecisionDraft[field],value=>{analysisDecisionDraft[field]=['uncertainties','nextSteps'].includes(field)?value.split('\n').map(s=>s.trim()).filter(Boolean):value;markAnalysis()},{id:'decision-'+field,multiline:true,max:20000,placeholder}));
 }
 function blankBrief(){return{situation:'',complication:'',answer:'',sections:[],basedOnRevision:analysisRevision}}
 function ensureBrief(){return analysisDraft.brief??=blankBrief()}

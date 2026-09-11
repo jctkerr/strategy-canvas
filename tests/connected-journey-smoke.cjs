@@ -25,5 +25,33 @@ await p.locator('#analysis-open').click();await p.locator('#brief-detail summary
 // Record a supported test-case decision separately; no runtime validation is inferred.
 await p.locator('#analysis-open').click();await p.getByLabel('Current position',{exact:true}).fill('Fictional decision: run one limited workshop trial.');await p.getByLabel('Why',{exact:true}).fill('Test fixture only: the decision would require actual booking evidence.');await save(p);await back(p);const decided=await read();assert.match(decided.decision.recommendation,/limited workshop trial/);await p.locator('#undo').click();await p.waitForFunction(text=>state.decision.recommendation===text,deferred.decision.recommendation);checks.push('A decision can be recorded and undone back to the prior deferral, preserving the earlier reasoning.');
 await p.locator('#close-details').click();await p.setViewportSize({width:390,height:844});await p.locator('.tree-node[data-id="workshop"]').click();await p.locator('#branch-work .branch-record').first().click();await p.screenshot({path:path.join(output,'calculation-mobile.png')});let bounds=await p.locator('#analysis-panel').boundingBox();assert.ok(bounds.x>=0&&bounds.width<=390);assert.equal(await p.locator('#analysis-panel').evaluate(el=>el.scrollWidth<=el.clientWidth+1),true);assert.equal(await p.locator('#analysis-close').isVisible(),true);await back(p);checks.push('The branch calculation remains a bounded bottom panel on a narrow screen, with the Notes return control visible.');
+// Long conclusion prose expands without trapping typing, scrolling or the save controls.
+await p.locator('#analysis-open').click();
+const longPosition='Hold off until we have checked demand. '+('This fictional decision remains conditional on actual booking evidence. '.repeat(5));
+const longWhy=Array.from({length:12},(_,i)=>'Evidence check '+(i+1)+': The fictional cost calculation gives us a threshold, but it cannot establish demand. Keep the test limited and preserve the option to wait.').join('\n\n');
+await p.getByLabel('Current position',{exact:true}).fill(longPosition);
+const why=p.getByLabel('Why',{exact:true});await why.fill(longWhy);
+await why.evaluate(el=>el.setSelectionRange(17,17));await why.pressSequentially('Checked: ');
+const typedWhy=longWhy.slice(0,17)+'Checked: '+longWhy.slice(17);
+assert.equal(await why.inputValue(),typedWhy);
+const caret=await why.evaluate(el=>[el.selectionStart,el.selectionEnd]);
+await p.setViewportSize({width:430,height:844});await p.setViewportSize({width:390,height:844});
+await p.waitForFunction(()=>[...document.querySelectorAll('.analysis-scroll textarea')].filter(el=>el.getClientRects().length).every(el=>el.scrollHeight<=el.clientHeight+2));
+assert.equal(await why.inputValue(),typedWhy);assert.deepEqual(await why.evaluate(el=>[el.selectionStart,el.selectionEnd]),caret);
+assert.equal(await why.evaluate(el=>el===document.activeElement),true,'Resizing preserves the active text field');
+await p.getByLabel('Next steps',{exact:true}).focus();await why.focus();
+assert.deepEqual(await why.evaluate(el=>[el.selectionStart,el.selectionEnd]),caret,'Switching text fields preserves the insertion point');
+await why.press('Control+Enter');await p.waitForFunction(()=>!analysisDirty);
+assert.equal((await read()).decision.rationale,typedWhy);assert.equal((await read()).decision.recommendation,longPosition);
+await p.getByLabel('Next steps',{exact:true}).scrollIntoViewIfNeeded();
+assert.ok(await p.locator('.analysis-scroll').evaluate(el=>el.scrollTop>0),'The long panel content scrolls');
+const footer=await p.locator('#analysis-panel .analysis-footer').boundingBox();
+assert.ok(footer.x>=0&&footer.x+footer.width<=391&&footer.y>=0&&footer.y+footer.height<=845,'Save and return controls stay inside the mobile viewport');
+await p.screenshot({path:path.join(output,'conclusion-long-mobile.png')});
+await back(p);await p.locator('#analysis-open').click();
+assert.equal(await p.getByLabel('Why',{exact:true}).inputValue(),typedWhy);
+await p.waitForFunction(()=>[...document.querySelectorAll('.analysis-scroll textarea')].filter(el=>el.getClientRects().length).every(el=>el.scrollHeight<=el.clientHeight+2));
+await p.screenshot({path:path.join(output,'conclusion-mobile.png')});await back(p);
+checks.push('Long conclusion text expands fully, preserves exact keyboard edits and caret through field switches and resizing, and saves/reopens with scrollable content and visible mobile footer controls.');
 await p.setViewportSize({width:1440,height:1000});const expected=await read();const html=await exportFile(p,'html','completed-canvas.html'),json=await exportFile(p,'json','completed-canvas.json');assert.deepEqual(JSON.parse(await fs.readFile(json,'utf8')),expected);const reopened=await context.newPage();reopened.on('pageerror',e=>errors.push(e.message));await reopened.goto(pathToFileURL(html).href);await reopened.locator('#analysis-open').click();assert.equal(await reopened.getByLabel('Current position',{exact:true}).inputValue(),expected.decision.recommendation);assert.equal(await reopened.getByLabel('Why',{exact:true}).inputValue(),expected.decision.rationale);await back(reopened);await reopened.locator('.tree-node[data-id="workshop"]').click();assert.match(await reopened.getByLabel('Notes',{exact:true}).inputValue(),/Human note/);assert.match(await reopened.locator('#branch-work').innerText(),/8 attendees|Check willingness/);const imported=path.join(output,'adopted-session');await fs.rm(imported,{recursive:true,force:true});execFileSync('python3',['scripts/canvas.py','--session',imported,'init','--from',json],{cwd:path.resolve(__dirname,'..')});const adopted=JSON.parse(execFileSync('python3',['scripts/canvas.py','--session',imported,'show'],{cwd:path.resolve(__dirname,'..'),encoding:'utf8'}));assert.deepEqual(adopted,expected);checks.push('Downloaded HTML reopens with all notes, calculations, work and conclusion; downloaded JSON adopts into a separate CLI session without losing data.');
 assert.deepEqual(errors,[]);await fs.writeFile(path.join(output,'results.json'),JSON.stringify({passed:true,checks},null,2)+'\n');console.log(JSON.stringify({passed:true,checks},null,2));}finally{await browser.close()}})().catch(error=>{console.error(error);process.exitCode=1});
