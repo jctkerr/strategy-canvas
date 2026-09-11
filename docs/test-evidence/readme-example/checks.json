@@ -1,0 +1,25 @@
+{
+  "date": "2026-09-11",
+  "fictional": true,
+  "calculations": [
+    {
+      "materials": "5",
+      "contribution": "15",
+      "minimumAttendees": 8
+    },
+    {
+      "materials": "8",
+      "contribution": "12",
+      "minimumAttendees": 10
+    }
+  ],
+  "checks": [
+    "Both eight-node states validate and match their served HTML exactly.",
+    "Stable IDs and unrelated question, booking, staffing and fixed-cost content preserved.",
+    "Revised tree updates costs, arithmetic, demand question, notes and next question.",
+    "README and walkthrough local links resolve.",
+    "Manual card edit, keyboard save and Undo observed in Codex in-app browser.",
+    "Both before and after examples visibly rendered."
+  ],
+  "scope": "Documentation example and bounded local UI/CLI checks. No new Claude or Cursor execution, booking evidence or event recommendation."
+}

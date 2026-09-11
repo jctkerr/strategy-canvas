@@ -4,6 +4,8 @@
 
 See your options, assumptions and evidence together. Work with your AI tool or on your own.
 
+[See an example](#a-worked-example) · [Try it in your browser](https://jctkerr.github.io/strategy-canvas/bookshop.html)
+
 ## With your AI tool
 
 ### 1. Open a new conversation
@@ -50,6 +52,18 @@ Live sessions save on the computer running them. For a copy, ask: **“Give me a
 
 To continue with an agent, choose **Export → Editable state (JSON)** and attach the downloaded file.
 
-[See a fictional example](https://jctkerr.github.io/strategy-canvas/) · [Tree types, examples & sources](references/tree-methods.md)
+## A worked example
+
+**Could a bookshop run a workshop without losing money?**
+
+[![A real canvas showing demand, delivery and a cost calculation: £120 divided by £15 per ticket means eight paying attendees.](docs/images/bookshop-tree.png)](https://jctkerr.github.io/strategy-canvas/bookshop.html)
+
+1. **Break it down:** would people pay, can we run it, and what covers costs?
+2. **Work one branch:** £20 tickets − £5 materials leaves £15 each. £120 fixed costs ÷ £15 = **8 paying attendees**.
+3. **Find the next question:** what evidence suggests eight people would book?
+
+These are fictional figures. If materials rise to £8, the threshold becomes **10 attendees** and the demand question changes too.
+
+[Try the tree](https://jctkerr.github.io/strategy-canvas/bookshop.html) · [Follow the example step by step](docs/worked-example.md) · [Tree types & sources](references/tree-methods.md)
 
 Free and open source · [MIT licence](LICENSE)

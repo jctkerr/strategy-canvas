@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "revision": 3,
+  "title": "Bookshop workshop · revised fictional example",
+  "question": "Could our bookshop run a workshop without losing money?",
+  "context": "Fictional example: £20 tickets, £8 materials per person and £120 fixed costs for one workshop. Five staff-hours are available. Bookings, room capacity and the completeness of costs are unknown.",
+  "nextQuestion": "What evidence suggests ten people would book at £20?",
+  "problem": {
+    "situation": "A bookshop is considering one paid workshop.",
+    "desiredChange": "Find out what it would take to cover the event's costs.",
+    "constraints": "Five staff-hours available. Figures are invented teaching inputs; demand and delivery still need checking."
+  },
+  "nodes": [
+    {
+      "id": "workshop",
+      "parentId": null,
+      "label": "Run a workshop without a loss?",
+      "kind": "question",
+      "method": "issue",
+      "status": "open",
+      "notes": "An initial viability inquiry for one workshop, with three answerable subquestions: paying demand at the stated price, delivery within the assumed resources, and the attendance threshold implied by those costs. Demand and delivery remain open. These questions interact: delivery can change costs, and price can change demand. This is not an exhaustive event-launch checklist or a comparison with other uses of the room."
+    },
+    {
+      "id": "demand",
+      "parentId": "workshop",
+      "label": "Would 10 people buy a £20 ticket?",
+      "kind": "question",
+      "status": "uncertain",
+      "notes": "Ten is the calculated threshold under the fictional cost assumptions, not a forecast. No customer or booking evidence has been supplied. Revisit this threshold if price or costs change.",
+      "relation": {
+        "type": "part-of",
+        "label": "Demand"
+      }
+    },
+    {
+      "id": "bookings",
+      "parentId": "demand",
+      "label": "How many have booked at £20?",
+      "kind": "question",
+      "status": "uncertain",
+      "notes": "Unknown. Inspect existing paid bookings and their cancellation terms before proposing a new demand test. Stated interest alone does not establish that someone will pay. No bookings are invented in this example.",
+      "relation": {
+        "type": "part-of",
+        "label": "Booking evidence"
+      }
+    },
+    {
+      "id": "delivery",
+      "parentId": "workshop",
+      "label": "Can we run it as costed?",
+      "kind": "question",
+      "status": "uncertain",
+      "notes": "Check room capacity and the resources required for this one workshop. The £120 fixed cost and £8 per attendee are teaching assumptions, not a complete verified cost estimate. Extra staffing, fees or other costs would change the arithmetic.",
+      "relation": {
+        "type": "part-of",
+        "label": "Delivery"
+      }
+    },
+    {
+      "id": "staffing",
+      "parentId": "delivery",
+      "label": "Will prep + hosting fit 5 hours?",
+      "kind": "question",
+      "status": "uncertain",
+      "notes": "Five staff-hours are stipulated for the example. Preparation and hosting time are unknown. Check whether the room can hold the required paying attendees and whether the stated fixed cost includes the necessary labour.",
+      "relation": {
+        "type": "part-of",
+        "label": "Staffing check"
+      }
+    },
+    {
+      "id": "break_even",
+      "parentId": "workshop",
+      "label": "Break-even: £120 ÷ £12 = 10 people",
+      "kind": "metric",
+      "method": "driver",
+      "status": "open",
+      "notes": "Minimum paying attendees = ceil(fixed cost per event / (ticket price per attendee − variable cost per attendee)). With the fictional inputs: ceil(£120 / (£20 − £8)) = 10 people. Always round a fractional person UP. This assumes positive contribution per ticket and no change in the stated costs across the relevant attendance range. It answers the economics subquestion only; demand, capacity and complete costs remain unverified.",
+      "relation": {
+        "type": "part-of",
+        "label": "Cost-covering attendance"
+      }
+    },
+    {
+      "id": "fixed_cost",
+      "parentId": "break_even",
+      "label": "Fixed cost: £120",
+      "kind": "metric",
+      "status": "uncertain",
+      "notes": "Invented input: £120 for one event, assumed unchanged over the relevant attendance range. In a real case, establish which costs are incurred and check whether this includes all necessary staffing and room costs.",
+      "relation": {
+        "type": "calculated-from",
+        "label": "Fixed event cost"
+      }
+    },
+    {
+      "id": "contribution",
+      "parentId": "break_even",
+      "label": "Per ticket: £20 − £8 = £12",
+      "kind": "metric",
+      "status": "uncertain",
+      "notes": "Invented inputs: £20 ticket price less £8 materials per attendee leaves £12 towards the fixed cost. Treat £8 as the example's entire variable cost, not verified real-world materials expenditure. Both price and variable cost are assumed constant over the relevant attendance range.",
+      "relation": {
+        "type": "calculated-from",
+        "label": "Divide by amount left per ticket"
+      }
+    }
+  ],
+  "decision": {
+    "recommendation": "",
+    "rationale": "Ten paying attendees cover the stated costs after materials rise to £8 per person. Demand, capacity and complete costs remain unverified.",
+    "uncertainties": [
+      "Paying demand at £20.",
+      "Room capacity, staffing time and complete event costs."
+    ],
+    "nextSteps": [
+      "Check existing booking evidence at the stated price.",
+      "Confirm that delivery fits the assumed time, capacity and costs."
+    ]
+  }
+}
